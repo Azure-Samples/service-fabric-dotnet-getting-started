@@ -1,0 +1,12 @@
+﻿[
+    {
+        "url": "http://bing.com",
+        "method": "GET",
+        "payload": ""
+    },
+    {
+        "url": "http://msn.com",
+        "method": "GET",
+        "payload": ""
+    }
+]
