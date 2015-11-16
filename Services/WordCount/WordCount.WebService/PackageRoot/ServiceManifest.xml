@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ServiceManifest Name="WordCountWebServicePkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ServiceTypes>
+    <StatelessServiceType ServiceTypeName="WordCountWebServiceType" />
+  </ServiceTypes>
+  <CodePackage Name="Code" Version="1.0.0">
+    <EntryPoint>
+      <ExeHost>
+        <Program>WordCount.WebService.exe</Program>
+      </ExeHost>
+    </EntryPoint>
+  </CodePackage>
+  <Resources>
+    <Endpoints>
+      <Endpoint Name="ServiceEndpoint" Type="Input" Protocol="http" Port="8081" />
+    </Endpoints>
+  </Resources>
+</ServiceManifest>
