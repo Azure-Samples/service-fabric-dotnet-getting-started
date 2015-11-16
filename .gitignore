@@ -2,6 +2,7 @@
 [Bb]in/
 pkg/
 objd/
+Backup*/
 TestResults/
 .nuget/
 *.sln.ide/
