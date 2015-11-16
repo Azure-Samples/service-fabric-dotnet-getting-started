@@ -1,0 +1,79 @@
+﻿html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    font: 0.65em/1.2 Segoe UI,Arial,sans-serif;
+    background:#DDD;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+h1 { font-size: 28px; color:#DD0000; margin-bottom:20px }
+.cluster { margin: 10px}
+#clusterLocationBox { width: 300px }
+#nodeDisplay { margin:20px; }
+#nodes { white-space:nowrap }
+#nodes .node { display:inline-block; width:110px; margin:0 5px; background-color:#000; color:#DDD; padding:10px; white-space:normal; vertical-align:top }
+#nodes .node .service { background:#222; border:1px solid #32C8FF; margin:10px 0; padding:3px }
+#nodes .node .service .replica {}
+#nodes .node .service .replica a {display:block; width:100px; height:12px; margin:3px auto; color:#FFF; padding:2px; font-size:0.8em; text-decoration:none}
+#nodes .node .service .primary { }
+#nodes .node .service .ready { background-color:#32C8FF; }
+#nodes .node .service .down { background-color:#F00; }
+#nodes .node .service .dropped { background-color:#CCC; }
+#nodes .node .service .standby { background-color:#328BFF; }
+#nodes .node .service .inBuild { background-color:#FFF432; color:#000;}
+#nodes .node .service .invalid { background-color:#C00; }
+#nodes .node .service .highlighted a { background-color: #FFF; color:#000;}
+#nodes .node .service .activeSecondary { opacity:0.6 }
+
+#nodes .node .service .idleSecondary { opacity:0.4 }
+
+#nodes .node .service .none { opacity:0.2 }
+#nodes .node .service .unknown { background-color:#666 }
+
+.replicaDetail {display:none; z-index:10000; background:#DDD; width:600px; min-height:200px; border:1px solid #FFF}
+.replicaDetail .close {
+    position:absolute;
+    right:-15px;
+    top:-15px;
+    cursor:pointer;
+    height:35px;
+    width:35px;
+}

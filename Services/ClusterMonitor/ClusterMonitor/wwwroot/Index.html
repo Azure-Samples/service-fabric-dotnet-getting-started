@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Cluster Monitor</title>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript">
+
+        var managementPort = 19080;
+        var root = "/cluster";
+
+        function ClearNodes()
+        {
+            var $nodes = $('ul#nodes li.node');
+            $nodes.remove();
+        }
+
+        function RefreshNodes()
+        {
+            $.ajax({
+                url: root + '/Nodes?api-version=1.0',
+                dataType: 'json',
+                headers: {
+                    'X-ClusterMonitor-Proxy': managementPort
+                }
+            })
+            .done(function (nodes)
+            {
+
+                var $nodes = $('ul#nodes');
+
+                $nodes.find('li.node').each(function ()
+                {
+                    var remove = true;
+                    for (var i = 0; i < nodes.length; ++i)
+                    {
+                        if (FormatId(nodes[i].Name) == $(this).attr('id'))
+                        {
+                            remove = false;
+                            break;
+                        }
+                    }
+
+                    if (remove)
+                    {
+                        $(this).remove();
+                    }
+                });
+
+                for (var i = 0; i < nodes.length; ++i)
+                {
+                    var node = nodes[i];
+                    var nodeStats =
+                    '<ul class="nodeStats">' +
+                        '<li>Status: ' + node.NodeStatus + '</li>' +
+                        '<li>FD: ' + node.FaultDomain + '</li>' +
+                        '<li>UD: ' + node.UpgradeDomain + '</li>' +
+                    '</ul>';
+
+                    var nodeElement = $('#' + FormatId(node.Name), $nodes);
+                    if (nodeElement.length > 0)
+                    {
+                        $('.nodeStats', nodeElement).remove();
+                    }
+                    else
+                    {
+                        nodeElement = $('<li/>', {
+                            'id': FormatId(node.Name),
+                            'class': "node"
+                        })
+                            .append($('<div/>', {
+                                'class': 'nodeInfo'
+                            })
+                                .append($('<h2/>', {
+                                    'text': node.Name.replace(/\./g, '. ')
+                                })));
+
+                        $nodes.append(nodeElement);
+                    }
+
+                    $('.nodeInfo', nodeElement).append(nodeStats);
+                }
+
+                UpdateData();
+            });
+
+        }
+
+        function FormatId(nodeName)
+        {
+            return nodeName.replace(/[./]/g, '-');
+        }
+
+        function ReplicaRole(value)
+        {
+            if (!value)
+            {
+                return "";
+            }
+            switch (value)
+            {
+                case 0:
+                    return "unknown";
+                case 1:
+                    return "none";
+                case 2:
+                    return "primary";
+                case 3:
+                    return "idleSecondary";
+                case 4:
+                    return "activeSecondary";
+                default:
+                    return "";
+            }
+        }
+
+
+        function ReplicaStatus(value)
+        {
+            if (!value)
+            {
+                return "";
+            }
+            switch (value)
+            {
+                case 0:
+                    return "invalid";
+                case 1:
+                    return "inBuild";
+                case 2:
+                    return "standby";
+                case 3:
+                    return "ready";
+                case 4:
+                    return "down";
+                case 5:
+                    return "dropped";
+                default:
+                    return "";
+            }
+        }
+
+        function ServiceUpdate(application, service)
+        {
+
+            var $nodes = $('ul#nodes');
+            var $serviceElement = $("li.node div[data-serviceId='" + FormatId(service.Id) + "']", $nodes);
+            if ($serviceElement.length < 1)
+            {
+                $('li.node', $nodes).append('<div class="service" data-serviceId="' + FormatId(service.Id) + '">' + service.Id.replace(/\//g, '/ ') + '<ul class="replicaList"></ul></div>');
+            }
+
+        }
+
+        function PartitionUpdate(application, service, partition)
+        {
+        }
+
+        function ReplicaUpdate(application, service, partition, replicas)
+        {
+            function CreateReplicaId(replica, partition)
+            {
+                return GetReplicaOrInstanceId(replica) + '-' + partition.PartitionInformation.Id
+            }
+
+            var $nodes = $('ul#nodes');
+
+            $("div[data-serviceId='" + FormatId(service.Id) + "'] ul.replicaList li[data-partitionId='" + partition.PartitionInformation.Id + "']").each(function ()
+            {
+                var replicaId = $(this).attr('data-replicaId');
+                var remove = true;
+                for (var i = 0; i < replicas.length; ++i)
+                {
+                    if (GetReplicaOrInstanceId(replicas[i]) == replicaId)
+                    {
+                        remove = false;
+                        break;
+                    }
+                }
+
+                if (remove)
+                {
+                    $(this).hide(300, function ()
+                    {
+                        $(this).remove();
+                    });
+
+                    $("div.replicaDetail[data-partitionId='" + partition.PartitionInformation.Id + "']").remove();
+                }
+            });
+
+
+            for (var m = 0; m < replicas.length; ++m)
+            {
+                var replica = replicas[m];
+
+                var nodeElement = $('#' + FormatId(replica.NodeName) + " div[data-serviceId='" + FormatId(service.Id) + "'] ul.replicaList", $nodes);
+                if (nodeElement.length > 0)
+                {
+
+                    var replicaElement = $("li#" + CreateReplicaId(replica, partition), nodeElement);
+                    var replicaDetail = $("div#replicaDetail" + CreateReplicaId(replica, partition));
+
+                    if (replicaElement.length > 0)
+                    {
+                        replicaElement.removeClass();
+                    }
+                    else
+                    {
+                        replicaElement = $('<li/>', {
+                            'id': CreateReplicaId(replica, partition),
+                            'data-replicaId': GetReplicaOrInstanceId(replica),
+                            'data-partitionId': partition.PartitionInformation.Id,
+                            'data-role': replica.ReplicaRole,
+                            'data-status': replica.ReplicaStatus
+                        })
+                        .hover(function ()
+                        {
+                            var partitionId = $(this).attr('data-partitionId');
+                            $("ul.replicaList li[data-partitionId='" + partitionId + "']", $nodes).addClass('highlighted');
+                        }, function ()
+                        {
+                            var partitionId = $(this).attr('data-partitionId');
+                            $("ul.replicaList li[data-partitionId='" + partitionId + "']", $nodes).removeClass('highlighted');
+                        })
+                        .appendTo(nodeElement);
+
+                        var link = ($('<a/>',
+                            {
+                                'href': 'javascript:void(0)',
+                                'rel': '#replicaDetail' + CreateReplicaId(replica, partition)
+                            })).appendTo(replicaElement);
+
+                        replicaDetail = $('<div/>', {
+                            'id': "replicaDetail" + CreateReplicaId(replica, partition),
+                            'data-replicaId': GetReplicaOrInstanceId(replica),
+                            'data-partitionId': partition.PartitionInformation.Id,
+                            'class':'replicaDetail'
+                        }).append($('<ul/>')
+                            .append($('<li/>')));
+
+                        replicaDetail.appendTo($('#details'));
+                    }
+
+
+                    replicaElement.addClass('replica');
+                    replicaElement.addClass(ReplicaRole(replica.ReplicaRole));
+                    replicaElement.addClass(ReplicaStatus(replica.ReplicaStatus));
+                    $('a', replicaElement).text(ReplicaRole(replica.ReplicaRole) + " : " + ReplicaStatus(replica.ReplicaStatus));
+                    replicaDetail.text(CreateReplicaId(replica, partition));
+
+                    if (replicaElement.attr('data-role') != replica.ReplicaRole ||
+                        replicaElement.attr('data-status') != replica.ReplicaStatus)
+                    {
+                        // Highlight animation here.
+                    }
+                }
+            }
+
+            $("div[data-serviceId='" + FormatId(service.Id) + "']", $nodes).each(function ()
+            {
+                if ($(this).find("ul.replicaList li.replica").length < 1)
+                {
+                    $(this).hide();
+                }
+                else
+                {
+                    $(this).show();
+                }
+            });
+        }
+
+        function GetReplicaOrInstanceId(replica)
+        {
+            if ("ReplicaId" in replica)
+            {
+                return replica.ReplicaId;
+            }
+            else
+            {
+                return replica.InstanceId;
+            }
+        }
+
+        function UpdateData()
+        {
+            var $nodes = $('ul#nodes');
+
+            $.ajax({
+                url: root + '/Applications?api-version=1.0',
+                dataType: 'json',
+                headers: {
+                    'X-ClusterMonitor-Proxy': managementPort
+                }
+            })
+            .done(function (applications)
+            {
+                for (var i = 0; i < applications.length; ++i)
+                {
+                    (function (application)
+                    {
+                        $.ajax({
+                            url: root + '/Applications/' + encodeURIComponent(application.Name.replace('fabric:/', '')) + '/$/GetServices?api-version=1.0',
+                            dataType: 'json',
+                            headers: {
+                                'X-ClusterMonitor-Proxy': managementPort
+                            }
+                        })
+                        .done(function (services)
+                        {
+
+                            if (!application.Services)
+                            {
+                                applications.Services = {};
+                            }
+
+                            for (var j = 0; j < services.length; ++j)
+                            {
+
+                                (function (application, service)
+                                {
+
+                                    applications.Services[service.Id] = service;
+
+                                    ServiceUpdate(application, service);
+
+                                    $.ajax({
+                                        url: root + '/Applications/' + encodeURIComponent(application.Name.replace('fabric:/', '')) + '/$/GetServices/' + encodeURIComponent(service.Id) + '/$/GetPartitions?api-version=1.0',
+                                        dataType: 'json',
+                                        headers: {
+                                            'X-ClusterMonitor-Proxy': managementPort
+                                        }
+                                    })
+                                    .done(function (partitions)
+                                    {
+
+                                        service.Partitions = partitions;
+
+                                        for (var k = 0; k < partitions.length; ++k)
+                                        {
+
+                                            (function (application, service, partition)
+                                            {
+
+                                                PartitionUpdate(application, service, partition);
+
+                                                $.ajax({
+                                                    url: root + '/Applications/' + encodeURIComponent(application.Name.replace('fabric:/', '')) + '/$/GetServices/' + encodeURIComponent(service.Id) + '/$/GetPartitions/' + partition.PartitionInformation.Id + '/$/GetReplicas?api-version=1.0',
+                                                    dataType: 'json',
+                                                    headers: {
+                                                        'X-ClusterMonitor-Proxy': managementPort
+                                                    }
+                                                })
+                                                .done(function (replicas)
+                                                {
+                                                    partition.Replicas = replicas;
+                                                    ReplicaUpdate(application, service, partition, replicas);
+                                                });
+                                            })(application, service, partitions[k]);
+                                        }
+                                    });
+                                })(application, services[j]);
+                            }
+                        });
+                    })(applications[i]);
+                }
+            });
+        }
+
+        $(function ()
+        {
+            $.ajaxSetup({ cache: false });
+
+            RefreshNodes();
+
+            var task = setInterval(function () { RefreshNodes(); }, 4000);
+        });
+    </script>
+
+    <div id="nodeDisplay">
+        <h1>For Use as Sample Only. Not For Production Use.</h1>
+        <ul id="nodes"></ul>
+        <div id="details"></div>
+    </div>
+
+</body>
+</html>
