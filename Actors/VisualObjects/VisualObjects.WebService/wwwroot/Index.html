@@ -1,0 +1,46 @@
+﻿<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Windows Fabric Visual Objects Demo</title>
+        <script type="text/javascript" src="Scripts/gl-matrix-min.js"></script>
+        <script type="text/javascript" src="Scripts/webgl-utils.js"></script>
+        <script type="text/javascript" src="Scripts/visualobjects.js"></script>
+        <script id="shader-fs" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec4 vColor;
+
+        void main(void) {
+        gl_FragColor = vColor;
+        }
+    </script>
+        <script id="shader-vs" type="x-shader/x-vertex">
+        attribute vec3 aVertexPosition;
+        attribute vec4 aVertexColor;
+
+        uniform mat4 uMVMatrix;
+        uniform mat4 uPMatrix;
+
+        varying vec4 vColor;
+
+        void main(void) {
+        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+        vColor = aVertexColor;
+        }
+    </script>
+        <style type="text/css">
+            header {
+                background-color: black;
+                display: block;
+            }
+
+            body {
+                background-color: black;
+                display: block;
+            }
+        </style>
+    </head>
+<body onload="webGLStart();">
+    <canvas id="canvas"></canvas>
+</body>
+</html>
