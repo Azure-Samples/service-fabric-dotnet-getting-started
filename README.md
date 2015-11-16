@@ -25,10 +25,6 @@ It also provides a clear demonstration of how Service Fabric performs rolling up
 
 **Important note:** The VisualObjects web service depends on two JavaScript files that are not directly included in the sample due the licensing restrictions. Follow the instructions in the Readme to learn how to set up the sample.
 
-### VoicemailBoxAdvanced
-
-The VoicemailBoxAdvanced sample demonstrates some of the additional features of the actor framework, including timers and reminders.
-
 ## Service Samples
 ### Chatter
 
@@ -44,6 +40,10 @@ To see how Service Fabric automatically rebalances replicas in the cluster when 
 2. Deploy the ClusterMonitor sample.
 3. Launch Service Fabric Explorer by navigating to http://&lt;clusteraddress&gt;:19080/Explorer.
 4. Choose a node and click Actions > Deactivate (Restart).
+
+### Ping
+
+Ping demonstrates how to use configuration packages within a service. The application pings a set of Microsoft websites at a frequency defined in the Settings.xml file of the service's configuration package.
 
 ### WordCount
 
