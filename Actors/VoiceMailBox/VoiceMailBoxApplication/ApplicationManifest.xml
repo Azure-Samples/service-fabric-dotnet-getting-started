@@ -4,6 +4,7 @@
       <Parameter Name="VoicemailBoxActorService_PartitionCount" DefaultValue="9" />
       <Parameter Name="VoicemailBoxActorService_MinReplicaSetSize" DefaultValue="2" />
       <Parameter Name="VoicemailBoxActorService_TargetReplicaSetSize" DefaultValue="3" />
+      <Parameter Name="VoicemailBoxWebService_InstanceCount" DefaultValue="1" />
    </Parameters>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="VoiceMailBoxActorServicePkg" ServiceManifestVersion="1.0.0" />
@@ -18,7 +19,7 @@
          </StatefulService>
       </Service>
       <Service Name="VoicemailBoxWebService">
-         <StatelessService ServiceTypeName="VoicemailBoxWebServiceType">
+         <StatelessService ServiceTypeName="VoicemailBoxWebServiceType" InstanceCount="[VoicemailBoxWebService_InstanceCount]">
             <SingletonPartition />
          </StatelessService>
       </Service>
