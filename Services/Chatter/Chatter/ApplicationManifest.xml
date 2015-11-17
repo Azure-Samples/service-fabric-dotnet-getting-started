@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ChatType" ApplicationTypeVersion="1.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ChatType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
    <Parameters>
       <Parameter Name="ChatService_MinReplicaSetSize" DefaultValue="2" />
       <Parameter Name="ChatService_PartitionCount" DefaultValue="1" />
@@ -7,10 +7,10 @@
       <Parameter Name="ChatWeb_InstanceCount" DefaultValue="1" />
    </Parameters>
    <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="ChatWeb" ServiceManifestVersion="1.0.0.0" />
+      <ServiceManifestRef ServiceManifestName="ChatWeb" ServiceManifestVersion="1.0.0" />
    </ServiceManifestImport>
    <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="ChatServicePkg" ServiceManifestVersion="1.0.0.0" />
+      <ServiceManifestRef ServiceManifestName="ChatServicePkg" ServiceManifestVersion="1.0.0" />
       <ConfigOverrides />
    </ServiceManifestImport>
    <DefaultServices>
