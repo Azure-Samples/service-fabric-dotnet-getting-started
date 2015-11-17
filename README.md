@@ -10,7 +10,7 @@ This repository contains a set of simple sample projects to help you get started
 
 ## How the samples are organized
 
-The samples are divided into two groups based on the [Service Fabric programming model][service-fabric-programming-models] that they focus on: either Reliable Actors or Reliable Services. Note that most real applications will include a mixture of the two programming models so once you have reviewed these samples, you are encouraged to look at the more complex samples which combine the two frameworks.
+The samples are divided by the category and [Service Fabric programming model][service-fabric-programming-models] that they focus on: Reliable Actors, Reliable Services, custom application orchestration, and Service Fabric management tasks. Note that most real applications will include a mixture of the concepts and programming models so once you have reviewed these samples, you are encouraged to look at the more complex samples which combine the two frameworks.
 
 ## Actor samples
 ### VoicemailBox
