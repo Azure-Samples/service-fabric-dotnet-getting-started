@@ -13,7 +13,7 @@ namespace ChatWeb.Models
     public interface IMessageRepository
     {
         Task AddMessageAsync(Message message);
-        Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessages();
+        Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessagesAsync();
         Task ClearMessagesAsync();
     }
 }

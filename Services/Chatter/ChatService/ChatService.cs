@@ -14,19 +14,20 @@ namespace ChatWeb
     using ChatWeb.Domain;
     using Microsoft.ServiceFabric.Data;
     using Microsoft.ServiceFabric.Data.Collections;
-    using Microsoft.ServiceFabric.Services;
-    using Microsoft.ServiceFabric.Services.Runtime;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using Microsoft.ServiceFabric.Services.Remoting.Runtime;
+    using Microsoft.ServiceFabric.Services.Runtime;
+
     public class ChatService : StatefulService, IChatService
     {
-        private IReliableDictionary<DateTime, Message> messageDictionary;
-        private const int MessagesToKeep = 3;
+        private const int MessagesToKeep = 50;
 
         public async Task AddMessageAsync(Message message)
         {
             DateTime time = DateTime.Now.ToLocalTime();
-            IReliableDictionary<DateTime, Message> messagesDictionary = await this.GetMessageDictionaryAsync();
+
+            IReliableDictionary<DateTime, Message> messagesDictionary =
+                await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
 
             using (ITransaction tx = this.StateManager.CreateTransaction())
             {
@@ -35,25 +36,20 @@ namespace ChatWeb
             }
         }
 
-        public async Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessages()
+        public async Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessagesAsync()
         {
-            IReliableDictionary<DateTime, Message> messagesDictionary = await this.GetMessageDictionaryAsync();
-            return this.messageDictionary.CreateEnumerable(EnumerationMode.Ordered);
+            IReliableDictionary<DateTime, Message> messagesDictionary =
+                await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
+
+            return messagesDictionary.CreateEnumerable(EnumerationMode.Ordered);
         }
 
         public async Task ClearMessagesAsync()
         {
-            IReliableDictionary<DateTime, Message> messagesDictionary = await this.GetMessageDictionaryAsync();
-            await messagesDictionary.ClearAsync();
-        }
+            IReliableDictionary<DateTime, Message> messagesDictionary =
+                await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
 
-        protected async Task<IReliableDictionary<DateTime, Message>> GetMessageDictionaryAsync()
-        {
-            if (this.messageDictionary == null)
-            {
-                this.messageDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
-            }
-            return this.messageDictionary;
+            await messagesDictionary.ClearAsync();
         }
 
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
@@ -71,27 +67,29 @@ namespace ChatWeb
                 "Partition {0} started processing messages.",
                 this.ServicePartition.PartitionInfo.Id);
 
+            IReliableDictionary<DateTime, Message> messagesDictionary =
+                await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
+
             //Use this method to periodically clean up messages in the messagesDictionary
             while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
-                    if (this.messageDictionary != null)
-                    {
-                        // Remove all the messages that are older than 30 seconds keeping the last 3 messages
-                        IEnumerable<KeyValuePair<DateTime, Message>> oldMessages = from t in this.messageDictionary
-                            where t.Key < (DateTime.Now - timeSpan) orderby t.Key ascending 
-                            select t;
+                    // Remove all the messages that are older than 30 seconds keeping the last 3 messages
+                    IEnumerable<KeyValuePair<DateTime, Message>> oldMessages = from t in messagesDictionary
+                                                                               where t.Key < (DateTime.Now - timeSpan)
+                                                                               orderby t.Key ascending
+                                                                               select t;
 
-                        using (ITransaction tx = this.StateManager.CreateTransaction())
+                    using (ITransaction tx = this.StateManager.CreateTransaction())
+                    {
+                        foreach (KeyValuePair<DateTime, Message> item in oldMessages.Take(messagesDictionary.Count() - MessagesToKeep))
                         {
-                            foreach (KeyValuePair<DateTime, Message> item in oldMessages.Take(this.messageDictionary.Count() - MessagesToKeep))
-                            {
-                                await this.messageDictionary.TryRemoveAsync(tx, item.Key);
-                            }
-                            await tx.CommitAsync();
+                            await messagesDictionary.TryRemoveAsync(tx, item.Key);
                         }
+                        await tx.CommitAsync();
                     }
+
                 }
                 catch (Exception e)
                 {
@@ -105,6 +103,8 @@ namespace ChatWeb
                         break;
                     }
                 }
+
+                await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
             }
         }
 

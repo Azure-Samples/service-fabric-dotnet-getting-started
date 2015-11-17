@@ -13,7 +13,7 @@ namespace ChatWeb.Domain
     public interface IChatService : IService
     {
         Task AddMessageAsync(Message message);
-        Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessages();
+        Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessagesAsync();
         Task ClearMessagesAsync();
     }
 }

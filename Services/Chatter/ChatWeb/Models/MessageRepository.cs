@@ -29,7 +29,7 @@ namespace ChatWeb.Models
             return Task.FromResult(true);
         }
 
-        Task<IEnumerable<KeyValuePair<DateTime, Message>>> IMessageRepository.GetMessages()
+        Task<IEnumerable<KeyValuePair<DateTime, Message>>> IMessageRepository.GetMessagesAsync()
         {
             return Task.FromResult(Messages.Select(x => x));
         }

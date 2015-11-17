@@ -7,8 +7,9 @@ namespace ChatWeb.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Fabric;
     using System.Threading.Tasks;
-    using ChatWeb.Domain;    
+    using ChatWeb.Domain;
     using Microsoft.ServiceFabric.Services.Remoting.Client;
 
     public class ReliableMessageRepository : IMessageRepository
@@ -16,14 +17,14 @@ namespace ChatWeb.Models
         // The service only has a single partition. In order to access the partition need to provide a
         // value in the LowKey - HighKey range defined in the ApplicationManifest.xml
         private long defaultPartitionID = 1;
+        private Uri chatServiceInstance = new Uri(FabricRuntime.GetActivationContext().ApplicationName + "/ChatService");
 
-        public async Task AddMessageAsync(Message message)
+        public Task AddMessageAsync(Message message)
         {
-            Uri serviceName = new Uri("fabric:/Chatter/ChatService");
             try
             {
-                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, serviceName);
-                await proxy.AddMessageAsync(message);
+                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, chatServiceInstance);
+                return proxy.AddMessageAsync(message);
             }
             catch (Exception e)
             {
@@ -32,14 +33,13 @@ namespace ChatWeb.Models
             }
         }
 
-        public Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessages()
+        public Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessagesAsync()
         {
-            Uri serviceName = new Uri("fabric:/Chatter/ChatService");
             try
             {
-                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, serviceName);
+                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, chatServiceInstance);
                 //return (await proxy.GetMessages()).Select(x => x.Value);
-                return proxy.GetMessages();
+                return proxy.GetMessagesAsync();
             }
             catch (Exception e)
             {
@@ -48,13 +48,12 @@ namespace ChatWeb.Models
             }
         }
 
-        public async Task ClearMessagesAsync()
+        public Task ClearMessagesAsync()
         {
-            Uri serviceName = new Uri("fabric:/Chatter/ChatService");
             try
             {
-                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, serviceName);
-                await proxy.ClearMessagesAsync();
+                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, chatServiceInstance);
+                return proxy.ClearMessagesAsync();
             }
             catch (Exception e)
             {
