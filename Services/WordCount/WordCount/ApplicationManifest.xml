@@ -4,7 +4,7 @@
       <Parameter Name="WordCountWebService_InstanceCount" DefaultValue="1" />
    </Parameters>
    <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="WordCountServicePkg" ServiceManifestVersion="1.0" />
+      <ServiceManifestRef ServiceManifestName="WordCountServicePkg" ServiceManifestVersion="1.0.0" />
    </ServiceManifestImport>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="WordCountWebServicePkg" ServiceManifestVersion="1.0.0" />
