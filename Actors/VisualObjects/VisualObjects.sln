@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "VisualObjectsApplication", "VisualObjectsApplication\VisualObjectsApplication.sfproj", "{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualObjects.ActorService", "VisualObjects.ActorService\VisualObjects.ActorService.csproj", "{28F256E4-D909-4833-9F6B-89E32FA6B717}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualObjects.WebService", "VisualObjects.WebService\VisualObjects.WebService.csproj", "{3A8EA093-2E3C-44EB-AFFB-AA69338383B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualObjects.Common", "VisualObjects.Common\VisualObjects.Common.csproj", "{BF6A000A-0765-4468-BDB1-74EDA44C478B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2EF7E9ED-5B68-4F3B-8BE7-393DB4FE1008}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}.Debug|x64.ActiveCfg = Debug|x64
+		{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}.Debug|x64.Build.0 = Debug|x64
+		{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}.Debug|x64.Deploy.0 = Debug|x64
+		{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}.Release|x64.ActiveCfg = Release|x64
+		{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}.Release|x64.Build.0 = Release|x64
+		{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}.Release|x64.Deploy.0 = Release|x64
+		{28F256E4-D909-4833-9F6B-89E32FA6B717}.Debug|x64.ActiveCfg = Debug|x64
+		{28F256E4-D909-4833-9F6B-89E32FA6B717}.Debug|x64.Build.0 = Debug|x64
+		{28F256E4-D909-4833-9F6B-89E32FA6B717}.Release|x64.ActiveCfg = Release|x64
+		{28F256E4-D909-4833-9F6B-89E32FA6B717}.Release|x64.Build.0 = Release|x64
+		{3A8EA093-2E3C-44EB-AFFB-AA69338383B3}.Debug|x64.ActiveCfg = Debug|x64
+		{3A8EA093-2E3C-44EB-AFFB-AA69338383B3}.Debug|x64.Build.0 = Debug|x64
+		{3A8EA093-2E3C-44EB-AFFB-AA69338383B3}.Release|x64.ActiveCfg = Release|x64
+		{3A8EA093-2E3C-44EB-AFFB-AA69338383B3}.Release|x64.Build.0 = Release|x64
+		{BF6A000A-0765-4468-BDB1-74EDA44C478B}.Debug|x64.ActiveCfg = Debug|x64
+		{BF6A000A-0765-4468-BDB1-74EDA44C478B}.Debug|x64.Build.0 = Debug|x64
+		{BF6A000A-0765-4468-BDB1-74EDA44C478B}.Release|x64.ActiveCfg = Release|x64
+		{BF6A000A-0765-4468-BDB1-74EDA44C478B}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

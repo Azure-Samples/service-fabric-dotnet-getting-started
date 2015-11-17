@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Section Name="VisualObjects.ActorServiceReplicatorConfig">
+      <Parameter Name="ReplicatorEndpoint" Value="VisualObjects.ActorServiceReplicatorEndpoint" />
+   </Section>
+   <Section Name="VisualObjects.ActorServiceReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+   <Section Name="VisualObjects.ActorServiceLocalStoreConfig">
+      <Parameter Name="MaxAsyncCommitDelayInMilliseconds" Value="100" />
+      <Parameter Name="MaxVerPages" Value="32768" />
+   </Section>
+   <Section Name="VisualObjects.ActorService/StatefulReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+   <Section Name="VisualObjectsService/StatefulReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+   <Section Name="VisualObjectService/StatefulReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+   <Section Name="VisualObjectActorService/StatefulReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+   <Section Name="StatefulVisualObjectActorServiceReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+   <Section Name="VisualObjectActorServiceReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+</Settings>

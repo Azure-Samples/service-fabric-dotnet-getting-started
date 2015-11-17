@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Service Fabric Chatter</title>
+    <style>
+        html {
+            background: #f1f1f1;
+            height: 100%;
+        }
+
+        body {
+            background: #fff;
+            color: #505050;
+            font: 14px 'Segoe UI', tahoma, arial, helvetica, sans-serif;
+            margin: 1%;
+            min-height: 95.5%;
+            border: 1px solid silver;
+            position: relative;
+        }
+
+        #header { padding: 0; }
+
+        #header h1 {
+            font-size: 44px;
+            font-weight: normal;
+            margin: 0;
+            padding: 10px 30px 10px 30px;
+        }
+
+        #header p {
+            font-size: 20px;
+            color: #fff;
+            background: #007acc;
+            padding: 0 30px;
+            line-height: 50px;
+            margin-top: 25px;
+        }
+
+        #header p a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: bold;
+            padding-right: 35px;
+            background: no-repeat right bottom url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAMAAAAcqPc3AAAANlBMVEUAAAAAeswfitI9mthXp91us+KCvuaTx+mjz+2x1u+83PLH4vTR5/ba7Pjj8Pns9fv1+v3////wy3dWAAAAAXRSTlMAQObYZgAAAHxJREFUeNp9kVcSwCAIRMHUYoH7XzaxOxJ9P8oyQ1uIqNPwh3s2aLmIM2YtqrLcQIeQEylhuCeUOlhgve5yoBCfWmlnlgkN4H8ykbpaE7gR03AbUHiwoOxUH9Xp+ubd41p1HF3mBPrfC87BHeTdaB3ceeKL9HGpcvX9zu6+DdMWT9KQPvYAAAAASUVORK5CYII=);
+        }
+
+        #main {
+            padding: 5px 30px;
+            clear: both;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            line-height: 20px;
+        }
+
+        li { padding: 4px 0; }
+
+        a {
+            color: #267cb2;
+            text-decoration: none;
+            padding-left: 20px;
+        }
+
+        a:hover { text-decoration: underline; }
+
+        form {
+            background: #000;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form input {
+            border: solid;
+            padding: 8px;
+            width: 40%;
+        }
+
+        form button {
+            width: 8%;
+            background: rgb(130, 224, 255);
+            border: solid;
+            padding: 8px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li { padding: 5px 10px; }
+
+        #messages li:nth-child(odd) { background: #eee; }
+    </style>
+</head>
+<body>
+<div id="header" background #000; padding 3px; position fixed; bottom 0; width 100%;>
+    <h1>Welcome to Service Fabric Chatter</h1>
+    <ul id="messages" class="list-group"></ul>
+    <form id="chatterForm">
+        <p>
+            <label>Name</label>&nbsp;<input id="inputName" style="width: 80px;"/>
+            <label>Text</label>&nbsp;<input id="inputMessage"/>
+            <button id="sendButton" class="btn-success">Send</button>
+            <a href="http://aka.ms/servicefabric">Learn what's new in Service Fabric</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;<button id="deleteButton" class="btn-success">Delete</button>
+        </p>
+    </form>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.js"></script>
+    <script type="text/javascript">
+        //Get the location URL information
+        var serviceUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+
+        // Refresh the list of messages every 2 seconds
+        $(function() {
+             setInterval(function() { GetMessages(); }, 2000);
+        });
+
+        $('#sendButton').click(function () {
+            AddMessage();
+        });
+
+        $('#deleteButton').click(function() {
+            DeleteMessages();
+        });
+
+        //Call the default POST message for
+        function AddMessage() {
+            var name = $('#inputName').val();
+            var message = { MessageText: $('#inputMessage').val(), Name: $('#inputName').val() };
+            $.ajax({
+                    url: serviceUrl + '/api/chat/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(message)
+                })
+                .done(function(addMessage) {
+                    $('#inputName').text = Name;
+                });
+        }
+
+
+        function DeleteMessages() {
+            $.ajax({
+                    url: serviceUrl + '/api/chat/',
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })
+                .done(function(result) {
+                    $('#messages').empty();
+                });
+        }
+
+        function GetMessages() {
+            $.ajax({
+                    url: serviceUrl + '/api/chat/',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    datatype: 'json',
+                    cache: false
+                })
+                .done(function(getMessageResult) {
+                    bindData($('#messages'), getMessageResult);
+                });
+        }
+
+        //Take returned messages and contruct list items
+        function bindData(element, data) {
+            $('#messages').empty();
+            $.each(data, function(id, jobject) {
+                var time = $.time(jobject.Key);
+                var line = "[" + time + "] " + jobject.Value.Name + " >>> " + jobject.Value.MessageText;
+                $('<li/>')
+                    .addClass('list-group-item').text(line).appendTo(element);
+            });
+        }
+
+        //Do formatting of returned datetime
+        $.time = function(dateObject) {
+            var d = new Date(dateObject);
+            var sec = d.getSeconds();
+            var min = d.getMinutes();
+            var hour = d.getHours();
+            var time = hour + ":" + min + ":" + sec;;
+            return time;
+        };
+
+    </script>
+</div>
+</body>
+</html>

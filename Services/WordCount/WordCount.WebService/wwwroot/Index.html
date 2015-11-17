@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Counting of Words</title>
+    <script type="text/javascript" src="Files/jquery-2.1.3.min.js"></script>
+    <style type="text/css">
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+	        border: 0;
+	        font-size: 100%;
+	        font: inherit;
+	        vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+	        display: block;
+        }
+        body {
+	        line-height: 1;
+            font: 0.9em/1.2 Segoe UI,Arial,sans-serif;
+            background:#DDD;
+        }
+        h1{
+            font-size:3em;
+            color:#00ABEC;
+        }
+        h2{
+            font-size:2em;
+        }
+        td {
+            padding: 2px 15px;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        var serviceUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        var iteration = 0;
+
+        $(function () {
+            var CountTask = setInterval(function () { Count(); }, 350);
+            var AddWordTask = setInterval(function () { SendWords(); }, 200);
+        });
+
+        function SendWords()
+        {
+            $.ajax({
+                url: serviceUrl + '/wordcount/AddWord/' + randomWord(),
+                method: 'POST'
+            })
+           .done(function (wordResult) {
+               $('#sendResult').html(wordResult);
+           });
+        }
+
+        function Count()
+        {
+            $.ajax({
+                url: serviceUrl + '/wordcount/Count?c=' + Math.random(),
+                dataType: 'text',
+                method: 'GET'
+            })
+           .done(function (countResult) {
+                $('#count').html(countResult)
+           });
+        }
+
+        function randomWord()
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+            for( var i=0; i < 5; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
+    </script>
+
+    <div id="sendResult"></div>
+    <div id="count"></div>
+</body>
+</html>
