@@ -41,10 +41,6 @@ To see how Service Fabric automatically rebalances replicas in the cluster when 
 3. Launch Service Fabric Explorer by navigating to http://&lt;clusteraddress&gt;:19080/Explorer.
 4. Choose a node and click Actions > Deactivate (Restart).
 
-### Ping
-
-Ping demonstrates how to use configuration packages within a service. The application pings a set of Microsoft websites at a frequency defined in the Settings.xml file of the service's configuration package.
-
 ### WordCount
 
 WordCount provides an introduction to using reliable collections and to partitioning stateful services. A client-side JavaScript function generates random five-character strings, which are then sent to the application via an ASP.NET WebAPI to be counted. The stateless web service resolves the endpoint for the stateful service's partition based on the first character of the string. The stateful service maintains a backlog of words to count in a `ReliableQueue` and then keeps track of their count in a `ReliableDictionary`. The total count, plus a per-partition count, are shown in the web UI at http://&lt;clusteraddress&gt;:8081/WordCount/.
