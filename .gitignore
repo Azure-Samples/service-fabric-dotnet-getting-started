@@ -17,4 +17,4 @@ _ReSharper.*
 nuget.exe
 .settings
 *.sln.ide
-
+project.lock.json
