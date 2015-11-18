@@ -10,7 +10,7 @@ This repository contains a set of simple sample projects to help you get started
 
 ## How the samples are organized
 
-The samples are divided into two groups based on the [Service Fabric programming model][service-fabric-programming-models] that they focus on: either Reliable Actors or Reliable Services. Note that most real applications will include a mixture of the two programming models so once you have reviewed these samples, you are encouraged to look at the more complex samples which combine the two frameworks.
+The samples are divided by the category and [Service Fabric programming model][service-fabric-programming-models] that they focus on: Reliable Actors, Reliable Services, custom application orchestration, and Service Fabric management tasks. Note that most real applications will include a mixture of the concepts and programming models so once you have reviewed these samples, you are encouraged to look at the more complex samples which combine the two frameworks.
 
 ## Actor samples
 ### VoicemailBox
@@ -30,6 +30,16 @@ It also provides a clear demonstration of how Service Fabric performs rolling up
 
 Chatter is a single-room chat application. It includes a web UI built in ASP.NET 5 and accessible at http://&lt;clusteraddress&gt;:8081/Chatter/. User messages are sent to a stateful service for persistence.
 
+### WordCount
+
+WordCount provides an introduction to using reliable collections and to partitioning stateful services. A client-side JavaScript function generates random five-character strings, which are then sent to the application via an ASP.NET WebAPI to be counted. The stateless web service resolves the endpoint for the stateful service's partition based on the first character of the string. The stateful service maintains a backlog of words to count in a `ReliableQueue` and then keeps track of their count in a `ReliableDictionary`. The total count, plus a per-partition count, are shown in the web UI at http://&lt;clusteraddress&gt;:8081/WordCount/.
+
+## Custom Application Samples
+### SimpleApplication
+
+The simple custom application sample shows how to take an arbitrary EXE that is not built on Actors, Services, or any Service Fabric APIs and deploy it to a Service Fabric cluster. The EXE it uses is SimpleWebServer.exe, which is a simple web server that listens on port 8080 and returns the machine name based on a query string parameter.
+
+## Management Samples
 ### ClusterMonitor
 
 ClusterMonitor shows how to use the REST APIs provided by Service Fabric to query the state of the cluster and its running applications. It is also useful as a tool for learning how concepts like partitioning and failover work. The application's web UI is accessible at http://&lt;clusteraddress&gt;:8081/ClusterMonitor/ and shows the cluster with all deployed replicas represented within the node that is currently hosting them.
@@ -40,10 +50,6 @@ To see how Service Fabric automatically rebalances replicas in the cluster when 
 2. Deploy the ClusterMonitor sample.
 3. Launch Service Fabric Explorer by navigating to http://&lt;clusteraddress&gt;:19080/Explorer.
 4. Choose a node and click Actions > Deactivate (Restart).
-
-### WordCount
-
-WordCount provides an introduction to using reliable collections and to partitioning stateful services. A client-side JavaScript function generates random five-character strings, which are then sent to the application via an ASP.NET WebAPI to be counted. The stateless web service resolves the endpoint for the stateful service's partition based on the first character of the string. The stateful service maintains a backlog of words to count in a `ReliableQueue` and then keeps track of their count in a `ReliableDictionary`. The total count, plus a per-partition count, are shown in the web UI at http://&lt;clusteraddress&gt;:8081/WordCount/.
 
 ## Deploying the samples
 

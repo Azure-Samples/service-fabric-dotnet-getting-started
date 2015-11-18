@@ -23,7 +23,7 @@ namespace ChatWeb.Controllers
         [HttpGet]
         public Task<IEnumerable<KeyValuePair<DateTime, Message>>> GetMessages()
         {
-            return this.Messages.GetMessages();
+            return this.Messages.GetMessagesAsync();
         }
 
         // POST api/chat
