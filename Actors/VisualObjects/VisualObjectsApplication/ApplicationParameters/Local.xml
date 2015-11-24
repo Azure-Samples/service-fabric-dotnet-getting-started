@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application Name="fabric:/VisualObjectsApplication" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="VisualObjects.ActorService_PartitionCount" Value="1" />
+    <Parameter Name="VisualObjects.ActorService_PartitionCount" Value="2" />
   </Parameters>
 </Application>
