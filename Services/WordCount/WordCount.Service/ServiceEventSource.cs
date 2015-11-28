@@ -52,7 +52,7 @@ namespace WordCount.Service
             this.WriteEvent(5, serviceType);
         }
 
-        [Event(6, Level = EventLevel.Informational, Message = "Create communication listner in service instance of type {0}")]
+        [Event(6, Level = EventLevel.Informational, Message = "Create communication listener in service instance of type {0}")]
         public void CreateCommunicationListener(string serviceType)
         {
             this.WriteEvent(6, serviceType);
