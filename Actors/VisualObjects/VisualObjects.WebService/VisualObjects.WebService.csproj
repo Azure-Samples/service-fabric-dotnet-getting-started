@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="wwwroot\Scripts\visualobjects.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\Scripts\gl-matrix-min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

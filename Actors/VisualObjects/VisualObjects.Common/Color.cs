@@ -3,6 +3,8 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using System.Globalization;
+
 namespace VisualObjects.Common
 {
     using System;
@@ -82,10 +84,10 @@ namespace VisualObjects.Common
         {
             builder.AppendFormat(
                 "{{ \"r\":{0}, \"g\":{1}, \"b\":{2}, \"a\":{3} }}",
-                this.R,
-                this.G,
-                this.B,
-                this.A);
+                this.R.ToString(NumberFormatInfo.InvariantInfo),
+                this.G.ToString(NumberFormatInfo.InvariantInfo),
+                this.B.ToString(NumberFormatInfo.InvariantInfo),
+                this.A.ToString(NumberFormatInfo.InvariantInfo));
         }
     }
 }
