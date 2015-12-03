@@ -16,6 +16,7 @@ namespace VisualObjects.ActorService
         private IActorTimer updateTimer;
         private string jsonString;
 
+        [Readonly]
         public Task<string> GetStateAsJsonAsync()
         {
             return Task.FromResult(this.jsonString);
