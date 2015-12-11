@@ -143,6 +143,9 @@ var yRotate = 0;
 var zRotate = 0;
 
 function handleKeys() {
+    if (currentlyPressedKeys == undefined) {
+        return;
+    }
     if (currentlyPressedKeys[33]) {
         if (currentlyPressedKeys[32]) {
             // Ctrl
@@ -321,9 +324,13 @@ function updateNodeBuffersToRender() {
 }
 
 function drawScene() {
+    if (mat4 == undefined) {
+        return;
+    }
+
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
+    
     mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
     mat4.identity(mvMatrix);
