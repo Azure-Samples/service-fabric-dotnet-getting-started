@@ -77,8 +77,10 @@ namespace ClusterMonitor
             store.Open(OpenFlags.OpenExistingOnly);
             foreach (X509Certificate2 cert in store.Certificates)
             {
-                if (cert.Thumbprint == thumbprint)
+                if (String.Equals(cert.Thumbprint, thumbprint, StringComparison.OrdinalIgnoreCase))
+                {
                     return cert;
+                }
             }
 
             return null;
