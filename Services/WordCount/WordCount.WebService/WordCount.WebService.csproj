@@ -101,6 +101,8 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Extensions\ApiControllerExtensions.cs" />
+    <Compile Include="Models\AddWordResponse.cs" />
+    <Compile Include="Models\CountResponse.cs" />
     <Compile Include="WordCountWebService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ServiceEventSource.cs" />

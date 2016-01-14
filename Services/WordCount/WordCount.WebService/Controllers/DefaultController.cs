@@ -19,9 +19,11 @@ namespace WordCount.WebService.Controllers
     using System.Web.Http;
     using Microsoft.ServiceFabric.Services;
     using Microsoft.ServiceFabric.Services.Communication.Client;
-    using Microsoft.ServiceFabric.Services.Client;    /// <summary>
-                                                      /// Default controller.
-                                                      /// </summary>
+    using Microsoft.ServiceFabric.Services.Client;
+    using Models;
+    /// <summary>
+    /// Default controller.
+    /// </summary>
     public class DefaultController : ApiController
     {
         private const string WordCountServiceName = "fabric:/WordCount/WordCountService";
@@ -41,7 +43,7 @@ namespace WordCount.WebService.Controllers
         }
 
         [HttpGet]
-        public async Task<HttpResponseMessage> Count()
+        public async Task<CountResponse> Count()
         {
             // Get the list of representative service partition clients.
             IList<ServicePartitionClient<CommunicationClient>> partitionClients = await this.GetServicePartitionClientsAsync();
@@ -83,31 +85,26 @@ namespace WordCount.WebService.Controllers
                 ServiceEventSource.Current.OperationFailed(ex.Message, "Count - run web request");
             }
 
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<h1> Total:");
-            sb.Append(totals.Aggregate<KeyValuePair<Int64RangePartitionInformation, long>, long>(0, (total, next) => next.Value + total));
-            sb.Append("</h1>");
-            sb.Append("<table><tr><td>Partition ID</td><td>Key Range</td><td>Total</td></tr>");
+            var retVal = new CountResponse();
+
+            retVal.Total = totals.Aggregate<KeyValuePair<Int64RangePartitionInformation, long>, long>(0, (total, next) => next.Value + total);
             foreach (KeyValuePair<Int64RangePartitionInformation, long> partitionData in totals.OrderBy(partitionData => partitionData.Key.LowKey))
             {
-                sb.Append("<tr><td>");
-                sb.Append(partitionData.Key.Id);
-                sb.Append("</td><td>");
-                sb.AppendFormat("{0} - {1}", partitionData.Key.LowKey, partitionData.Key.HighKey);
-                sb.Append("</td><td>");
-                sb.Append(partitionData.Value);
-                sb.Append("</td></tr>");
+                var info = new Info();
+
+                info.Id = partitionData.Key.Id;
+                info.LowKey = partitionData.Key.LowKey;
+                info.HighKey = partitionData.Key.HighKey;
+                info.Hits = partitionData.Value;
+
+                retVal.Infos.Add(info);
             }
 
-            sb.Append("</table>");
-
-            HttpResponseMessage message = new HttpResponseMessage();
-            message.Content = new StringContent(sb.ToString(), Encoding.UTF8, "text/html");
-            return message;
+            return retVal;
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> AddWord(string word)
+        public async Task<AddWordResponse> AddWord(string word)
         {
             // Determine the partition key that should handle the request
             long partitionKey = GetPartitionKey(word);
@@ -131,15 +128,13 @@ namespace WordCount.WebService.Controllers
                     request.Timeout = (int) client.OperationTimeout.TotalMilliseconds;
                     request.ReadWriteTimeout = (int) client.ReadWriteTimeout.TotalMilliseconds;
 
-                    using (HttpWebResponse response = (HttpWebResponse) request.GetResponse())
-                    {
-                        HttpResponseMessage message = new HttpResponseMessage();
-                        message.Content = new StringContent(
-                            String.Format("<h1>{0}</h1> added to partition <h2>{1}</h2> at {2}", word, client.ResolvedServicePartition.Info.Id, serviceAddress),
-                            Encoding.UTF8,
-                            "text/html");
-                        return Task.FromResult<HttpResponseMessage>(message);
-                    }
+                    var retVal = new AddWordResponse();
+
+                    retVal.PartitionId = client.ResolvedServicePartition.Info.Id;
+                    retVal.ServiceAddress = serviceAddress.ToString();
+                    retVal.Word = word;
+
+                    return Task.FromResult(retVal);
                 });
         }
 

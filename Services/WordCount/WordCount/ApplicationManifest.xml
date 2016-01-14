@@ -12,7 +12,7 @@
    <DefaultServices>
       <Service Name="WordCountService">
          <StatefulService ServiceTypeName="WordCountServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="2">
-            <UniformInt64Partition PartitionCount="1" LowKey="1" HighKey="26" />
+            <UniformInt64Partition PartitionCount="5" LowKey="1" HighKey="26" />
          </StatefulService>
       </Service>
       <Service Name="WordCountWebService">
