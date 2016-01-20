@@ -46,7 +46,8 @@ namespace WordCount.WebService.Controllers
         public async Task<CountResponse> Count()
         {
             // Get the list of representative service partition clients.
-            IList<ServicePartitionClient<CommunicationClient>> partitionClients = await this.GetServicePartitionClientsAsync();
+            IList<ServicePartitionClient<CommunicationClient>> partitionClients = 
+                await this.GetServicePartitionClientsAsync();
 
             // For each partition client, keep track of partition information and the number of words
             ConcurrentDictionary<Int64RangePartitionInformation, long> totals = new ConcurrentDictionary<Int64RangePartitionInformation, long>();
@@ -62,10 +63,10 @@ namespace WordCount.WebService.Controllers
 
                             HttpWebRequest request = WebRequest.CreateHttp(serviceAddress);
                             request.Method = "GET";
-                            request.Timeout = (int) client.OperationTimeout.TotalMilliseconds;
-                            request.ReadWriteTimeout = (int) client.ReadWriteTimeout.TotalMilliseconds;
+                            request.Timeout = (int)client.OperationTimeout.TotalMilliseconds;
+                            request.ReadWriteTimeout = (int)client.ReadWriteTimeout.TotalMilliseconds;
 
-                            using (HttpWebResponse response = (HttpWebResponse) request.GetResponse())
+                            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                             using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                             {
                                 totals[client.ResolvedServicePartition.Info as Int64RangePartitionInformation] = Int64.Parse(reader.ReadToEnd().Trim());
@@ -117,7 +118,7 @@ namespace WordCount.WebService.Controllers
                 new Uri(WordCountServiceName),
                 partitionKey);
 
-            return await servicePartitionClient.InvokeWithRetryAsync(
+            var res = await servicePartitionClient.InvokeWithRetryAsync(
                 client =>
                 {
                     Uri serviceAddress = new Uri(client.BaseAddress, string.Format("AddWord/{0}", word));
@@ -128,6 +129,12 @@ namespace WordCount.WebService.Controllers
                     request.Timeout = (int) client.OperationTimeout.TotalMilliseconds;
                     request.ReadWriteTimeout = (int) client.ReadWriteTimeout.TotalMilliseconds;
 
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        string httpResult = reader.ReadToEnd().Trim();
+                        
+                    }
                     var retVal = new AddWordResponse();
 
                     retVal.PartitionId = client.ResolvedServicePartition.Info.Id;
@@ -136,6 +143,8 @@ namespace WordCount.WebService.Controllers
 
                     return Task.FromResult(retVal);
                 });
+
+            return res;
         }
 
         /// <summary>
@@ -146,7 +155,7 @@ namespace WordCount.WebService.Controllers
         /// <returns>A long representing the partition key.</returns>
         private static long GetPartitionKey(string word)
         {
-            return ((long) char.ToUpper(word[0])) - 64;
+            return (long) (char.ToUpper(word[0])) - 64;
         }
 
         /// <summary>
