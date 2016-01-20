@@ -50,7 +50,8 @@
 
                 $scope.chartObject.options = {
                     'title': 'Words per partition',
-                    'logScale': true
+                    isStacked: true,
+                    vAxis: { minValue: 0 }
                 };
             }
         }
