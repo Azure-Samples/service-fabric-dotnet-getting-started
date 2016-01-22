@@ -46,14 +46,7 @@ namespace WordCount.WebService
 
         protected override bool ValidateClient(string endpoint, CommunicationClient client)
         {
-            if (client.BaseAddress.ToString() == endpoint)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return client.BaseAddress.ToString() == endpoint;
         }
 
         protected override bool ValidateClient(CommunicationClient clientChannel)
