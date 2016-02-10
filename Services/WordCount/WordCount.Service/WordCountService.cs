@@ -5,7 +5,12 @@
 
 namespace WordCount.Service
 {
+    using Microsoft.ServiceFabric.Data;
+    using Microsoft.ServiceFabric.Data.Collections;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
+    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Data;
@@ -19,7 +24,7 @@ namespace WordCount.Service
     /// Sample Service Fabric persistent service for counting words.
     /// </summary>
     public class WordCountService : StatefulService
-    {        
+    {
         public const string ServiceEventSourceName = "WordCountService";
 
         /// <summary>
@@ -64,7 +69,7 @@ namespace WordCount.Service
                                 1,
                                 (key, oldValue) => oldValue + 1);
 
-                            long queueLength = await inputQueue.GetCountAsync(tx);
+                            long queueLength = await inputQueue.GetCountAsync();
 
                             await tx.CommitAsync();
 

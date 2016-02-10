@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Actors/VisualObjects/VisualObjectsApplication/ApplicationPackageRoot/ApplicationManifest.xml
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="VisualObjectsApplication" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
    <Parameters>
@@ -23,4 +24,31 @@
          </StatelessService>
       </Service>
    </DefaultServices>
+=======
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="VisualObjectsApplication" ApplicationTypeVersion="1.0.1" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Parameters>
+      <Parameter Name="WebServiceInstanceCount" DefaultValue="1" />
+      <Parameter Name="VisualObjects.ActorService_PartitionCount" DefaultValue="9" />
+   </Parameters>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="VisualObjects.ActorServicePkg" ServiceManifestVersion="1.0.1" />
+   </ServiceManifestImport>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="VisualObjects.WebServicePkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
+   </ServiceManifestImport>
+   <DefaultServices>
+      <Service Name="VisualObjects.ActorService">
+         <StatefulService ServiceTypeName="VisualObjects.ActorServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="2">
+            <UniformInt64Partition PartitionCount="[VisualObjects.ActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+         </StatefulService>
+      </Service>
+      <Service Name="VisualObjects.WebService">
+         <StatelessService ServiceTypeName="VisualObjects.WebServiceType" InstanceCount="[WebServiceInstanceCount]">
+            <SingletonPartition />
+         </StatelessService>
+      </Service>
+   </DefaultServices>
+>>>>>>> a922a2c... Fix for independent upgrades. Only the objects in the partition currently being upgraded pause during upgrades.:Actors/VisualObjects/VisualObjectsApplication/ApplicationManifest.xml
 </ApplicationManifest>

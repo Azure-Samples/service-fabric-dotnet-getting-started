@@ -118,10 +118,15 @@
     <Content Include="wwwroot\Scripts\visualobjects.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\Scripts\gl-matrix-min.js">
+    <Content Include="..\packages\paperjs.0.9.22\content\Scripts\paper-full.js">
+      <Link>wwwroot\Scripts\paper-full.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\Scripts\webgl-utils.js">
+    <Content Include="Scripts\paper-core.js" />
+    <Content Include="Scripts\paper-core.min.js" />
+    <Content Include="Scripts\paper-full.js" />
+    <Content Include="Scripts\paper-full.min.js" />
+    <Content Include="wwwroot\Scripts\visualobjects.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wwwroot\Index.html">

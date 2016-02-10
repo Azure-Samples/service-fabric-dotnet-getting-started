@@ -94,9 +94,7 @@ namespace VisualObjects.WebService
                                     while (true)
                                     {
                                         cancellationToken.ThrowIfCancellationRequested();
-
-                                        string response = await this.visualObjectBox.GetObjectsAsync(cancellationToken);
-                                        byte[] buffer = Encoding.UTF8.GetBytes(response);
+                                        byte[] buffer = Encoding.UTF8.GetBytes(this.visualObjectBox.GetJson());
 
                                         try
                                         {
@@ -121,7 +119,7 @@ namespace VisualObjects.WebService
                                         }
 
                                         // wait a bit and continue. This determines the client refresh rate.
-                                        await Task.Delay(TimeSpan.FromMilliseconds(5), cancellationToken);
+                                        await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken);
                                     }
                                 }
 

@@ -84,7 +84,7 @@ namespace VisualObjects.Common
                 Color.CreateRandom(Color.HistoryColorsPalette, rand));
         }
 
-        public void Move(bool rotate = false)
+        public void Move(bool rotate)
         {
             if (this.LocationHistory.Count < HistoryLength)
             {
@@ -93,7 +93,7 @@ namespace VisualObjects.Common
             }
             else
             {
-                this.HistoryStartIndex = (this.HistoryStartIndex + 1)%HistoryLength;
+                this.HistoryStartIndex = (this.HistoryStartIndex + 1) % HistoryLength;
                 this.LocationHistory[this.HistoryStartIndex] = new Coordinate(this.CurrentLocation);
             }
 
@@ -115,7 +115,7 @@ namespace VisualObjects.Common
 
             if (rotate)
             {
-                this.Rotation += 10;
+                this.Rotation += 2;
             }
         }
 
@@ -188,7 +188,7 @@ namespace VisualObjects.Common
         {
             if (point < -1.0 || point > 1.0)
             {
-                return speed*-1.0;
+                return speed * -1.0;
             }
 
             return speed;
