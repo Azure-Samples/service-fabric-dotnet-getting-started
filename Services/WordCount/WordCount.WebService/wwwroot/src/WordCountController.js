@@ -72,12 +72,18 @@
 
         var addInterval = null;
         var addWordTask = null;
-        var startInterval = function () {
+
+        $scope.SendWordsSpeed = 200;
+        $scope.startInterval = function () {
+            if (addInterval) $interval.cancel(addInterval);
+            if (addWordTask) $interval.cancel(addWordTask);
+            // Refresh the graph
             addInterval = $interval($scope.Draw, 350);
-            addWordTask = $interval($scope.SendWords, 200);
+            // send words for counting
+            addWordTask = $interval($scope.SendWords, $scope.SendWordsSpeed);
         }
 
         $scope.partitionChartType = "ColumnChart";
-        startInterval();
+        $scope.startInterval();
     }
 })();

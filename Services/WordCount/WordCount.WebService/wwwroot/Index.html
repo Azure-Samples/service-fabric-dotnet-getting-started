@@ -31,6 +31,16 @@
                     <ng-md-icon icon="cached" style="fill: orange" size="48"></ng-md-icon>Word Count
                 </md-content>
             </md-toolbar>
+            <div layout="">
+                <div flex="5" layout="" layout-align="center center">
+                    <span class="md-body-1">Speed(ms)</span>
+                </div>
+                <div flex="5" layout="" layout-align="center center">
+                    <input flex="" type="number" ng-model="SendWordsSpeed" ng-change="startInterval()" >
+                </div>
+                <md-slider flex="" min="1" max="2000" ng-model="SendWordsSpeed" ng-change="startInterval()">
+                </md-slider>
+            </div>
             <md-tabs md-dynamic-height="" md-border-bottom="">
                 <dashboard></dashboard>
                 <md-tab label="DashBoard" ng-click="Draw()">
