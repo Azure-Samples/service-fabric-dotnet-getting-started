@@ -64,7 +64,7 @@ namespace WordCount.Service
                                 1,
                                 (key, oldValue) => oldValue + 1);
 
-                            long queueLength = await inputQueue.GetCountAsync();
+                            long queueLength = await inputQueue.GetCountAsync(tx);
 
                             await tx.CommitAsync();
 
