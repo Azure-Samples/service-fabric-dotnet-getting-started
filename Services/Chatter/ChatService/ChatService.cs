@@ -41,7 +41,10 @@ namespace ChatWeb
             IReliableDictionary<DateTime, Message> messagesDictionary =
                 await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
 
-            return messagesDictionary.CreateEnumerable(EnumerationMode.Ordered);
+            using (ITransaction tx = this.StateManager.CreateTransaction())
+            {
+                return await messagesDictionary.CreateEnumerableAsync(tx, EnumerationMode.Ordered);
+            }
         }
 
         public async Task ClearMessagesAsync()
@@ -75,16 +78,20 @@ namespace ChatWeb
             {
                 try
                 {
+                    IEnumerable<KeyValuePair<DateTime, Message>> messagesEnumerable = await GetMessagesAsync();
+
                     // Remove all the messages that are older than 30 seconds keeping the last 3 messages
-                    IEnumerable<KeyValuePair<DateTime, Message>> oldMessages = from t in messagesDictionary
+                    IEnumerable<KeyValuePair<DateTime, Message>> oldMessages = from t in messagesEnumerable
                                                                                where t.Key < (DateTime.Now - timeSpan)
                                                                                orderby t.Key ascending
                                                                                select t;
 
                     using (ITransaction tx = this.StateManager.CreateTransaction())
                     {
-                        foreach (KeyValuePair<DateTime, Message> item in oldMessages.Take(messagesDictionary.Count() - MessagesToKeep))
-                        {
+                        int messagesCount = (int)await messagesDictionary.GetCountAsync(tx);
+
+                        foreach (KeyValuePair<DateTime, Message> item in oldMessages.Take(messagesCount - MessagesToKeep))
+                        {                            
                             await messagesDictionary.TryRemoveAsync(tx, item.Key);
                         }
                         await tx.CommitAsync();
