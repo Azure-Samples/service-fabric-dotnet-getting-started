@@ -32,7 +32,7 @@ namespace ChatWeb
             using (ITransaction tx = this.StateManager.CreateTransaction())
             {
                 await messagesDictionary.AddAsync(tx, time, message);
-                await tx.CommitAsync();                            
+                await tx.CommitAsync();
             }
         }
 
@@ -65,7 +65,7 @@ namespace ChatWeb
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
-        {            
+        {
             TimeSpan timeSpan = new TimeSpan(0, 0, 30);
             ServiceEventSource.Current.ServiceMessage(
                 this,
@@ -92,7 +92,6 @@ namespace ChatWeb
                     {
                         int messagesCount = (int)await messagesDictionary.GetCountAsync(tx);
 
-
                         foreach (KeyValuePair<DateTime, Message> item in oldMessages.Take(messagesCount - MessagesToKeep))
                         {                            
                             await messagesDictionary.TryRemoveAsync(tx, item.Key);
@@ -114,7 +113,7 @@ namespace ChatWeb
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);                    
+                await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
             }            
         }
 
