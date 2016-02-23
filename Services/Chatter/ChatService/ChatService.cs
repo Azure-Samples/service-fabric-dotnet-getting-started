@@ -114,7 +114,7 @@ namespace ChatWeb
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
-            }            
+            }
         }
 
         private bool HandleException(Exception e)
