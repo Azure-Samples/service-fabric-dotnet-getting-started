@@ -32,7 +32,7 @@ namespace ChatWeb
             using (ITransaction tx = this.StateManager.CreateTransaction())
             {
                 await messagesDictionary.AddAsync(tx, time, message);
-                await tx.CommitAsync();
+                await tx.CommitAsync();                            
             }
         }
 
@@ -42,8 +42,10 @@ namespace ChatWeb
                 await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
 
             using (ITransaction tx = this.StateManager.CreateTransaction())
-            {
-                return await messagesDictionary.CreateEnumerableAsync(tx, EnumerationMode.Ordered);
+            {                
+                var messagesEnumerable = await messagesDictionary.CreateEnumerableAsync(tx, EnumerationMode.Ordered);
+                                
+                return messagesEnumerable.ToList();
             }
         }
 
@@ -63,7 +65,7 @@ namespace ChatWeb
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
-        {
+        {            
             TimeSpan timeSpan = new TimeSpan(0, 0, 30);
             ServiceEventSource.Current.ServiceMessage(
                 this,
@@ -80,7 +82,7 @@ namespace ChatWeb
                 {
                     IEnumerable<KeyValuePair<DateTime, Message>> messagesEnumerable = await GetMessagesAsync();
 
-                    // Remove all the messages that are older than 30 seconds keeping the last 3 messages
+                    // Remove all the messages that are older than 30 seconds keeping the last 50 messages
                     IEnumerable<KeyValuePair<DateTime, Message>> oldMessages = from t in messagesEnumerable
                                                                                where t.Key < (DateTime.Now - timeSpan)
                                                                                orderby t.Key ascending
@@ -89,6 +91,7 @@ namespace ChatWeb
                     using (ITransaction tx = this.StateManager.CreateTransaction())
                     {
                         int messagesCount = (int)await messagesDictionary.GetCountAsync(tx);
+
 
                         foreach (KeyValuePair<DateTime, Message> item in oldMessages.Take(messagesCount - MessagesToKeep))
                         {                            
@@ -111,8 +114,8 @@ namespace ChatWeb
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);
-            }
+                await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken);                    
+            }            
         }
 
         private bool HandleException(Exception e)
