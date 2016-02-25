@@ -40,19 +40,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceFabric.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Data.1.4.87-preview\lib\net45\Microsoft.ServiceFabric.Data.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.1.5.175-preview\lib\net45\Microsoft.ServiceFabric.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceFabric.Internal, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.4.4.87-preview\lib\net45\Microsoft.ServiceFabric.Internal.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ServiceFabric.4.5.175-preview\lib\net45\Microsoft.ServiceFabric.Internal.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceFabric.Internal.Strings, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.4.4.87-preview\lib\net45\Microsoft.ServiceFabric.Internal.Strings.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ServiceFabric.4.5.175-preview\lib\net45\Microsoft.ServiceFabric.Internal.Strings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceFabric.Services, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Services.1.4.87-preview\lib\net45\Microsoft.ServiceFabric.Services.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ServiceFabric.Services.1.5.175-preview\lib\net45\Microsoft.ServiceFabric.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -62,7 +62,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Fabric, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.4.4.87-preview\lib\net45\System.Fabric.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ServiceFabric.4.5.175-preview\lib\net45\System.Fabric.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />

@@ -3,11 +3,11 @@
     "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",    
+    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
     "Microsoft.AspNet.Server.WebListener": "1.0.0-rc1-final",
     "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
     "Microsoft.ServiceFabric.AspNet.Hosting": "1.0.0-rc1",
-    "Microsoft.ServiceFabric.Services": "1.4.87-preview"
+    "Microsoft.ServiceFabric.Services": "1.5.175-preview"
   },
 
     "commands": {

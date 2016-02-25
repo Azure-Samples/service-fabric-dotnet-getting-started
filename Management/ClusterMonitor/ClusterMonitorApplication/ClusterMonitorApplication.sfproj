@@ -3,17 +3,17 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Service Fabric Tools\Microsoft.VisualStudio.Azure.Fabric.ApplicationProject.props" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>21f98d47-c3d0-43cf-ae56-83e74ae8a600</ProjectGuid>
-    <ProjectVersion>0.11</ProjectVersion>
+    <ProjectVersion>0.12</ProjectVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="ApplicationManifest.xml" />
     <None Include="Scripts\Deploy-FabricApplication.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClusterMonitor\ClusterMonitor.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationPackageRoot\ApplicationManifest.xml" />
     <Content Include="ApplicationParameters\Cloud.xml" />
     <Content Include="ApplicationParameters\Local.xml" />
     <Content Include="PublishProfiles\Cloud.xml" />

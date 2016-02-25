@@ -15,7 +15,7 @@
    <CodePackage Name="C" Version="1.0.0">
       <EntryPoint>
          <ExeHost>
-            <Program>approot\runtimes\dnx-clr-win-x64.1.0.0-rc1-final\bin\dnx.exe</Program>
+            <Program>approot\runtimes\dnx-clr-win-x64.1.0.0-rc1-update1\bin\dnx.exe</Program>
             <Arguments>--appbase approot\src\ChatWeb Microsoft.Dnx.ApplicationHost Microsoft.ServiceFabric.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener</Arguments>
             <WorkingFolder>CodePackage</WorkingFolder>
             <ConsoleRedirection FileRetentionCount="5" FileMaxSizeInKb="2048" />

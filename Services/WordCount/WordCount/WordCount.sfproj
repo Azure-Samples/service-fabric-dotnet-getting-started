@@ -3,11 +3,10 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Service Fabric Tools\Microsoft.VisualStudio.Azure.Fabric.ApplicationProject.props" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>de5d59b0-1752-4cf7-a980-4edddba8935e</ProjectGuid>
-    <ProjectVersion>0.11</ProjectVersion>
+    <ProjectVersion>0.12</ProjectVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="ApplicationManifest.xml" />
     <None Include="Scripts\Deploy-FabricApplication.ps1" />
   </ItemGroup>
   <ItemGroup>
@@ -15,6 +14,7 @@
     <ProjectReference Include="..\WordCount.WebService\WordCount.WebService.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationPackageRoot\ApplicationManifest.xml" />
     <Content Include="ApplicationParameters\Cloud.xml" />
     <Content Include="ApplicationParameters\Local.xml" />
     <Content Include="PublishProfiles\Cloud.xml" />
