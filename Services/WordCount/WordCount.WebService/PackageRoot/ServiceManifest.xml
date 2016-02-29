@@ -12,7 +12,7 @@
   </CodePackage>
   <Resources>
     <Endpoints>
-      <Endpoint Name="ServiceEndpoint" Type="Input" Protocol="http" Port="8101" />
+      <Endpoint Name="ServiceEndpoint" Type="Input" Protocol="http" Port="8081" />
     </Endpoints>
   </Resources>
 </ServiceManifest>
