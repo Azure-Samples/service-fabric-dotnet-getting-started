@@ -25,7 +25,6 @@ namespace VisualObjects.WebService
 
         public Service()
         {
-            // get some configuration values from the service's config package (PackageRoot\Config\Settings.xml)
             CodePackageActivationContext context = FabricRuntime.GetActivationContext();
 
             ConfigurationPackage config = context.GetConfigurationPackageObject("Config");
@@ -46,8 +45,12 @@ namespace VisualObjects.WebService
             return new[]
             {
                 new ServiceInstanceListener(
-                    initParams => new WebCommunicationListener(this.objectBox, "visualobjects", "data", initParams))
+                    initParams => new WebCommunicationListener("visualobjects", initParams), "httpListener"),
+
+                new ServiceInstanceListener(
+                    initparams => new WebSocketApp(this.objectBox, "visualobjects", "data", initparams), "webSocketListener")
             };
+
         }
 
         protected override Task RunAsync(CancellationToken cancellationToken)

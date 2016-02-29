@@ -52,8 +52,8 @@ namespace VisualObjects.ActorService
             //then do an upgrade to cause the
             //visual objects to start rotating
 
-            //this.State.Move(false);
-            this.State.Move(true);
+            this.State.Move(false);
+            //this.State.Move(true);
 
             this.jsonString = this.State.ToJson();
 

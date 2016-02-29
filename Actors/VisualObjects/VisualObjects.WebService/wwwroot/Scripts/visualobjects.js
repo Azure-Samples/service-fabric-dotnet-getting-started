@@ -76,8 +76,7 @@ function scalePosToViewport(nodex, nodey)
     return new Point(xval * xfactor, yval * yfactor);	
 }
 
-
-function webGLStart() {
+function startDrawing() {
     var canvas = document.getElementById("canvas");
 
     canvas.style.border = "#00ff00 3px solid";
