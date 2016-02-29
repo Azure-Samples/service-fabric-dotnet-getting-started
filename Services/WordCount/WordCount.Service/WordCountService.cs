@@ -13,13 +13,7 @@ namespace WordCount.Service
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.ServiceFabric.Data;
-    using Microsoft.ServiceFabric.Data.Collections;
-    using Microsoft.ServiceFabric.Services;
     using WordCount.Common;
-    using System.Collections.Generic;
-    using Microsoft.ServiceFabric.Services.Runtime;
-    using Microsoft.ServiceFabric.Services.Communication.Runtime;
     /// <summary>
     /// Sample Service Fabric persistent service for counting words.
     /// </summary>
@@ -69,7 +63,7 @@ namespace WordCount.Service
                                 1,
                                 (key, oldValue) => oldValue + 1);
 
-                            long queueLength = await inputQueue.GetCountAsync();
+                            long queueLength = await inputQueue.GetCountAsync(tx);
 
                             await tx.CommitAsync();
 
@@ -111,6 +105,6 @@ namespace WordCount.Service
             {
                 new ServiceReplicaListener(initParams => new OwinCommunicationListener("wordcountservice", new Startup(this.StateManager), initParams))
             };
-        }        
+        }
     }
 }
