@@ -12,12 +12,13 @@ namespace WordCount.WebService
     using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Services;
     using Microsoft.ServiceFabric.Services.Communication.Client;
-    using Microsoft.ServiceFabric.Services.Client;    /// <summary>
-                                                      /// Factory that creates clients that know to communicate with the WordCount service.
-                                                      /// Contains a service partition resolver that resolves a partition key
-                                                      /// and sets BaseAddress to the address of the replica that should serve a request.
-                                                      /// </summary>
-
+    using Microsoft.ServiceFabric.Services.Client;   
+    
+    /// <summary>
+    /// Factory that creates clients that know to communicate with the WordCount service.
+    /// Contains a service partition resolver that resolves a partition key
+    /// and sets BaseAddress to the address of the replica that should serve a request.
+    /// </summary>
     public class CommunicationClientFactory : CommunicationClientFactoryBase<CommunicationClient>
     {
         private static TimeSpan MaxRetryBackoffIntervalOnNonTransientErrors = TimeSpan.FromSeconds(3);
