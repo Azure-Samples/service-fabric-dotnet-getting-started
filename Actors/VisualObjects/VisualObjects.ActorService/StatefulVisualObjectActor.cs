@@ -5,9 +5,9 @@
 
 namespace VisualObjects.ActorService
 {
+    using Microsoft.ServiceFabric.Actors;
     using System;
     using System.Threading.Tasks;
-    using Microsoft.ServiceFabric.Actors;
     using VisualObjects.Common;
 
     [ActorService(Name = "VisualObjects.ActorService")]
@@ -48,9 +48,12 @@ namespace VisualObjects.ActorService
 
         private Task MoveObject(object state)
         {
-            this.State.Move();
+            //alternate which lines are commendted out
+            //then do an upgrade to cause the
+            //visual objects to start rotating
 
-            // State.Move(true);
+            this.State.Move(false);
+            //this.State.Move(true);
 
             this.jsonString = this.State.ToJson();
 

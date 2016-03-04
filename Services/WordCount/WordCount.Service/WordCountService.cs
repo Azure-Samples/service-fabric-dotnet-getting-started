@@ -5,21 +5,20 @@
 
 namespace WordCount.Service
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Data;
     using Microsoft.ServiceFabric.Data.Collections;
-    using Microsoft.ServiceFabric.Services;
-    using WordCount.Common;
-    using System.Collections.Generic;
-    using Microsoft.ServiceFabric.Services.Runtime;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using WordCount.Common;
     /// <summary>
     /// Sample Service Fabric persistent service for counting words.
     /// </summary>
     public class WordCountService : StatefulService
-    {        
+    {
         public const string ServiceEventSourceName = "WordCountService";
 
         /// <summary>
@@ -106,6 +105,6 @@ namespace WordCount.Service
             {
                 new ServiceReplicaListener(initParams => new OwinCommunicationListener("wordcountservice", new Startup(this.StateManager), initParams))
             };
-        }        
+        }
     }
 }

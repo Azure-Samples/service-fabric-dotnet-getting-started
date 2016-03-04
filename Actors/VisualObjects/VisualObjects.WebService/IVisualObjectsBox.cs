@@ -3,13 +3,16 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using Microsoft.ServiceFabric.Actors;
+
 namespace VisualObjects.WebService
 {
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public interface IVisualObjectsBox
     {
-        Task<string> GetObjectsAsync(CancellationToken cancellationToken);
+        void SetObjectString(ActorId actorId, string objectJson);
+
+        void computeJson();
+
+        string GetJson();
     }
 }
