@@ -9,6 +9,7 @@ namespace WordCount.WebService
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using Microsoft.ServiceFabric.Services.Runtime;
     using System.Collections.Generic;
+    using System.Fabric;
     using WordCount.Common;
 
     /// <summary>
@@ -17,6 +18,10 @@ namespace WordCount.WebService
     /// </summary>
     public class WordCountWebService : StatelessService
     {
+        public WordCountWebService(StatelessServiceContext context)
+            : base(context)
+        { }
+
         /// <summary>
         /// Creates a listener for Web API with websockets.
         /// </summary>

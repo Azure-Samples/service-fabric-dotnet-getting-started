@@ -29,7 +29,7 @@ namespace WordCountService.Controllers
 
             using (ITransaction tx = this.stateManager.CreateTransaction())
             {
-                ConditionalResult<long> result = await statsDictionary.TryGetValueAsync(tx, "Number of Words Processed");
+                ConditionalValue<long> result = await statsDictionary.TryGetValueAsync(tx, "Number of Words Processed");
 
                 if (result.HasValue)
                 {

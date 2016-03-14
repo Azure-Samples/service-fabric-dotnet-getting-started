@@ -15,9 +15,9 @@ namespace WordCount.Service
     using System.Collections.Generic;
     using Microsoft.ServiceFabric.Services.Runtime;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
-    /// <summary>
-    /// Sample Service Fabric persistent service for counting words.
-    /// </summary>
+    using System.Fabric;    /// <summary>
+                            /// Sample Service Fabric persistent service for counting words.
+                            /// </summary>
     public class WordCountService : StatefulService
     {        
         public const string ServiceEventSourceName = "WordCountService";
@@ -25,7 +25,8 @@ namespace WordCount.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="WordCountService"/> class. 
         /// </summary>
-        public WordCountService()
+        public WordCountService(StatefulServiceContext context)
+            : base(context)
         {
             ServiceEventSource.Current.ServiceInstanceConstructed(ServiceEventSourceName);
         }
@@ -46,7 +47,7 @@ namespace WordCount.Service
                 {
                     using (ITransaction tx = this.StateManager.CreateTransaction())
                     {
-                        ConditionalResult<string> dequeuReply = await inputQueue.TryDequeueAsync(tx);
+                        ConditionalValue<string> dequeuReply = await inputQueue.TryDequeueAsync(tx);
 
                         if (dequeuReply.HasValue)
                         {
@@ -69,7 +70,7 @@ namespace WordCount.Service
                             await tx.CommitAsync();
 
                             ServiceEventSource.Current.RunAsyncStatus(
-                                this.ServicePartition.PartitionInfo.Id,
+                                this.Partition.PartitionInfo.Id,
                                 numberOfProcessedWords,
                                 queueLength,
                                 word,
