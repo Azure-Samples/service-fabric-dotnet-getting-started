@@ -26,15 +26,19 @@ namespace Alphabet.WebApi
         private readonly ServicePartitionResolver servicePartitionResolver = ServicePartitionResolver.GetDefault();
         private readonly HttpClient httpClient = new HttpClient();
 
-        protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
+        public Web(StatelessServiceContext context): base(context)
         {
-            return new[] {new ServiceInstanceListener(this.CreateInputListener, "Input")};
         }
 
-        private ICommunicationListener CreateInputListener(StatelessServiceInitializationParameters args)
+        protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
+        {
+            return new[] {new ServiceInstanceListener(context => this.CreateInputListener(context))};
+        }
+
+        private ICommunicationListener CreateInputListener(ServiceContext context)
         {
             // Service instance's URL is the node's IP & desired port
-            EndpointResourceDescription inputEndpoint = args.CodePackageActivationContext.GetEndpoint("WebApiServiceEndpoint");
+            EndpointResourceDescription inputEndpoint = context.CodePackageActivationContext.GetEndpoint("WebApiServiceEndpoint");
 
             // This is the public-facing URL that HTTP clients, e.g., web browsers, can connect to.
             // The "alphabetpartitions" path is a unique URL prefix for this service so that other
@@ -64,7 +68,7 @@ namespace Alphabet.WebApi
                 // This generates a partition key within that range by converting the first letter of the input name
                 // into its numerica position in the alphabet.
                 char firstLetterOfLastName = lastname.First();
-                int partitionKey = Char.ToUpper(firstLetterOfLastName) - 'A';
+                ServicePartitionKey partitionKey = new ServicePartitionKey(Char.ToUpper(firstLetterOfLastName) - 'A');                
 
                 // This contacts the Service Fabric Naming Services to get the addresses of the replicas of the processing service 
                 // for the partition with the partition key generated above. 

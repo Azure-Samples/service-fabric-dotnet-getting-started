@@ -5,6 +5,7 @@
 
 namespace Alphabet.WebApi
 {
+    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
     using System.Diagnostics;
     using System.Fabric;
@@ -16,17 +17,15 @@ namespace Alphabet.WebApi
         {
             try
             {
-                using (FabricRuntime fabricRuntime = FabricRuntime.Create())
-                {
-                    // This is the name of the ServiceType that is registered with FabricRuntime. 
-                    // This name must match the name defined in the ServiceManifest. If you change
-                    // this name, please change the name of the ServiceType in the ServiceManifest.
-                    fabricRuntime.RegisterServiceType("WebType", typeof(Web));
+                // This is the name of the ServiceType that is registered with FabricRuntime. 
+                // This name must match the name defined in the ServiceManifest. If you change
+                // this name, please change the name of the ServiceType in the ServiceManifest.
+                ServiceRuntime.RegisterServiceAsync("WebType",
+                context => new Web(context)).GetAwaiter().GetResult();
 
-                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Web).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Web).Name);
 
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                Thread.Sleep(Timeout.Infinite);                
             }
             catch (Exception e)
             {

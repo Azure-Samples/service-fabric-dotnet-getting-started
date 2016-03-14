@@ -17,18 +17,23 @@ namespace Alphabet.Processing
     using Microsoft.ServiceFabric.Data.Collections;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using Microsoft.ServiceFabric.Services.Runtime;
+    using Microsoft.ServiceFabric.Services.Remoting.FabricTransport.Runtime;
 
     public class Processing : StatefulService
     {
-        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
+        public Processing(StatefulServiceContext context): base(context)
         {
-            return new[] {new ServiceReplicaListener(this.CreateInternalListener, "Internal", false)};
         }
 
-        private ICommunicationListener CreateInternalListener(StatefulServiceInitializationParameters args)
+        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
+        {
+            return new[] { new ServiceReplicaListener(context => this.CreateInternalListener(context))};
+        }
+
+        private ICommunicationListener CreateInternalListener(ServiceContext context)
         {
             // Partition replica's URL is the node's IP, port, PartitionId, ReplicaId, Guid
-            EndpointResourceDescription internalEndpoint = args.CodePackageActivationContext.GetEndpoint("ProcessingServiceEndpoint");
+            EndpointResourceDescription internalEndpoint = context.CodePackageActivationContext.GetEndpoint("ProcessingServiceEndpoint");
 
             // Multiple replicas of this service may be hosted on the same machine,
             // so this address needs to be unique to the replica which is why we have partition ID + replica ID in the URL.
@@ -37,12 +42,13 @@ namespace Alphabet.Processing
             // When that's the case, we want to make sure that a new unique address is used when transitioning from primary to secondary
             // to force clients to re-resolve the address.
             // '+' is used as the address here so that the replica listens on all available hosts (IP, FQDM, localhost, etc.)
+            
             string uriPrefix = String.Format(
                 "{0}://+:{1}/{2}/{3}-{4}/",
                 internalEndpoint.Protocol,
                 internalEndpoint.Port,
-                this.ServiceInitializationParameters.PartitionId,
-                this.ServiceInitializationParameters.ReplicaId,
+                context.PartitionId,
+                context.ReplicaOrInstanceId,
                 Guid.NewGuid());
 
             string nodeIP = FabricRuntime.GetNodeContext().IPAddressOrFQDN;
