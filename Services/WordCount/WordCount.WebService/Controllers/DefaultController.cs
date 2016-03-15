@@ -19,23 +19,20 @@ namespace WordCount.WebService.Controllers
     /// <summary>
     /// Default controller.
     /// </summary>
+    [RoutePrefix("api")]
     public class DefaultController : ApiController
     {
         private const string AppInstanceName = "WordCount";
         private const string ServiceInstanceName = "WordCountService";
 
         private const int MaxQueryRetryCount = 20;
-        private static TimeSpan BackoffQueryDelay = TimeSpan.FromSeconds(3);
+        private static readonly TimeSpan BackoffQueryDelay = TimeSpan.FromSeconds(3);
 
-        private static FabricClient fabricClient = new FabricClient();
-
-        [HttpGet]
-        public HttpResponseMessage Index()
-        {
-            return this.View("WordCount.WebService.wwwroot.Index.html", "text/html");
-        }
+        private static readonly FabricClient fabricClient = new FabricClient();
+        
 
         [HttpGet]
+        [Route("Count")]
         public async Task<HttpResponseMessage> Count()
         {
             // For each partition client, keep track of partition information and the number of words
@@ -87,6 +84,7 @@ namespace WordCount.WebService.Controllers
         }
 
         [HttpPost]
+        [Route("AddWord/{word}")]
         public async Task<HttpResponseMessage> AddWord(string word)
         {
             // Determine the partition key that should handle the request

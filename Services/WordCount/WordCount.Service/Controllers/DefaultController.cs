@@ -23,6 +23,7 @@ namespace WordCountService.Controllers
         }
 
         [HttpGet]
+        [Route("Count")]
         public async Task<IHttpActionResult> Count()
         {
             IReliableDictionary<string, long> statsDictionary = await this.stateManager.GetOrAddAsync<IReliableDictionary<string, long>>("statsDictionary");
@@ -41,6 +42,7 @@ namespace WordCountService.Controllers
         }
 
         [HttpPut]
+        [Route("AddWord/{word}")]
         public async Task<IHttpActionResult> AddWord(string word)
         {
             IReliableQueue<string> queue = await this.stateManager.GetOrAddAsync<IReliableQueue<string>>("inputQueue");

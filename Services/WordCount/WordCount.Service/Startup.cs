@@ -33,8 +33,9 @@ namespace WordCount.Service
             HttpConfiguration config = new HttpConfiguration();
 
             FormatterConfig.ConfigureFormatters(config.Formatters);
-            RouteConfig.RegisterRoutes(config.Routes);
             UnityConfig.RegisterComponents(config, this.stateManager);
+
+            config.MapHttpAttributeRoutes();
 
             appBuilder.UseWebApi(config);
         }
