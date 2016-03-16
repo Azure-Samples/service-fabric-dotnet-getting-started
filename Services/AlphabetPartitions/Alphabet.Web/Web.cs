@@ -81,7 +81,7 @@ namespace Alphabet.WebApi
                 ResolvedServiceEndpoint ep = partition.GetEndpoint();
                 
                 JObject addresses = JObject.Parse(ep.Address);
-                string primaryReplicaAddress = addresses["Endpoints"]["Internal"].Value<string>();
+                string primaryReplicaAddress = (string)addresses["Endpoints"].First();
 
                 UriBuilder primaryReplicaUriBuilder = new UriBuilder(primaryReplicaAddress);
                 primaryReplicaUriBuilder.Query = "lastname=" + lastname;
@@ -89,7 +89,7 @@ namespace Alphabet.WebApi
                 string result = await this.httpClient.GetStringAsync(primaryReplicaUriBuilder.Uri);
 
                 output = String.Format(
-                    "Result: {0}. Partition key: '{1}' generated from the first letter '{2}' of input value '{3}'. Processing service partition ID: {4}. Processing service replica address: {5}",
+                    "Result: {0}. <p>Partition key: '{1}' generated from the first letter '{2}' of input value '{3}'. <br>Processing service partition ID: {4}. <br>Processing service replica address: {5}",
                     result,
                     partitionKey,
                     firstLetterOfLastName,
@@ -106,6 +106,8 @@ namespace Alphabet.WebApi
             {
                 if (output != null)
                 {
+                    response.ContentType = "text/html";
+
                     byte[] outBytes = Encoding.UTF8.GetBytes(output);
                     response.OutputStream.Write(outBytes, 0, outBytes.Length);
                 }
