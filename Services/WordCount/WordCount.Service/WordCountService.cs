@@ -6,20 +6,21 @@
 namespace WordCount.Service
 {
     using System;
+    using System.Collections.Generic;
+    using System.Fabric;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Data;
     using Microsoft.ServiceFabric.Data.Collections;
-    using Microsoft.ServiceFabric.Services;
-    using WordCount.Common;
-    using System.Collections.Generic;
-    using Microsoft.ServiceFabric.Services.Runtime;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
-    using System.Fabric;    /// <summary>
-                            /// Sample Service Fabric persistent service for counting words.
-                            /// </summary>
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using WordCount.Common;
+
+    /// <summary>
+    /// Sample Service Fabric persistent service for counting words.
+    /// </summary>
     public class WordCountService : StatefulService
-    {        
+    {
         public const string ServiceEventSourceName = "WordCountService";
 
         /// <summary>
@@ -36,7 +37,8 @@ namespace WordCount.Service
             ServiceEventSource.Current.RunAsyncInvoked(ServiceEventSourceName);
 
             IReliableQueue<string> inputQueue = await this.StateManager.GetOrAddAsync<IReliableQueue<string>>("inputQueue");
-            IReliableDictionary<string, long> wordCountDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("wordCountDictionary");
+            IReliableDictionary<string, long> wordCountDictionary =
+                await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("wordCountDictionary");
             IReliableDictionary<string, long> statsDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("statsDictionary");
 
             while (true)
@@ -107,6 +109,6 @@ namespace WordCount.Service
             {
                 new ServiceReplicaListener(initParams => new OwinCommunicationListener("wordcountservice", new Startup(this.StateManager), initParams))
             };
-        }        
+        }
     }
 }

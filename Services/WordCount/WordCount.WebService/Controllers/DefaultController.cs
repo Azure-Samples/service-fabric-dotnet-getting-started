@@ -29,7 +29,7 @@ namespace WordCount.WebService.Controllers
         private static readonly TimeSpan BackoffQueryDelay = TimeSpan.FromSeconds(3);
 
         private static readonly FabricClient fabricClient = new FabricClient();
-        
+
 
         [HttpGet]
         [Route("Count")]
@@ -42,7 +42,10 @@ namespace WordCount.WebService.Controllers
             {
                 try
                 {
-                    Uri url = new Uri($"http://localhost:{19081}/{AppInstanceName}/{ServiceInstanceName}/Count?PartitionKey={partition.LowKey}&PartitionKind={ServicePartitionKind.Int64Range}");
+                    // this uses the Service Fabric Application Gateway to connect to the stateful word count service.
+                    Uri url =
+                        new Uri(
+                            $"http://localhost:{19081}/{AppInstanceName}/{ServiceInstanceName}/Count?PartitionKey={partition.LowKey}&PartitionKind={ServicePartitionKind.Int64Range}");
 
                     HttpClient client = new HttpClient()
                     {
@@ -78,9 +81,10 @@ namespace WordCount.WebService.Controllers
 
             sb.Append("</table>");
 
-            HttpResponseMessage message = new HttpResponseMessage();
-            message.Content = new StringContent(sb.ToString(), Encoding.UTF8, "text/html");
-            return message;
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent(sb.ToString(), Encoding.UTF8, "text/html")
+            };
         }
 
         [HttpPost]
@@ -90,8 +94,10 @@ namespace WordCount.WebService.Controllers
             // Determine the partition key that should handle the request
             long partitionKey = GetPartitionKey(word);
 
-            Uri url = new Uri($"http://localhost:{19081}/{AppInstanceName}/{ServiceInstanceName}/AddWord/{word}?PartitionKey={partitionKey}&PartitionKind={ServicePartitionKind.Int64Range}");
-            
+            Uri url =
+                new Uri(
+                    $"http://localhost:{19081}/{AppInstanceName}/{ServiceInstanceName}/AddWord/{word}?PartitionKey={partitionKey}&PartitionKind={ServicePartitionKind.Int64Range}");
+
             HttpClient client = new HttpClient()
             {
                 Timeout = TimeSpan.FromSeconds(2)
@@ -116,7 +122,7 @@ namespace WordCount.WebService.Controllers
         /// <returns>A long representing the partition key.</returns>
         private static long GetPartitionKey(string word)
         {
-            return ((long)char.ToUpper(word[0])) - 64;
+            return ((long) char.ToUpper(word[0])) - 64;
         }
 
         /// <summary>

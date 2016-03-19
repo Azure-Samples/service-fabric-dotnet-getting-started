@@ -13,11 +13,12 @@ namespace WordCount.Common
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Owin.Hosting;
-    using Microsoft.ServiceFabric.Services;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
     public class OwinCommunicationListener : ICommunicationListener
     {
+        private readonly ServiceContext serviceContext;
+
         /// <summary>
         /// OWIN server handle.
         /// </summary>
@@ -27,7 +28,6 @@ namespace WordCount.Common
         private string publishAddress;
         private string listeningAddress;
         private string appRoot;
-        private readonly ServiceContext serviceContext;
 
         public OwinCommunicationListener(IOwinAppBuilder startup, ServiceContext serviceContext)
             : this(null, startup, serviceContext)
@@ -40,17 +40,17 @@ namespace WordCount.Common
             this.appRoot = appRoot;
             this.serviceContext = serviceContext;
         }
-                
+
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
             Trace.WriteLine("Initialize");
 
-            EndpointResourceDescription serviceEndpoint = serviceContext.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
+            EndpointResourceDescription serviceEndpoint = this.serviceContext.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
             int port = serviceEndpoint.Port;
 
-            if (serviceContext is StatefulServiceContext)
+            if (this.serviceContext is StatefulServiceContext)
             {
-                StatefulServiceContext statefulInitParams = (StatefulServiceContext)serviceContext;
+                StatefulServiceContext statefulInitParams = (StatefulServiceContext) this.serviceContext;
 
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,
@@ -60,7 +60,7 @@ namespace WordCount.Common
                     statefulInitParams.ReplicaId,
                     Guid.NewGuid());
             }
-            else if (serviceContext is StatelessServiceContext)
+            else if (this.serviceContext is StatelessServiceContext)
             {
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,

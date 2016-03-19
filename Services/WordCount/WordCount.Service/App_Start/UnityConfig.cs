@@ -6,10 +6,10 @@
 namespace WordCount.Service
 {
     using System.Web.Http;
+    using global::WordCountService.Controllers;
     using Microsoft.Practices.Unity;
     using Microsoft.ServiceFabric.Data;
     using Unity.WebApi;
-    using global::WordCountService.Controllers;
 
     /// <summary>
     /// Configures dependency injection for Controllers using a Unity container. 

@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="App_Start\FormatterConfig.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
-    <Compile Include="Extensions\ApiControllerExtensions.cs" />
     <Compile Include="WordCountWebService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ServiceEventSource.cs" />

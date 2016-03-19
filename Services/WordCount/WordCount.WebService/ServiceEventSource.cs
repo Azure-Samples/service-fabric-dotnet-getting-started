@@ -34,16 +34,16 @@ namespace WordCount.WebService
             this.ServiceHostInitializationFailed(e.ToString());
         }
 
-        [Event(3, Level = EventLevel.Error, Message = "Service host initialization failed")]
-        private void ServiceHostInitializationFailed(string exception)
-        {
-            this.WriteEvent(3, exception);
-        }
-
         [Event(4, Level = EventLevel.Error, Message = "Encountered exception {0} during {1}")]
         public void OperationFailed(string exception, string operation)
         {
             this.WriteEvent(4, exception, operation);
+        }
+
+        [Event(3, Level = EventLevel.Error, Message = "Service host initialization failed")]
+        private void ServiceHostInitializationFailed(string exception)
+        {
+            this.WriteEvent(3, exception);
         }
     }
 }

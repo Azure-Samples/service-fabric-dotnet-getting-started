@@ -5,10 +5,9 @@
 
 namespace WordCount.WebService
 {
-    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
-    using System.Fabric;
     using System.Threading;
+    using Microsoft.ServiceFabric.Services.Runtime;
 
     /// <summary>
     /// The service host is the executable that hosts the Service instances.
@@ -20,15 +19,15 @@ namespace WordCount.WebService
             // Create Service Fabric runtime and register the service type.
             try
             {
-
                 // This is the name of the ServiceType that is registered with FabricRuntime. 
                 // This name must match the name defined in the ServiceManifest. If you change
                 // this name, please change the name of the ServiceType in the ServiceManifest.
-                ServiceRuntime.RegisterServiceAsync("WordCountWebServiceType", context =>
-                    new WordCountWebService(context)).GetAwaiter().GetResult();
-                
+                ServiceRuntime.RegisterServiceAsync(
+                    "WordCountWebServiceType",
+                    context =>
+                        new WordCountWebService(context)).GetAwaiter().GetResult();
+
                 Thread.Sleep(Timeout.Infinite);
-                
             }
             catch (Exception e)
             {

@@ -34,12 +34,6 @@ namespace WordCount.Service
             this.ServiceHostInitializationFailed(e.ToString());
         }
 
-        [Event(3, Level = EventLevel.Error, Message = "Service host initialization failed")]
-        private void ServiceHostInitializationFailed(string exception)
-        {
-            this.WriteEvent(3, exception);
-        }
-
         [Event(4, Level = EventLevel.Informational, Message = "Constructed instance of type {0}")]
         public void ServiceInstanceConstructed(string serviceType)
         {
@@ -62,6 +56,12 @@ namespace WordCount.Service
         public void RunAsyncStatus(Guid partitionId, long numberOfProcessedWords, long queueLength, string word, long count)
         {
             this.WriteEvent(7, partitionId, numberOfProcessedWords, queueLength, word, count);
+        }
+
+        [Event(3, Level = EventLevel.Error, Message = "Service host initialization failed")]
+        private void ServiceHostInitializationFailed(string exception)
+        {
+            this.WriteEvent(3, exception);
         }
     }
 }
