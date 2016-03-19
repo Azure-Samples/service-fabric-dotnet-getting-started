@@ -23,13 +23,14 @@ namespace WordCountService.Controllers
         }
 
         [HttpGet]
+        [Route("Count")]
         public async Task<IHttpActionResult> Count()
         {
             IReliableDictionary<string, long> statsDictionary = await this.stateManager.GetOrAddAsync<IReliableDictionary<string, long>>("statsDictionary");
 
             using (ITransaction tx = this.stateManager.CreateTransaction())
             {
-                ConditionalResult<long> result = await statsDictionary.TryGetValueAsync(tx, "Number of Words Processed");
+                ConditionalValue<long> result = await statsDictionary.TryGetValueAsync(tx, "Number of Words Processed");
 
                 if (result.HasValue)
                 {
@@ -41,6 +42,7 @@ namespace WordCountService.Controllers
         }
 
         [HttpPut]
+        [Route("AddWord/{word}")]
         public async Task<IHttpActionResult> AddWord(string word)
         {
             IReliableQueue<string> queue = await this.stateManager.GetOrAddAsync<IReliableQueue<string>>("inputQueue");

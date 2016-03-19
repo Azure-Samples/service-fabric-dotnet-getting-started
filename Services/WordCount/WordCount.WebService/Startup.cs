@@ -5,8 +5,11 @@
 
 namespace WordCount.WebService
 {
-    using System.Web.Http;
+    using Microsoft.Owin;
+    using Microsoft.Owin.FileSystems;
+    using Microsoft.Owin.StaticFiles;
     using Owin;
+    using System.Web.Http;
     using WordCount.Common;
 
     public class Startup : IOwinAppBuilder
@@ -18,9 +21,21 @@ namespace WordCount.WebService
             HttpConfiguration config = new HttpConfiguration();
 
             FormatterConfig.ConfigureFormatters(config.Formatters);
-            RouteConfig.RegisterRoutes(config.Routes);
+
+            PhysicalFileSystem physicalFileSystem = new PhysicalFileSystem(@".\wwwroot");
+            FileServerOptions fileOptions = new FileServerOptions();
+
+            fileOptions.EnableDefaultFiles = true;
+            fileOptions.RequestPath = PathString.Empty;
+            fileOptions.FileSystem = physicalFileSystem;
+            fileOptions.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" };
+            fileOptions.StaticFileOptions.FileSystem = fileOptions.FileSystem = physicalFileSystem;
+            fileOptions.StaticFileOptions.ServeUnknownFileTypes = true;
+
+            config.MapHttpAttributeRoutes();
 
             appBuilder.UseWebApi(config);
+            appBuilder.UseFileServer(fileOptions);
         }
     }
 }

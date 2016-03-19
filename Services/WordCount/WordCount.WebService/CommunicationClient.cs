@@ -27,6 +27,16 @@ namespace WordCount.WebService
         /// </summary>
         public Uri BaseAddress { get; private set; }
 
+        public ResolvedServiceEndpoint Endpoint
+        {
+            get; set;
+        }
+
+        public string ListenerName
+        {
+            get; set;
+        }
+
         /// <summary>
         /// Represents the value for operation timeout. Used for HttpWebRequest GetResponse and GetRequestStream methods.
         /// </summary>

@@ -27,30 +27,30 @@ namespace WordCount.Common
         private string publishAddress;
         private string listeningAddress;
         private string appRoot;
-        private readonly ServiceInitializationParameters serviceInitializationParameters;
+        private readonly ServiceContext serviceContext;
 
-        public OwinCommunicationListener(IOwinAppBuilder startup, ServiceInitializationParameters serviceInitializationParameters)
-            : this(null, startup, serviceInitializationParameters)
+        public OwinCommunicationListener(IOwinAppBuilder startup, ServiceContext serviceContext)
+            : this(null, startup, serviceContext)
         {
         }
 
-        public OwinCommunicationListener(string appRoot, IOwinAppBuilder startup, ServiceInitializationParameters serviceInitializationParameters)
+        public OwinCommunicationListener(string appRoot, IOwinAppBuilder startup, ServiceContext serviceContext)
         {
             this.startup = startup;
             this.appRoot = appRoot;
-            this.serviceInitializationParameters = serviceInitializationParameters;
+            this.serviceContext = serviceContext;
         }
                 
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
             Trace.WriteLine("Initialize");
 
-            EndpointResourceDescription serviceEndpoint = serviceInitializationParameters.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
+            EndpointResourceDescription serviceEndpoint = serviceContext.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
             int port = serviceEndpoint.Port;
 
-            if (serviceInitializationParameters is StatefulServiceInitializationParameters)
+            if (serviceContext is StatefulServiceContext)
             {
-                StatefulServiceInitializationParameters statefulInitParams = (StatefulServiceInitializationParameters)serviceInitializationParameters;
+                StatefulServiceContext statefulInitParams = (StatefulServiceContext)serviceContext;
 
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,
@@ -60,7 +60,7 @@ namespace WordCount.Common
                     statefulInitParams.ReplicaId,
                     Guid.NewGuid());
             }
-            else if (serviceInitializationParameters is StatelessServiceInitializationParameters)
+            else if (serviceContext is StatelessServiceContext)
             {
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,

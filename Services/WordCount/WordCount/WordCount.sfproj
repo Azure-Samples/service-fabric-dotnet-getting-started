@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Service Fabric Tools\Microsoft.VisualStudio.Azure.Fabric.ApplicationProject.props" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>de5d59b0-1752-4cf7-a980-4edddba8935e</ProjectGuid>
-    <ProjectVersion>0.12</ProjectVersion>
+    <ProjectVersion>1.0</ProjectVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
