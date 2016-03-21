@@ -15,6 +15,7 @@ namespace ClusterMonitor
     using Microsoft.Owin.Hosting;
     using Microsoft.ServiceFabric.Services;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
+
     public class OwinCommunicationListener : ICommunicationListener
     {
         /// <summary>
@@ -26,18 +27,18 @@ namespace ClusterMonitor
         private string publishAddress;
         private string listeningAddress;
         private string appRoot;
-        private readonly ServiceInitializationParameters serviceInitializationParameters;
+        private readonly ServiceContext serviceContext;
 
-        public OwinCommunicationListener(IOwinAppBuilder startup, ServiceInitializationParameters serviceInitializationParameters)
-            : this(null, startup, serviceInitializationParameters)
+        public OwinCommunicationListener(IOwinAppBuilder startup, ServiceContext serviceContext)
+            : this(null, startup, serviceContext)
         {
         }
 
-        public OwinCommunicationListener(string appRoot, IOwinAppBuilder startup, ServiceInitializationParameters serviceInitializationParameters)
+        public OwinCommunicationListener(string appRoot, IOwinAppBuilder startup, ServiceContext serviceContext)
         {
             this.startup = startup;
             this.appRoot = appRoot;
-            this.serviceInitializationParameters = serviceInitializationParameters;
+            this.serviceContext = serviceContext;
         }
 
         public bool ListenOnSecondary { get; set; }
@@ -46,22 +47,20 @@ namespace ClusterMonitor
         {
             Trace.WriteLine("Initialize");
 
-            EndpointResourceDescription serviceEndpoint = serviceInitializationParameters.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
+            EndpointResourceDescription serviceEndpoint = this.serviceContext.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
             int port = serviceEndpoint.Port;
 
-            if (serviceInitializationParameters is StatefulServiceInitializationParameters)
-            {
-                StatefulServiceInitializationParameters statefulInitParams = serviceInitializationParameters as StatefulServiceInitializationParameters;
-
+            if (serviceContext is StatefulServiceContext)
+            {                
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,
                     "http://+:{0}/{1}/{2}/{3}",
                     port,
-                    statefulInitParams.PartitionId,
-                    statefulInitParams.ReplicaId,
+                    this.serviceContext.PartitionId,
+                    this.serviceContext.ReplicaOrInstanceId,
                     Guid.NewGuid());
             }
-            else if (serviceInitializationParameters is StatelessServiceInitializationParameters)
+            else if (serviceContext is StatelessServiceContext)
             {
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,

@@ -6,6 +6,7 @@
 
 namespace ClusterMonitor
 {
+    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
     using System.Diagnostics;
     using System.Fabric;
@@ -17,14 +18,15 @@ namespace ClusterMonitor
         public static void Main(string[] args)
         {
             try
-            {
-                using (FabricRuntime fabricRuntime = FabricRuntime.Create())
+            {                
                 using (TextWriterTraceListener trace = new TextWriterTraceListener(Path.Combine(FabricRuntime.GetActivationContext().LogDirectory, "out.log")))
                 {
                     Trace.AutoFlush = true;
                     Trace.Listeners.Add(trace);
 
-                    fabricRuntime.RegisterServiceType(Service.ServiceTypeName, typeof(Service));
+                    ServiceRuntime.RegisterServiceAsync(
+                        Service.ServiceTypeName,
+                        context => new Service(context)).GetAwaiter().GetResult();                                        
 
                     ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, Service.ServiceTypeName);
 
