@@ -54,7 +54,7 @@ namespace WordCount.Common
 
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}/{2}/{3}",
+                    "http://+:{0}/{1}/{2}/{3}/",
                     port,
                     statefulInitParams.PartitionId,
                     statefulInitParams.ReplicaId,
@@ -64,11 +64,11 @@ namespace WordCount.Common
             {
                 this.listeningAddress = String.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}",
+                    "http://+:{0}/{1}/",
                     port,
                     String.IsNullOrWhiteSpace(this.appRoot)
                         ? String.Empty
-                        : this.appRoot.TrimEnd('/') + '/');
+                        : this.appRoot.TrimEnd('/'));
             }
             else
             {

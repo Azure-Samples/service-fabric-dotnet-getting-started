@@ -15,6 +15,8 @@ namespace WordCount.WebService.Controllers
     using System.Text;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using Microsoft.ServiceFabric.Services.Client;
+    using Microsoft.ServiceFabric.Services.Communication.Client;
 
     /// <summary>
     /// Default controller.
@@ -22,14 +24,18 @@ namespace WordCount.WebService.Controllers
     [RoutePrefix("api")]
     public class DefaultController : ApiController
     {
+        private const int MaxQueryRetryCount = 20;
         private const string AppInstanceName = "WordCount";
         private const string ServiceInstanceName = "WordCountService";
 
-        private const int MaxQueryRetryCount = 20;
+        private static readonly Uri serviceUri = new Uri(String.Format("fabric:/{0}/{1}", AppInstanceName, ServiceInstanceName));
+
         private static readonly TimeSpan BackoffQueryDelay = TimeSpan.FromSeconds(3);
 
         private static readonly FabricClient fabricClient = new FabricClient();
 
+        private static readonly HttpCommunicationClientFactory communicationFactory
+            = new HttpCommunicationClientFactory(new ServicePartitionResolver(() => fabricClient));
 
         [HttpGet]
         [Route("Count")]
@@ -38,23 +44,21 @@ namespace WordCount.WebService.Controllers
             // For each partition client, keep track of partition information and the number of words
             ConcurrentDictionary<Int64RangePartitionInformation, long> totals = new ConcurrentDictionary<Int64RangePartitionInformation, long>();
             IList<Task> tasks = new List<Task>();
+
             foreach (Int64RangePartitionInformation partition in await this.GetServicePartitionKeysAsync())
             {
                 try
                 {
-                    // this uses the Service Fabric Application Gateway to connect to the stateful word count service.
-                    Uri url =
-                        new Uri(
-                            $"http://localhost:{19081}/{AppInstanceName}/{ServiceInstanceName}/Count?PartitionKey={partition.LowKey}&PartitionKind={ServicePartitionKind.Int64Range}");
+                    ServicePartitionClient<HttpCommunicationClient> partitionClient
+                        = new ServicePartitionClient<HttpCommunicationClient>(communicationFactory, serviceUri, new ServicePartitionKey(partition.LowKey));
 
-                    HttpClient client = new HttpClient()
-                    {
-                        Timeout = TimeSpan.FromSeconds(2)
-                    };
-
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    string content = await response.Content.ReadAsStringAsync();
-                    totals[partition] = Int64.Parse(content.Trim());
+                    await partitionClient.InvokeWithRetryAsync(
+                        async (client) =>
+                        {
+                            HttpResponseMessage response = await client.HttpClient.GetAsync(new Uri(client.Url, "Count"));
+                            string content = await response.Content.ReadAsStringAsync();
+                            totals[partition] = Int64.Parse(content.Trim());
+                        });
                 }
                 catch (Exception ex)
                 {
@@ -94,16 +98,12 @@ namespace WordCount.WebService.Controllers
             // Determine the partition key that should handle the request
             long partitionKey = GetPartitionKey(word);
 
-            Uri url =
-                new Uri(
-                    $"http://localhost:{19081}/{AppInstanceName}/{ServiceInstanceName}/AddWord/{word}?PartitionKey={partitionKey}&PartitionKind={ServicePartitionKind.Int64Range}");
+            ServicePartitionClient<HttpCommunicationClient> partitionClient
+                = new ServicePartitionClient<HttpCommunicationClient>(communicationFactory, serviceUri, new ServicePartitionKey(partitionKey));
 
-            HttpClient client = new HttpClient()
-            {
-                Timeout = TimeSpan.FromSeconds(2)
-            };
-
-            await client.PutAsync(url, new StringContent(String.Empty));
+            await
+                partitionClient.InvokeWithRetryAsync(
+                    async (client) => { await client.HttpClient.PutAsync(new Uri(client.Url, "AddWord/" + word), new StringContent(String.Empty)); });
 
             return new HttpResponseMessage()
             {
@@ -136,8 +136,6 @@ namespace WordCount.WebService.Controllers
             {
                 try
                 {
-                    Uri serviceUri = new Uri(String.Format("fabric:/{0}/{1}", AppInstanceName, ServiceInstanceName));
-
                     // Get the list of partitions up and running in the service.
                     ServicePartitionList partitionList = await fabricClient.QueryManager.GetPartitionListAsync(serviceUri);
 
