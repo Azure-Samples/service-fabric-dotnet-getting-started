@@ -5,6 +5,7 @@
 
 namespace ChatWeb
 {
+    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
     using System.Diagnostics;
     using System.Fabric;
@@ -16,17 +17,13 @@ namespace ChatWeb
         {
             try
             {
-                using (FabricRuntime fabricRuntime = FabricRuntime.Create())
-                {
-                    // This is the name of the ServiceType that is registered with FabricRuntime. 
-                    // This name must match the name defined in the ServiceManifest. If you change
-                    // this name, please change the name of the ServiceType in the ServiceManifest.
-                    fabricRuntime.RegisterServiceType("ChatServiceType", typeof(ChatService));
+                // This is the name of the ServiceType that is registered with FabricRuntime. 
+                // This name must match the name defined in the ServiceManifest. If you change
+                // this name, please change the name of the ServiceType in the ServiceManifest.
+                ServiceRuntime.RegisterServiceAsync("ChatServiceType", context => new ChatService(context)).GetAwaiter().GetResult();
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ChatService).Name);
 
-                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ChatService).Name);
-
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)
             {

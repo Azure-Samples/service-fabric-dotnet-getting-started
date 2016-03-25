@@ -11,19 +11,19 @@ namespace ChatWeb.Models
     using System.Threading.Tasks;
     using ChatWeb.Domain;
     using Microsoft.ServiceFabric.Services.Remoting.Client;
+    using Microsoft.ServiceFabric.Services.Client;
 
     public class ReliableMessageRepository : IMessageRepository
     {
-        // The service only has a single partition. In order to access the partition need to provide a
-        // value in the LowKey - HighKey range defined in the ApplicationManifest.xml
-        private long defaultPartitionID = 1;
         private Uri chatServiceInstance = new Uri(FabricRuntime.GetActivationContext().ApplicationName + "/ChatService");
-
+        
         public Task AddMessageAsync(Message message)
         {
             try
             {
-                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, chatServiceInstance);
+                // The service only has a single partition. In order to access the partition need to provide a
+                // value in the LowKey - HighKey range defined in the ApplicationManifest.xml
+                IChatService proxy = ServiceProxy.Create<IChatService>(chatServiceInstance, new ServicePartitionKey(1));
                 return proxy.AddMessageAsync(message);
             }
             catch (Exception e)
@@ -37,7 +37,7 @@ namespace ChatWeb.Models
         {
             try
             {
-                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, chatServiceInstance);
+                IChatService proxy = ServiceProxy.Create<IChatService>(chatServiceInstance, new ServicePartitionKey(1));
                 //return (await proxy.GetMessages()).Select(x => x.Value);
                 return proxy.GetMessagesAsync();
             }
@@ -52,7 +52,7 @@ namespace ChatWeb.Models
         {
             try
             {
-                IChatService proxy = ServiceProxy.Create<IChatService>(this.defaultPartitionID, chatServiceInstance);
+                IChatService proxy = ServiceProxy.Create<IChatService>(chatServiceInstance, new ServicePartitionKey(1));
                 return proxy.ClearMessagesAsync();
             }
             catch (Exception e)
