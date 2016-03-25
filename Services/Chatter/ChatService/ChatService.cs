@@ -21,6 +21,9 @@ namespace ChatWeb
     public class ChatService : StatefulService, IChatService
     {
         private const int MessagesToKeep = 50;
+        public ChatService (StatefulServiceContext context)
+            : base(context)
+        { }
 
         public async Task AddMessageAsync(Message message)
         {
@@ -40,13 +43,22 @@ namespace ChatWeb
         {
             IReliableDictionary<DateTime, Message> messagesDictionary =
                 await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
+            List<KeyValuePair<DateTime, Message>> returnList = new List<KeyValuePair<DateTime, Message>>(); 
 
             using (ITransaction tx = this.StateManager.CreateTransaction())
             {                
                 var messagesEnumerable = await messagesDictionary.CreateEnumerableAsync(tx, EnumerationMode.Ordered);
-                                
-                return messagesEnumerable.ToList();
+
+                using (IAsyncEnumerator<KeyValuePair<DateTime, Message>> enumerator = messagesEnumerable.GetAsyncEnumerator())
+                {
+                    while (await enumerator.MoveNextAsync(CancellationToken.None))
+                    {
+                        returnList.Add(enumerator.Current);
+                    }
+                }
             }
+            return returnList;
+            //return messagesEnumerable.ToList();
         }
 
         public async Task ClearMessagesAsync()
@@ -59,8 +71,8 @@ namespace ChatWeb
 
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new List<ServiceReplicaListener> {
-                new ServiceReplicaListener(initParams => new ServiceRemotingListener<IChatService>(initParams, this))
+                  return new List<ServiceReplicaListener> {
+                new ServiceReplicaListener(initParams => this.CreateServiceRemotingListener<ChatService>(initParams))
             };
         }
 
@@ -70,7 +82,7 @@ namespace ChatWeb
             ServiceEventSource.Current.ServiceMessage(
                 this,
                 "Partition {0} started processing messages.",
-                this.ServicePartition.PartitionInfo.Id);
+                this.Context.PartitionId);
 
             IReliableDictionary<DateTime, Message> messagesDictionary =
                 await this.StateManager.GetOrAddAsync<IReliableDictionary<DateTime, Message>>("messages");
@@ -107,7 +119,7 @@ namespace ChatWeb
                         ServiceEventSource.Current.ServiceMessage(
                             this,
                             "Partition {0} stopped processing because of error {1}",
-                            this.ServicePartition.PartitionInfo.Id,
+                            this.Context.PartitionId,
                             e);
                         break;
                     }
