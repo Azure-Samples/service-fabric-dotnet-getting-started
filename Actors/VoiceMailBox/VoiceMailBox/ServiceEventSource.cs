@@ -7,8 +7,8 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
 {
     using System;
     using System.Diagnostics.Tracing;
-    using Microsoft.ServiceFabric.Actors;
-    using ServiceFabric.Actors.Runtime;
+    using Microsoft.ServiceFabric.Actors.Runtime;
+
     [EventSource(Name = "MyCompany-VoiceMailBoxApplication-VoiceMailBox")]
     internal sealed class ServiceEventSource : EventSource
     {
@@ -47,7 +47,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
         {
             this.ActorActivatedStart(a.GetType().ToString(), a.Id.ToString(), a.ActorService.Context.PartitionId);
         }
-        
+
         [NonEvent]
         public void ActorActivatedStop(ActorBase a)
         {

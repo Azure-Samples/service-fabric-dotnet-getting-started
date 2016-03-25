@@ -13,16 +13,15 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Owin.Hosting;
-    using Microsoft.ServiceFabric.Services;
-    using ServiceFabric.Services.Communication.Runtime;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
     public class OwinCommunicationListener : ICommunicationListener
     {
         private readonly string appRoot;
         private readonly IOwinAppBuilder startup;
+        private readonly ServiceContext serviceContext;
         private string listeningAddress;
         private string publishAddress;
-        private readonly ServiceContext serviceContext;
 
         /// <summary>
         ///     OWIN server handle.
@@ -40,19 +39,18 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
             this.appRoot = appRoot;
             this.serviceContext = serviceContext;
         }
-                
+
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
             ServiceEventSource.Current.Message("Open");
 
-            EndpointResourceDescription serviceEndpoint =
-                serviceContext.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
+            EndpointResourceDescription serviceEndpoint = this.serviceContext.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
             int port = serviceEndpoint.Port;
 
-            if (serviceContext is StatefulServiceContext)
+            if (this.serviceContext is StatefulServiceContext)
             {
                 StatefulServiceContext statefulInitParams =
-                    (StatefulServiceContext)serviceContext;
+                    (StatefulServiceContext) this.serviceContext;
 
                 this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
@@ -62,7 +60,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
                     statefulInitParams.ReplicaId,
                     Guid.NewGuid());
             }
-            else if (serviceContext is StatelessServiceContext)
+            else if (this.serviceContext is StatelessServiceContext)
             {
                 this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
@@ -79,7 +77,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
 
             this.publishAddress = this.listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
 
-            ServiceEventSource.Current.Message("Opening on {0}", this.publishAddress);                     
+            ServiceEventSource.Current.Message("Opening on {0}", this.publishAddress);
 
             try
             {

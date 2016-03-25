@@ -13,9 +13,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox.Interfaces
     public interface IVoicemailBoxActor : IActor
     {
         Task<List<Voicemail>> GetMessagesAsync();
-        
         Task<string> GetGreetingAsync();
-
         Task LeaveMessageAsync(string message);
         Task SetGreetingAsync(string greeting);
         Task DeleteMessageAsync(Guid messageId);

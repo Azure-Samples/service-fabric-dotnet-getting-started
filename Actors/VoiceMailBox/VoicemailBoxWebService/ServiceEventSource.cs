@@ -8,8 +8,8 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
     using System;
     using System.Diagnostics.Tracing;
     using System.Fabric;
-    using Microsoft.ServiceFabric.Services;
-    using ServiceFabric.Services.Runtime;
+    using Microsoft.ServiceFabric.Services.Runtime;
+
     [EventSource(Name = "MyCompany-VoiceMailBoxApplication-VoicemailBoxWebService")]
     internal sealed class ServiceEventSource : EventSource
     {

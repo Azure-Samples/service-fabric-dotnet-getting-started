@@ -6,10 +6,8 @@
 namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
 {
     using System;
-    using System.Diagnostics;
-    using System.Fabric;
     using System.Threading;
-    using ServiceFabric.Services.Runtime;
+    using Microsoft.ServiceFabric.Services.Runtime;
 
     /// <summary>
     /// The service host is the executable that hosts the Service instances.
@@ -20,9 +18,11 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
         {
             try
             {
-                ServiceRuntime.RegisterServiceAsync(Service.ServiceTypeName, context =>
-                    new Service(context)).GetAwaiter().GetResult();
-                    
+                ServiceRuntime.RegisterServiceAsync(
+                    Service.ServiceTypeName,
+                    context =>
+                        new Service(context)).GetAwaiter().GetResult();
+
                 Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)

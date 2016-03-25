@@ -11,8 +11,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Azure.Service.Fabric.Samples.VoicemailBox.Interfaces;
-    using Microsoft.ServiceFabric.Actors;
-    using ServiceFabric.Actors.Runtime;
+    using Microsoft.ServiceFabric.Actors.Runtime;
 
     public class VoiceMailBoxActor : Actor, IVoicemailBoxActor
     {
@@ -93,7 +92,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
             ServiceEventSource.Current.ActorActivatedStart(this);
 
             await this.StateManager.TryAddStateAsync<VoicemailBox>("State", new VoicemailBox());
-            
+
             await base.OnActivateAsync();
 
             ServiceEventSource.Current.ActorActivatedStop(this);

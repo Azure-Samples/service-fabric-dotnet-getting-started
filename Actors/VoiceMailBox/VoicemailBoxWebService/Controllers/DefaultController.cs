@@ -14,7 +14,8 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService.Controll
     using System.Web.Http;
     using Microsoft.Azure.Service.Fabric.Samples.VoicemailBox.Interfaces;
     using Microsoft.ServiceFabric.Actors;
-    using ServiceFabric.Actors.Client;
+    using Microsoft.ServiceFabric.Actors.Client;
+
     /// <summary>
     /// Default controller.
     /// </summary>
