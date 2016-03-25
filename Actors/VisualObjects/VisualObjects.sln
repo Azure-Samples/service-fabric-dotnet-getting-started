@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "VisualObjectsApplication", "VisualObjectsApplication\VisualObjectsApplication.sfproj", "{D417C74C-475F-4FCE-BAAC-B7BA9221FA50}"
 EndProject

@@ -3,13 +3,22 @@
    <Parameters>
       <Parameter Name="WebServiceInstanceCount" DefaultValue="1" />
       <Parameter Name="VisualObjects.ActorService_PartitionCount" DefaultValue="9" />
+      <Parameter Name="VisualObjects.ObjectCount" DefaultValue="9" />
    </Parameters>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="VisualObjects.ActorServicePkg" ServiceManifestVersion="1.0.0" />
    </ServiceManifestImport>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="VisualObjects.WebServicePkg" ServiceManifestVersion="1.0.0" />
-      <ConfigOverrides />
+      <ConfigOverrides>
+         <ConfigOverride Name="Config">
+            <Settings>
+               <Section Name="VisualObjectsBoxSettings">
+                  <Parameter Name="ObjectCount" Value="[VisualObjects.ObjectCount]" />
+               </Section>
+            </Settings>
+         </ConfigOverride>
+      </ConfigOverrides>
    </ServiceManifestImport>
    <DefaultServices>
       <Service Name="VisualObjects.ActorService">

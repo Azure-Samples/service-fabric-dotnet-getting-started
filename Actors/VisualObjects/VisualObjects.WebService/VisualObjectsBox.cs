@@ -5,62 +5,34 @@
 
 namespace VisualObjects.WebService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Actors;
-    using VisualObjects.Common;
-
+    using System;
+    using System.Collections.Concurrent;
     /// <summary>
     /// This class encapsulates the logic for getting all of the visual object actors and joining their values into a JSON string.
     /// </summary>
     public class VisualObjectsBox : IVisualObjectsBox
     {
-        private readonly Uri serviceUri;
-        private readonly IEnumerable<ActorId> objectIds;
+        private ConcurrentDictionary<ActorId, string> objectData = new ConcurrentDictionary<ActorId, string>();
+        private string json = "[]";
 
-        public VisualObjectsBox(Uri serviceUri, int numObjects = 7)
+        string IVisualObjectsBox.GetJson()
         {
-            this.serviceUri = serviceUri;
-            this.objectIds = CreateVisualObjectActorIds(numObjects);
+            return this.json;
         }
 
-        public async Task<string> GetObjectsAsync(CancellationToken cancellationToken)
+        void IVisualObjectsBox.SetObjectString(ActorId actorId, string objectJson)
         {
-            List<Task<string>> tasks = this.objectIds.Select(objectId => this.GetObjectAsync(objectId, cancellationToken)).ToList();
-
-            await Task.WhenAll(tasks);
-
-            return "[" + String.Join(",", tasks.Select(task => task.Result)) + "]";
+            this.objectData[actorId] = objectJson;
         }
 
-        private Task<string> GetObjectAsync(ActorId objectId, CancellationToken cancellationToken)
+        void IVisualObjectsBox.computeJson()
         {
-            IVisualObjectActor actorProxy = ActorProxy.Create<IVisualObjectActor>(objectId, this.serviceUri);
-
-            try
+            if (this.objectData.Keys.Count > 0)
             {
-                return actorProxy.GetStateAsJsonAsync();
-            }
-            catch (Exception)
-            {
-                // ignore the exceptions
-                return Task.FromResult(String.Empty);
+                this.json = "[" + String.Join(",", objectData.Values) + "]";
             }
         }
 
-        private static IEnumerable<ActorId> CreateVisualObjectActorIds(int numObjects)
-        {
-            ActorId[] actorIds = new ActorId[numObjects];
-            for (int i = 0; i < actorIds.Length; i++)
-            {
-                actorIds[i] = new ActorId(string.Format(CultureInfo.InvariantCulture, "Visual Object # {0}", i));
-            }
-
-            return actorIds;
-        }
     }
 }

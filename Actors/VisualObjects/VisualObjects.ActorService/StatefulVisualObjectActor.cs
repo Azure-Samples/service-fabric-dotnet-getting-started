@@ -5,35 +5,45 @@
 
 namespace VisualObjects.ActorService
 {
+    using Microsoft.ServiceFabric.Actors.Runtime;
     using System;
     using System.Threading.Tasks;
-    using Microsoft.ServiceFabric.Actors;
     using VisualObjects.Common;
 
     [ActorService(Name = "VisualObjects.ActorService")]
-    public class StatefulVisualObjectActor : StatefulActor<VisualObject>, IVisualObjectActor
+    public class StatefulVisualObjectActor : Actor, IVisualObjectActor
     {
         private IActorTimer updateTimer;
         private string jsonString;
+        private static readonly string StatePropertyName = "VisualObject";
 
-        [Readonly]
         public Task<string> GetStateAsJsonAsync()
         {
             return Task.FromResult(this.jsonString);
         }
 
-        protected override Task OnActivateAsync()
+        protected override async Task OnActivateAsync()
         {
-            if (this.State == null)
+            var stateresult = await this.StateManager.TryGetStateAsync<VisualObject>(StatePropertyName);
+
+            VisualObject currentState = null;
+
+            if (!stateresult.HasValue)
             {
-                this.State = VisualObject.CreateRandom(this.Id.ToString(), new Random(this.Id.ToString().GetHashCode()));
+                currentState = VisualObject.CreateRandom(this.Id.ToString(), new Random(this.Id.ToString().GetHashCode()));
+
+                await this.StateManager.SetStateAsync<VisualObject>(StatePropertyName, currentState);
+            }
+            else
+            {
+                currentState = stateresult.Value;
             }
 
-            this.jsonString = this.State.ToJson();
+            this.jsonString = currentState.ToJson();
 
             // ACTOR MOVEMENT REFRESH
             this.updateTimer = this.RegisterTimer(this.MoveObject, null, TimeSpan.FromMilliseconds(10), TimeSpan.FromMilliseconds(10));
-            return base.OnActivateAsync();
+            return;
         }
 
         protected override Task OnDeactivateAsync()
@@ -46,15 +56,23 @@ namespace VisualObjects.ActorService
             return base.OnDeactivateAsync();
         }
 
-        private Task MoveObject(object state)
+        private async Task MoveObject(object obj)
         {
-            this.State.Move();
 
-            // State.Move(true);
+            var visualObject = await this.StateManager.GetStateAsync<VisualObject>(StatePropertyName);
 
-            this.jsonString = this.State.ToJson();
+            //alternate which lines are commented out
+            //then do an upgrade to cause the
+            //visual objects to start rotating
 
-            return Task.FromResult(true);
+            visualObject.Move(false);
+            //visualObject.Move(true);
+
+            await this.StateManager.SetStateAsync<VisualObject>(StatePropertyName, visualObject);
+
+            this.jsonString = visualObject.ToJson();
+
+            return;
         }
     }
 }

@@ -5,8 +5,8 @@
 
 namespace VisualObjects.WebService
 {
+    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
-    using System.Fabric;
     using System.Threading;
 
     public class Program
@@ -15,15 +15,14 @@ namespace VisualObjects.WebService
         {
             try
             {
-                using (FabricRuntime fabricRuntime = FabricRuntime.Create())
-                {
-                    fabricRuntime.RegisterServiceType(Service.ServiceTypeName, typeof(Service));
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                ServiceRuntime.RegisterServiceAsync(Service.ServiceTypeName, context => new Service(context)).GetAwaiter().GetResult();
+
+                Thread.Sleep(Timeout.Infinite);
+
             }
             catch (Exception e)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e);
+                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
                 throw;
             }
         }

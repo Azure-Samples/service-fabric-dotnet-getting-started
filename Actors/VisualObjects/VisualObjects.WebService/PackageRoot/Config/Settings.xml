@@ -5,6 +5,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Section Name="VisualObjectsBoxSettings">
     <Parameter Name="ServiceName" Value="VisualObjects.ActorService" />
-    <Parameter Name="ObjectCount" Value="10"/>
+    <Parameter Name="ObjectCount" Value="" MustOverride="true"/>
   </Section>
 </Settings>

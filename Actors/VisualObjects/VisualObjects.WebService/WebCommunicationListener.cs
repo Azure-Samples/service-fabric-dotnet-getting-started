@@ -5,36 +5,31 @@
 
 namespace VisualObjects.WebService
 {
+    using Microsoft.Owin.Hosting;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using System;
     using System.Fabric;
     using System.Fabric.Description;
     using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.Owin.Hosting;
-    using Microsoft.ServiceFabric.Services;
-    using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
     public class WebCommunicationListener : ICommunicationListener
     {
-        private readonly IVisualObjectsBox visualObjectsBox;
+
         private readonly string appRoot;
-        private readonly string webSocketRoot;
         private string listeningAddress;
         private string publishAddress;
+
         // OWIN server handle.
         private IDisposable webApp;
-        // Web Socket listener
-        private WebSocketApp webSocketApp;
-        private readonly ServiceInitializationParameters serviceInitializationParameters;
+        private readonly ServiceContext serviceInitializationParameters;
 
-        public WebCommunicationListener(IVisualObjectsBox visualObjectsBox, string appRoot, string webSocketRoot, ServiceInitializationParameters serviceInitializationParameters)
+        public WebCommunicationListener(string appRoot, ServiceContext serviceInitializationParameters)
         {
-            this.visualObjectsBox = visualObjectsBox;
             this.appRoot = appRoot;
-            this.webSocketRoot = webSocketRoot;
             this.serviceInitializationParameters = serviceInitializationParameters;
-        }        
+        }
 
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
@@ -55,10 +50,7 @@ namespace VisualObjects.WebService
 
             ServiceEventSource.Current.Message("Starting web server on {0}", this.listeningAddress);
 
-            this.webSocketApp = new WebSocketApp(this.visualObjectsBox);
-
             this.webApp = WebApp.Start<Startup>(this.listeningAddress);
-            this.webSocketApp.Start(this.listeningAddress + this.webSocketRoot);
 
             return Task.FromResult(this.publishAddress);
         }
@@ -85,11 +77,6 @@ namespace VisualObjects.WebService
                 {
                     ServiceEventSource.Current.Message("Stopping web server.");
                     this.webApp.Dispose();
-                }
-                if (this.webSocketApp != null)
-                {
-                    ServiceEventSource.Current.Message("Stopping web socket server.");
-                    this.webSocketApp.Dispose();
                 }
             }
             catch (ObjectDisposedException)

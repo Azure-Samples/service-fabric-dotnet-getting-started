@@ -5,27 +5,23 @@
 
 namespace VisualObjects.ActorService
 {
+    using Microsoft.ServiceFabric.Actors.Runtime;
     using System;
-    using System.Fabric;
     using System.Threading;
-    using Microsoft.ServiceFabric.Actors;
-
     public class Program
     {
         public static void Main(string[] args)
         {
             try
             {
-                using (FabricRuntime fabricRuntime = FabricRuntime.Create())
-                {
-                    fabricRuntime.RegisterActor<StatefulVisualObjectActor>();                    
+                ActorRuntime.RegisterActorAsync<StatefulVisualObjectActor>().GetAwaiter().GetResult();
 
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                Thread.Sleep(Timeout.Infinite);
+
             }
             catch (Exception e)
             {
-                ActorEventSource.Current.ActorRegistrationFailed(typeof(StatefulVisualObjectActor), e);
+                ActorEventSource.Current.ActorHostInitializationFailed(e.ToString());
                 throw;
             }
         }
