@@ -12,38 +12,45 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
     using System.Threading.Tasks;
     using Microsoft.Azure.Service.Fabric.Samples.VoicemailBox.Interfaces;
     using Microsoft.ServiceFabric.Actors;
+    using ServiceFabric.Actors.Runtime;
 
-    public class VoiceMailBoxActor : StatefulActor<VoicemailBox>, IVoicemailBoxActor
+    public class VoiceMailBoxActor : Actor, IVoicemailBoxActor
     {
-        public Task<List<Voicemail>> GetMessagesAsync()
+        public async Task<List<Voicemail>> GetMessagesAsync()
         {
-            return Task.FromResult(this.State.MessageList);
+            VoicemailBox box = await this.StateManager.GetStateAsync<VoicemailBox>("State");
+
+            return box.MessageList;
         }
 
-        public Task<string> GetGreetingAsync()
+        public async Task<string> GetGreetingAsync()
         {
-            if (string.IsNullOrEmpty(this.State.Greeting))
+            VoicemailBox box = await this.StateManager.GetStateAsync<VoicemailBox>("State");
+
+            if (string.IsNullOrEmpty(box.Greeting))
             {
-                ConfigurationSettings configSettings = this.ActorService.ServiceInitializationParameters.CodePackageActivationContext.GetConfigurationPackageObject("Config").Settings;
+                ConfigurationSettings configSettings = this.ActorService.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config").Settings;
                 ConfigurationSection configSection = configSettings.Sections.FirstOrDefault(s => (s.Name == "GreetingConfig"));
                 if (configSection != null)
                 {
                     ConfigurationProperty defaultGreeting = configSection.Parameters.FirstOrDefault(p => (p.Name == "DefaultGreeting"));
                     if (defaultGreeting != null)
                     {
-                        return Task.FromResult(defaultGreeting.Value);
+                        return defaultGreeting.Value;
                     }
                 }
 
-                return Task.FromResult("No one is available, please leave a message after the beep.");
+                return "No one is available, please leave a message after the beep.";
             }
 
-            return Task.FromResult(this.State.Greeting);
+            return box.Greeting;
         }
 
-        public Task LeaveMessageAsync(string message)
+        public async Task LeaveMessageAsync(string message)
         {
-            this.State.MessageList.Add(
+            VoicemailBox box = await this.StateManager.GetStateAsync<VoicemailBox>("State");
+
+            box.MessageList.Add(
                 new Voicemail
                 {
                     Id = Guid.NewGuid(),
@@ -51,46 +58,43 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
                     ReceivedAt = DateTime.Now
                 });
 
-            return Task.FromResult(true);
+            await this.StateManager.SetStateAsync<VoicemailBox>("State", box);
         }
 
-        public Task SetGreetingAsync(string greeting)
+        public async Task SetGreetingAsync(string greeting)
         {
-            this.State.Greeting = greeting;
+            VoicemailBox box = await this.StateManager.GetStateAsync<VoicemailBox>("State");
 
-            return Task.FromResult(true);
+            box.Greeting = greeting;
+
+            await this.StateManager.SetStateAsync<VoicemailBox>("State", box);
         }
 
-        public Task DeleteMessageAsync(Guid messageId)
+        public async Task DeleteMessageAsync(Guid messageId)
         {
-            for (int i = 0; i < this.State.MessageList.Count; i++)
-            {
-                if (this.State.MessageList[i].Id.Equals(messageId))
-                {
-                    this.State.MessageList.RemoveAt(i);
-                    break;
-                }
-            }
+            VoicemailBox box = await this.StateManager.GetStateAsync<VoicemailBox>("State");
 
-            return Task.FromResult(true);
+            box.MessageList.Remove(box.MessageList.Find(item => item.Id == messageId));
+
+            await this.StateManager.SetStateAsync<VoicemailBox>("State", box);
         }
 
-        public Task DeleteAllMessagesAsync()
+        public async Task DeleteAllMessagesAsync()
         {
-            this.State.MessageList.Clear();
+            VoicemailBox box = await this.StateManager.GetStateAsync<VoicemailBox>("State");
 
-            return Task.FromResult(true);
+            box.MessageList.Clear();
+
+            await this.StateManager.SetStateAsync<VoicemailBox>("State", box);
         }
 
         protected override async Task OnActivateAsync()
         {
             ServiceEventSource.Current.ActorActivatedStart(this);
-            await base.OnActivateAsync();
 
-            if(this.State == null)
-            {
-                this.State = new VoicemailBox();
-            }
+            await this.StateManager.TryAddStateAsync<VoicemailBox>("State", new VoicemailBox());
+            
+            await base.OnActivateAsync();
 
             ServiceEventSource.Current.ActorActivatedStop(this);
         }

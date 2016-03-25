@@ -14,14 +14,14 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService.Controll
     using System.Web.Http;
     using Microsoft.Azure.Service.Fabric.Samples.VoicemailBox.Interfaces;
     using Microsoft.ServiceFabric.Actors;
-
+    using ServiceFabric.Actors.Client;
     /// <summary>
     /// Default controller.
     /// </summary>
     public class DefaultController : ApiController
     {
         private static Uri serviceUri = new Uri("fabric:/VoiceMailBoxApplication/VoicemailBoxActorService");
-        private static ActorId actorId = ActorId.NewId();
+        private static ActorId actorId = ActorId.CreateRandom();
         private static IVoicemailBoxActor voicemailBoxActor = ActorProxy.Create<IVoicemailBoxActor>(actorId, serviceUri);
 
         [HttpGet]
