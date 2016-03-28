@@ -26,9 +26,29 @@ It also provides a clear demonstration of how Service Fabric performs rolling up
 **Important note:** The VisualObjects web service depends on two JavaScript files that are not directly included in the sample due the licensing restrictions. Follow the instructions in the Readme to learn how to set up the sample.
 
 ## Service Samples
+### AlphabetPartitions
+
+AlphabetPartitions provides an example of creating a partitioned, scaled-out service with 26 partitions, one for each letter in the alphabet. The partitionKey to call a particular partition from the Web service to the Processing service is created by simply looking that the first letter in the lastname parameter that is supplied in the URL.
+
+To demonstrate this service, open up a browser and type http://localhost:8081/alphabetpartitions?lastname=FUSSELL
+
+In the reply you should see something similar to below, with a different partition ID and service replica address
+
+Result: User FUSSELL successfully added
+
+Partition key: 'Microsoft.ServiceFabric.Services.Client.ServicePartitionKey' generated from the first letter 'F' of input value 'FUSSELL'.
+
+Processing service partition ID: 446847de-9131-4670-bc02-408d5bafb5bd.
+ 
+Processing service replica address: Http://localhost:8089/446847de-9131-4670-bc02-408d5bafb5bd/131036145073838836-396b611d-9b91-4d78-8393-c3217221c422 
+
+The partitionKey generation is in the Web.cs file in the solution. This is simple approach to partitioning your compute and data. Typically you perform a hash function on some data from the client to choose a particular partition. See the "Scale Apps" section in the documentation for more information.  
+
 ### Chatter
 
-Chatter is a single-room chat application. It includes a web UI built in ASP.NET 5 and accessible at http://&lt;clusteraddress&gt;:8081/Chatter/. User messages are sent to a stateful service for persistence.
+**Important note:** This sample is based on the ASP.NET Core 1 RC1 release and does not work on any other ASP.NET Core 1 release. When running this sample it must be copied to the root directory of your machine to prevent errors in long files names during build and deplpyment. 
+
+Chatter is a single-room chat application. It includes a web UI built in ASP.NET Core 1 and accessible at http://&lt;clusteraddress&gt;:8081/Chatter/. User messages are sent to a stateful service for persistence. When a limit on the number of messages posted is hit, older ones are deleted, with only the latest 50 messages being kept.
 
 ### WordCount
 

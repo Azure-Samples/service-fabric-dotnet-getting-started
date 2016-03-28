@@ -13,64 +13,62 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Owin.Hosting;
-    using Microsoft.ServiceFabric.Services;
-    using ServiceFabric.Services.Communication.Runtime;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
     public class OwinCommunicationListener : ICommunicationListener
     {
         private readonly string appRoot;
         private readonly IOwinAppBuilder startup;
+        private readonly ServiceContext serviceContext;
         private string listeningAddress;
         private string publishAddress;
-        private readonly ServiceInitializationParameters serviceInitializationParameters;
 
         /// <summary>
         ///     OWIN server handle.
         /// </summary>
         private IDisposable serverHandle;
 
-        public OwinCommunicationListener(IOwinAppBuilder startup, ServiceInitializationParameters serviceInitializationParameters)
-            : this(null, startup, serviceInitializationParameters)
+        public OwinCommunicationListener(IOwinAppBuilder startup, ServiceContext serviceContext)
+            : this(null, startup, serviceContext)
         {
         }
 
-        public OwinCommunicationListener(string appRoot, IOwinAppBuilder startup, ServiceInitializationParameters serviceInitializationParameters)
+        public OwinCommunicationListener(string appRoot, IOwinAppBuilder startup, ServiceContext serviceContext)
         {
             this.startup = startup;
             this.appRoot = appRoot;
-            this.serviceInitializationParameters = serviceInitializationParameters;
+            this.serviceContext = serviceContext;
         }
-                
+
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
-            ServiceEventSource.Current.Message("Initialize");
+            ServiceEventSource.Current.Message("Open");
 
-            EndpointResourceDescription serviceEndpoint =
-                serviceInitializationParameters.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
+            EndpointResourceDescription serviceEndpoint = this.serviceContext.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
             int port = serviceEndpoint.Port;
 
-            if (serviceInitializationParameters is StatefulServiceInitializationParameters)
+            if (this.serviceContext is StatefulServiceContext)
             {
-                StatefulServiceInitializationParameters statefulInitParams =
-                    (StatefulServiceInitializationParameters)serviceInitializationParameters;
+                StatefulServiceContext statefulInitParams =
+                    (StatefulServiceContext) this.serviceContext;
 
                 this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}/{2}/{3}",
+                    "http://+:{0}/{1}/{2}/{3}/",
                     port,
                     statefulInitParams.PartitionId,
                     statefulInitParams.ReplicaId,
                     Guid.NewGuid());
             }
-            else if (serviceInitializationParameters is StatelessServiceInitializationParameters)
+            else if (this.serviceContext is StatelessServiceContext)
             {
                 this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}",
+                    "http://+:{0}/{1}/",
                     port,
                     string.IsNullOrWhiteSpace(this.appRoot)
                         ? string.Empty
-                        : this.appRoot.TrimEnd('/') + '/');
+                        : this.appRoot.TrimEnd('/'));
             }
             else
             {
@@ -79,7 +77,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBoxWebService
 
             this.publishAddress = this.listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
 
-            ServiceEventSource.Current.Message("Opening on {0}", this.publishAddress);                     
+            ServiceEventSource.Current.Message("Opening on {0}", this.publishAddress);
 
             try
             {

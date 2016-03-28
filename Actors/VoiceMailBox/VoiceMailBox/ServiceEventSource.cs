@@ -7,7 +7,7 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
 {
     using System;
     using System.Diagnostics.Tracing;
-    using Microsoft.ServiceFabric.Actors;
+    using Microsoft.ServiceFabric.Actors.Runtime;
 
     [EventSource(Name = "MyCompany-VoiceMailBoxApplication-VoiceMailBox")]
     internal sealed class ServiceEventSource : EventSource
@@ -43,51 +43,27 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
         }
 
         [NonEvent]
-        public void ActorActivatedStart(StatelessActor a)
+        public void ActorActivatedStart(ActorBase a)
         {
-            this.ActorActivatedStart(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
+            this.ActorActivatedStart(a.GetType().ToString(), a.Id.ToString(), a.ActorService.Context.PartitionId);
         }
 
         [NonEvent]
-        public void ActorActivatedStart<T>(StatefulActor<T> a) where T : class
+        public void ActorActivatedStop(ActorBase a)
         {
-            this.ActorActivatedStart(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
+            this.ActorActivatedStop(a.GetType().ToString(), a.Id.ToString(), a.ActorService.Context.PartitionId);
         }
 
         [NonEvent]
-        public void ActorActivatedStop(StatelessActor a)
+        public void ActorDeactivatedStart(ActorBase a)
         {
-            this.ActorActivatedStop(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
+            this.ActorDeactivatedStart(a.GetType().ToString(), a.Id.ToString(), a.ActorService.Context.PartitionId);
         }
 
         [NonEvent]
-        public void ActorActivatedStop<T>(StatefulActor<T> a) where T : class
+        public void ActorDeactivatedStop(ActorBase a)
         {
-            this.ActorActivatedStop(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
-        }
-
-        [NonEvent]
-        public void ActorDeactivatedStart(StatelessActor a)
-        {
-            this.ActorDeactivatedStart(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
-        }
-
-        [NonEvent]
-        public void ActorDeactivatedStart<T>(StatefulActor<T> a) where T : class
-        {
-            this.ActorDeactivatedStart(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
-        }
-
-        [NonEvent]
-        public void ActorDeactivatedStop(StatelessActor a)
-        {
-            this.ActorActivatedStop(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
-        }
-
-        [NonEvent]
-        public void ActorDeactivatedStop<T>(StatefulActor<T> a) where T : class
-        {
-            this.ActorActivatedStop(a.GetType().ToString(), a.Id.ToString(), a.ActorService.ServicePartition.PartitionInfo.Id);
+            this.ActorActivatedStop(a.GetType().ToString(), a.Id.ToString(), a.ActorService.Context.PartitionId);
         }
 
         [NonEvent]
