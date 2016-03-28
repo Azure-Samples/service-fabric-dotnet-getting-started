@@ -7,9 +7,8 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
 {
     using System;
     using System.Diagnostics;
-    using System.Fabric;
     using System.Threading;
-    using Microsoft.ServiceFabric.Actors;
+    using Microsoft.ServiceFabric.Actors.Runtime;
 
     public class ServiceHost
     {
@@ -17,14 +16,11 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
         {
             try
             {
-                using (FabricRuntime fabricRuntime = FabricRuntime.Create())
-                {                    
-                    fabricRuntime.RegisterActor<VoiceMailBoxActor>();
-                    
-                    ServiceEventSource.Current.ActorTypeRegistered(Process.GetCurrentProcess().Id, typeof(VoiceMailBoxActor).ToString());
+                ActorRuntime.RegisterActorAsync<VoiceMailBoxActor>().GetAwaiter().GetResult();
 
-                    Thread.Sleep(Timeout.Infinite);
-                }
+                ServiceEventSource.Current.ActorTypeRegistered(Process.GetCurrentProcess().Id, typeof(VoiceMailBoxActor).ToString());
+
+                Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)
             {

@@ -60,7 +60,7 @@ namespace VisualObjects.Common
         {
             if (rand == null)
             {
-                rand = new Random((int) DateTime.Now.Ticks);
+                rand = new Random((int)DateTime.Now.Ticks);
             }
 
             int colorIndex = rand.Next(colorPalette.GetLength(0));
@@ -70,14 +70,6 @@ namespace VisualObjects.Common
                 g: colorPalette[colorIndex][1] + rand.NextDouble(),
                 b: colorPalette[colorIndex][2] + rand.NextDouble(),
                 a: colorPalette[colorIndex][3] + rand.NextDouble());
-        }
-
-        public string ToJson()
-        {
-            StringBuilder sb = new StringBuilder();
-            this.ToJson(sb);
-
-            return sb.ToString();
         }
 
         public void ToJson(StringBuilder builder)

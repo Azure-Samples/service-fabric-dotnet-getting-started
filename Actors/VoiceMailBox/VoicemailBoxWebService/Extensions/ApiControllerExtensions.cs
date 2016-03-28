@@ -32,11 +32,13 @@ namespace System.Web.Http
             Assembly assembly = Assembly.GetExecutingAssembly();
 
             using (Stream stream = assembly.GetManifestResourceStream(view))
-            using (StreamReader reader = new StreamReader(stream))
             {
-                HttpResponseMessage message = new HttpResponseMessage();
-                message.Content = new StringContent(reader.ReadToEnd(), Encoding.UTF8, mediaType);
-                return message;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    HttpResponseMessage message = new HttpResponseMessage();
+                    message.Content = new StringContent(reader.ReadToEnd(), Encoding.UTF8, mediaType);
+                    return message;
+                }
             }
         }
     }

@@ -14,7 +14,6 @@ namespace VisualObjects.WebService
     using System.Collections.Generic;
     using System.Fabric;
     using System.Fabric.Description;
-    using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
     public class Service : StatelessService
@@ -100,7 +99,7 @@ namespace VisualObjects.WebService
             ActorId[] actorIds = new ActorId[numObjects];
             for (int i = 0; i < actorIds.Length; i++)
             {
-                actorIds[i] = new ActorId(string.Format(CultureInfo.InvariantCulture, "Visual Object # {0}", i));
+                actorIds[i] = ActorId.CreateRandom();
                 this.objectBox.SetObjectString(actorIds[i], string.Empty);
             }
 
