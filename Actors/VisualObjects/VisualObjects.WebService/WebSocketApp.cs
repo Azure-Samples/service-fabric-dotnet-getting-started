@@ -5,7 +5,6 @@
 
 namespace VisualObjects.WebService
 {
-    using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using System;
     using System.Fabric;
     using System.Fabric.Description;
@@ -15,16 +14,17 @@ namespace VisualObjects.WebService
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
     public class WebSocketApp : ICommunicationListener, IDisposable
     {
         private readonly IVisualObjectsBox visualObjectBox;
-        private string listeningAddress;
-        private string publishAddress;
-        private HttpListener httpListener;
         private readonly string appRoot;
         private readonly string webSocketRoot;
         private readonly ServiceContext serviceContext;
+        private string listeningAddress;
+        private string publishAddress;
+        private HttpListener httpListener;
         private CancellationTokenSource cts = new CancellationTokenSource();
 
         public WebSocketApp(IVisualObjectsBox visualObjectBox, string appRoot, string webSocketRoot, ServiceContext initParams)
@@ -51,6 +51,42 @@ namespace VisualObjects.WebService
             ServiceEventSource.Current.Message("Starting web socket server on {0}", this.listeningAddress);
 
             return Task.FromResult(this.publishAddress);
+        }
+
+        Task ICommunicationListener.CloseAsync(CancellationToken cancellationToken)
+        {
+            this.StopAll();
+            return Task.FromResult(true);
+        }
+
+        void ICommunicationListener.Abort()
+        {
+            this.StopAll();
+            this.Dispose();
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                if (this.httpListener != null && this.httpListener.IsListening)
+                {
+                    ServiceEventSource.Current.Message("Stopping web socket server.");
+                    this.httpListener.Close();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(
+                    ex =>
+                    {
+                        ServiceEventSource.Current.Message(ex.Message);
+                        return true;
+                    });
+            }
         }
 
         public void Start()
@@ -121,17 +157,6 @@ namespace VisualObjects.WebService
                 this.cts.Token);
         }
 
-        Task ICommunicationListener.CloseAsync(CancellationToken cancellationToken)
-        {
-            this.StopAll();
-            return Task.FromResult(true);
-        }
-
-        void ICommunicationListener.Abort()
-        {
-            this.StopAll();
-            this.Dispose();
-        }
         private void StopAll()
         {
             this.cts.Cancel();
@@ -150,31 +175,6 @@ namespace VisualObjects.WebService
             }
             catch (ObjectDisposedException)
             {
-            }
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                if (this.httpListener != null && this.httpListener.IsListening)
-                {
-                    ServiceEventSource.Current.Message("Stopping web socket server.");
-                    this.httpListener.Close();
-                }
-
-            }
-            catch (ObjectDisposedException)
-            {
-            }
-            catch (AggregateException ae)
-            {
-                ae.Handle(
-                    ex =>
-                    {
-                        ServiceEventSource.Current.Message(ex.Message);
-                        return true;
-                    });
             }
         }
     }

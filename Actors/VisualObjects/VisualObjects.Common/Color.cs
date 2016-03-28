@@ -3,11 +3,10 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-using System.Globalization;
-
 namespace VisualObjects.Common
 {
     using System;
+    using System.Globalization;
     using System.Runtime.Serialization;
     using System.Text;
 
@@ -60,7 +59,7 @@ namespace VisualObjects.Common
         {
             if (rand == null)
             {
-                rand = new Random((int)DateTime.Now.Ticks);
+                rand = new Random((int) DateTime.Now.Ticks);
             }
 
             int colorIndex = rand.Next(colorPalette.GetLength(0));

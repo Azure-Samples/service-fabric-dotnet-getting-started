@@ -5,25 +5,24 @@
 
 namespace VisualObjects.WebService
 {
-    using Microsoft.Owin.Hosting;
-    using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using System;
     using System.Fabric;
     using System.Fabric.Description;
     using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Owin.Hosting;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
     public class WebCommunicationListener : ICommunicationListener
     {
-
         private readonly string appRoot;
+        private readonly ServiceContext serviceInitializationParameters;
         private string listeningAddress;
         private string publishAddress;
 
         // OWIN server handle.
         private IDisposable webApp;
-        private readonly ServiceContext serviceInitializationParameters;
 
         public WebCommunicationListener(string appRoot, ServiceContext serviceInitializationParameters)
         {
@@ -35,7 +34,7 @@ namespace VisualObjects.WebService
         {
             ServiceEventSource.Current.Message("Initialize");
 
-            EndpointResourceDescription serviceEndpoint = serviceInitializationParameters.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
+            EndpointResourceDescription serviceEndpoint = this.serviceInitializationParameters.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
             int port = serviceEndpoint.Port;
 
             this.listeningAddress = string.Format(

@@ -5,18 +5,18 @@
 
 namespace VisualObjects.ActorService
 {
-    using Microsoft.ServiceFabric.Actors.Runtime;
     using System;
     using System.Threading.Tasks;
+    using Microsoft.ServiceFabric.Actors.Runtime;
     using VisualObjects.Common;
 
     [ActorService(Name = "VisualObjects.ActorService")]
     [StatePersistence(StatePersistence.Persisted)]
     public class StatefulVisualObjectActor : Actor, IVisualObjectActor
     {
+        private static readonly string StatePropertyName = "VisualObject";
         private IActorTimer updateTimer;
         private string jsonString;
-        private static readonly string StatePropertyName = "VisualObject";
 
         public Task<string> GetStateAsJsonAsync()
         {
@@ -29,7 +29,7 @@ namespace VisualObjects.ActorService
 
             ActorEventSource.Current.ActorMessage(this, "StateCheck {0}", (await this.StateManager.ContainsStateAsync(StatePropertyName)).ToString());
 
-            var result = await this.StateManager.GetOrAddStateAsync<VisualObject>(StatePropertyName, newObject);
+            VisualObject result = await this.StateManager.GetOrAddStateAsync<VisualObject>(StatePropertyName, newObject);
 
             this.jsonString = result.ToJson();
 
@@ -40,8 +40,7 @@ namespace VisualObjects.ActorService
 
         private async Task MoveObject(object obj)
         {
-
-            var visualObject = await this.StateManager.GetStateAsync<VisualObject>(StatePropertyName);
+            VisualObject visualObject = await this.StateManager.GetStateAsync<VisualObject>(StatePropertyName);
 
             //alternate which lines are commented out
             //then do an upgrade to cause the

@@ -5,9 +5,9 @@
 
 namespace VisualObjects.WebService
 {
-    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
     using System.Threading;
+    using Microsoft.ServiceFabric.Services.Runtime;
 
     public class Program
     {
@@ -18,7 +18,6 @@ namespace VisualObjects.WebService
                 ServiceRuntime.RegisterServiceAsync(Service.ServiceTypeName, context => new Service(context)).GetAwaiter().GetResult();
 
                 Thread.Sleep(Timeout.Infinite);
-
             }
             catch (Exception e)
             {

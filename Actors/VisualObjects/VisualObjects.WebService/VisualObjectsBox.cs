@@ -5,9 +5,10 @@
 
 namespace VisualObjects.WebService
 {
-    using Microsoft.ServiceFabric.Actors;
     using System;
     using System.Collections.Concurrent;
+    using Microsoft.ServiceFabric.Actors;
+
     /// <summary>
     /// This class encapsulates the logic for getting all of the visual object actors and joining their values into a JSON string.
     /// </summary>
@@ -30,9 +31,8 @@ namespace VisualObjects.WebService
         {
             if (this.objectData.Keys.Count > 0)
             {
-                this.json = "[" + String.Join(",", objectData.Values) + "]";
+                this.json = "[" + String.Join(",", this.objectData.Values) + "]";
             }
         }
-
     }
 }

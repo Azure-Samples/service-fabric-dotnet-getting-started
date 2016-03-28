@@ -93,7 +93,7 @@ namespace VisualObjects.Common
             }
             else
             {
-                this.HistoryStartIndex = (this.HistoryStartIndex + 1) % HistoryLength;
+                this.HistoryStartIndex = (this.HistoryStartIndex + 1)%HistoryLength;
                 this.LocationHistory[this.HistoryStartIndex] = new Coordinate(this.CurrentLocation);
             }
 
@@ -188,7 +188,7 @@ namespace VisualObjects.Common
         {
             if (point < -1.0 || point > 1.0)
             {
-                return speed * -1.0;
+                return speed*-1.0;
             }
 
             return speed;

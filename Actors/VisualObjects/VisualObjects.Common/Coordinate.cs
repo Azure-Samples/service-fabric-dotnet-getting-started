@@ -3,11 +3,10 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-using System.Globalization;
-
 namespace VisualObjects.Common
 {
     using System;
+    using System.Globalization;
     using System.Runtime.Serialization;
     using System.Text;
 

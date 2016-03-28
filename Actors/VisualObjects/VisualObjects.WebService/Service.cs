@@ -5,17 +5,18 @@
 
 namespace VisualObjects.WebService
 {
-    using Common;
-    using Microsoft.ServiceFabric.Actors;
-    using Microsoft.ServiceFabric.Actors.Client;
-    using Microsoft.ServiceFabric.Services.Communication.Runtime;
-    using Microsoft.ServiceFabric.Services.Runtime;
     using System;
     using System.Collections.Generic;
     using System.Fabric;
     using System.Fabric.Description;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.ServiceFabric.Actors;
+    using Microsoft.ServiceFabric.Actors.Client;
+    using Microsoft.ServiceFabric.Services.Communication.Runtime;
+    using Microsoft.ServiceFabric.Services.Runtime;
+    using VisualObjects.Common;
+
     public class Service : StatelessService
     {
         public const string ServiceTypeName = "VisualObjects.WebServiceType";
@@ -36,7 +37,7 @@ namespace VisualObjects.WebService
 
             this.ActorServiceUri = new Uri(appName + "/" + serviceName);
             this.objectBox = new VisualObjectsBox();
-            this.actorIds = CreateVisualObjectActorIds(numObjects);
+            this.actorIds = this.CreateVisualObjectActorIds(numObjects);
         }
 
 
@@ -45,12 +46,12 @@ namespace VisualObjects.WebService
             return new[]
             {
                 new ServiceInstanceListener(
-                    initParams => new WebCommunicationListener("visualobjects", initParams), "httpListener"),
-
+                    initParams => new WebCommunicationListener("visualobjects", initParams),
+                    "httpListener"),
                 new ServiceInstanceListener(
-                    initparams => new WebSocketApp(this.objectBox, "visualobjects", "data", initparams), "webSocketListener")
+                    initparams => new WebSocketApp(this.objectBox, "visualobjects", "data", initparams),
+                    "webSocketListener")
             };
-
         }
 
         protected override Task RunAsync(CancellationToken cancellationToken)
@@ -62,33 +63,34 @@ namespace VisualObjects.WebService
             {
                 IVisualObjectActor actorProxy = ActorProxy.Create<IVisualObjectActor>(id, this.ActorServiceUri);
 
-                Task t = Task.Run(async () =>
-                {
-                    while (true)
+                Task t = Task.Run(
+                    async () =>
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
+                        while (true)
+                        {
+                            cancellationToken.ThrowIfCancellationRequested();
 
-                        try
-                        {
-                            this.objectBox.SetObjectString(id, await actorProxy.GetStateAsJsonAsync());
-                        }
-                        catch (Exception)
-                        {
-                            // ignore the exceptions
-                            this.objectBox.SetObjectString(id, string.Empty);
-                        }
-                        finally
-                        {
-                            this.objectBox.computeJson();
-                        }
+                            try
+                            {
+                                this.objectBox.SetObjectString(id, await actorProxy.GetStateAsJsonAsync());
+                            }
+                            catch (Exception)
+                            {
+                                // ignore the exceptions
+                                this.objectBox.SetObjectString(id, string.Empty);
+                            }
+                            finally
+                            {
+                                this.objectBox.computeJson();
+                            }
 
-                        await Task.Delay(TimeSpan.FromMilliseconds(10));
+                            await Task.Delay(TimeSpan.FromMilliseconds(10));
+                        }
                     }
-                }
-                , cancellationToken);
+                    ,
+                    cancellationToken);
 
                 runners.Add(t);
-
             }
 
             return Task.WhenAll(runners);

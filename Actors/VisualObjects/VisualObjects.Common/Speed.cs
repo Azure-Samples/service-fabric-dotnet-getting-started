@@ -38,10 +38,10 @@ namespace VisualObjects.Common
         {
             if (rand == null)
             {
-                rand = new Random((int)DateTime.Now.Ticks);
+                rand = new Random((int) DateTime.Now.Ticks);
             }
 
-            return new Speed(rand.NextDouble() * 0.02, rand.NextDouble() * 0.02, rand.NextDouble() * 0.02);
+            return new Speed(rand.NextDouble()*0.02, rand.NextDouble()*0.02, rand.NextDouble()*0.02);
         }
     }
 }
