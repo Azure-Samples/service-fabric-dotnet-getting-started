@@ -12,7 +12,18 @@
   </CodePackage>
   <Resources>
     <Endpoints>
+      <!-- 
+          Use the dynamic port to allow running multiple instances of the Word Count 
+          applications in the cluster and connect them through the application gateway. 
+      
+      <Endpoint Name="ServiceEndpoint" Type="Input" Protocol="http" />
+      -->
+
+      <!--
+        You can also listen on a specific port. 
+       -->
       <Endpoint Name="ServiceEndpoint" Type="Input" Protocol="http" Port="8081" />
+      
     </Endpoints>
   </Resources>
 </ServiceManifest>

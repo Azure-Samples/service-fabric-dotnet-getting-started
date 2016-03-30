@@ -48,7 +48,8 @@
 </head>
 <body>
     <script type="text/javascript">
-        var serviceUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/wordcount';
+        var serviceUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        var serviceUrl = serviceUrl + (location.pathname ? '/' + location.pathname : '');
         var iteration = 0;
 
         $(function () {

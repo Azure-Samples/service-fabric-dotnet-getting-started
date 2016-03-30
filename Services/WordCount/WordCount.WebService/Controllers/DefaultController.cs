@@ -25,17 +25,24 @@ namespace WordCount.WebService.Controllers
     public class DefaultController : ApiController
     {
         private const int MaxQueryRetryCount = 20;
-        private const string AppInstanceName = "WordCount";
-        private const string ServiceInstanceName = "WordCountService";
 
-        private static readonly Uri serviceUri = new Uri(String.Format("fabric:/{0}/{1}", AppInstanceName, ServiceInstanceName));
+        private static readonly Uri serviceUri;
+        private static readonly TimeSpan backoffQueryDelay;
 
-        private static readonly TimeSpan BackoffQueryDelay = TimeSpan.FromSeconds(3);
+        private static readonly FabricClient fabricClient;
 
-        private static readonly FabricClient fabricClient = new FabricClient();
+        private static readonly HttpCommunicationClientFactory communicationFactory;
 
-        private static readonly HttpCommunicationClientFactory communicationFactory
-            = new HttpCommunicationClientFactory(new ServicePartitionResolver(() => fabricClient));
+        static DefaultController()
+        {
+            serviceUri = new Uri(FabricRuntime.GetActivationContext().ApplicationName + "/WordCountService");
+
+            backoffQueryDelay = TimeSpan.FromSeconds(3);
+
+            fabricClient = new FabricClient();
+
+            communicationFactory = new HttpCommunicationClientFactory(new ServicePartitionResolver(() => fabricClient));
+        }
 
         [HttpGet]
         [Route("Count")]
@@ -167,7 +174,7 @@ namespace WordCount.WebService.Controllers
                     }
                 }
 
-                await Task.Delay(BackoffQueryDelay);
+                await Task.Delay(backoffQueryDelay);
             }
 
             throw new TimeoutException("Retry timeout is exhausted and creating representative partition clients wasn't successful");
