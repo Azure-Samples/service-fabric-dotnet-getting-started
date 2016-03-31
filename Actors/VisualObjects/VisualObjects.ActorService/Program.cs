@@ -9,13 +9,21 @@ namespace VisualObjects.ActorService
     using System.Threading;
     using Microsoft.ServiceFabric.Actors.Runtime;
 
-    public class Program
+    internal static class Program
     {
-        public static void Main(string[] args)
+        /// <summary>
+        /// This is the entry point of the service host process.
+        /// </summary>
+        private static void Main()
         {
             try
             {
-                ActorRuntime.RegisterActorAsync<StatefulVisualObjectActor>().GetAwaiter().GetResult();
+                // This line registers an Actor Service to host your actor class with the Service Fabric runtime.
+                // The contents of your ServiceManifest.xml and ApplicationManifest.xml files
+                // are automatically populated when you build this project.
+                // For more information, see http://aka.ms/servicefabricactorsplatform
+
+                ActorRuntime.RegisterActorAsync<VisualObjectActor>().GetAwaiter().GetResult();
 
                 Thread.Sleep(Timeout.Infinite);
             }

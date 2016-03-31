@@ -14,6 +14,7 @@
                                     FindValue="9876543210987654321098765432109876543210"
                                     StoreLocation="CurrentUser"
                                     StoreName="My" />
+
   -->
   <ClusterConnectionParameters ConnectionEndpoint="Please specify a connection endpoint." />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
