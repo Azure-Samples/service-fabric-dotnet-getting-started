@@ -1,4 +1,4 @@
-# Package and deploy a custom application
+# Package and deploy a guest executable
 
 This sample shows how to take an arbitrary EXE that is not built on Actors, Services, or any Service Fabric APIs and deploy it to a Service Fabric cluster. The EXE it uses is SimpleWebServer.exe, which is a simple web server that listens on port 8080 and returns the machine name based on a query string parameter. You can launch the application by double clicking on SimpleWebServer.exe (you may need to start with elevated privileges). Type http://localhost:8080/?cmd=instance in the address bar of your browser. The image below shows the running application SimpleWebServer.exe
 
