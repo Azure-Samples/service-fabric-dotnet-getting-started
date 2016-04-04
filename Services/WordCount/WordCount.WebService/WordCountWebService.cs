@@ -30,7 +30,7 @@ namespace WordCount.WebService
         {
             return new[]
             {
-                new ServiceInstanceListener(initParams => new OwinCommunicationListener(null, new Startup(), initParams))
+                new ServiceInstanceListener(initParams => new OwinCommunicationListener("wordcount", new Startup(), initParams))
             };
         }
     }

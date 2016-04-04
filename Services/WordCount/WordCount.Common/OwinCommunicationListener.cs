@@ -62,21 +62,13 @@ namespace WordCount.Common
             }
             else if (this.serviceContext is StatelessServiceContext)
             {
-                if (string.IsNullOrWhiteSpace(this.appRoot))
-                {
-                    this.listeningAddress = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "http://+:{0}/",
-                        port);
-                }
-                else
-                {
-                    this.listeningAddress = String.Format(
-                        CultureInfo.InvariantCulture,
-                        "http://+:{0}/{1}/",
-                        port,
-                        this.appRoot.TrimEnd('/'));
-                }
+                this.listeningAddress = String.Format(
+                    CultureInfo.InvariantCulture,
+                    "http://+:{0}/{1}",
+                    port,
+                    string.IsNullOrWhiteSpace(this.appRoot)
+                        ? ""
+                        : this.appRoot.TrimEnd('/') + '/');
             }
             else
             {
