@@ -54,10 +54,10 @@ Chatter is a single-room chat application. It includes a web UI built in ASP.NET
 
 WordCount provides an introduction to using reliable collections and to partitioning stateful services. A client-side JavaScript function generates random five-character strings, which are then sent to the application via an ASP.NET WebAPI to be counted. The stateless web service resolves the endpoint for the stateful service's partition based on the first character of the string. The stateful service maintains a backlog of words to count in a `ReliableQueue` and then keeps track of their count in a `ReliableDictionary`. The total count, plus a per-partition count, are shown in the web UI at http://&lt;clusteraddress&gt;:8081/WordCount/.
 
-## Custom Application Samples
+## Guest Executables Samples
 ### SimpleApplication
 
-The simple custom application sample shows how to take an arbitrary EXE that is not built on Actors, Services, or any Service Fabric APIs and deploy it to a Service Fabric cluster. The EXE it uses is SimpleWebServer.exe, which is a simple web server that listens on port 8080 and returns the machine name based on a query string parameter.
+The simple guest executable sample shows how to take an arbitrary EXE that is not built on Actors, Services, or any Service Fabric APIs and deploy it to a Service Fabric cluster. The EXE it uses is SimpleWebServer.exe, which is a simple web server that listens on port 8080 and returns the machine name based on a query string parameter.
 
 ## Management Samples
 ### ClusterMonitor
