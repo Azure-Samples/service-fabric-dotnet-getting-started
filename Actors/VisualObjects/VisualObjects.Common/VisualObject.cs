@@ -117,6 +117,10 @@ namespace VisualObjects.Common
             {
                 this.Rotation = 5;
             }
+            else
+            {
+                this.Rotation = 0;
+            }
         }
 
         public string ToJson()
