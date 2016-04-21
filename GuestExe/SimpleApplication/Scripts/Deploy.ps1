@@ -19,4 +19,4 @@ Copy-ServiceFabricApplicationPackage -ApplicationPackagePath '..\Service Fabric 
 Write-Host 'Registering application type...'
 Register-ServiceFabricApplicationType -ApplicationPathInImageStore 'WebServer'
 
-New-ServiceFabricApplication -ApplicationName 'fabric:/WebServer' -ApplicationTypeName 'DemoAppType' -ApplicationTypeVersion 1.0
+New-ServiceFabricApplication -ApplicationName 'fabric:/WebServer' -ApplicationTypeName 'WebServerType' -ApplicationTypeVersion 1.0
