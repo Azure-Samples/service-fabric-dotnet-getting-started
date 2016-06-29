@@ -23,8 +23,6 @@ The VisualObjects sample provides a visual representation of how actors provide 
 
 It also provides a clear demonstration of how Service Fabric performs rolling upgrades as the behavior of the shapes can be seen to gradually change as the upgrade proceeds across the upgrade domains in the cluster. To see how to perform a rolling upgrade using the Visual Objects sample, see the [application upgrade tutorial][app-upgrade-tutorial].
 
-**Important note:** The VisualObjects web service depends on two JavaScript files that are not directly included in the sample due the licensing restrictions. Follow the instructions in the Readme to learn how to set up the sample.
-
 ## Service Samples
 ### AlphabetPartitions
 
