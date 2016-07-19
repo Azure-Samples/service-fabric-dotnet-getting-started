@@ -1,33 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="VoiceMailBoxActorServicePkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-   <ServiceTypes>
-      <StatefulServiceType ServiceTypeName="VoiceMailBoxActorServiceType">
-         <Extensions>
-            <Extension Name="__GeneratedServiceType__" GeneratedId="b24b6bdc-58b1-4dda-b1d2-640bafcbeb27|None">
-               <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
-                  <DefaultService Name="VoicemailBoxActorService" />
-                  <ServiceEndpoint Name="VoiceMailBoxActorServiceEndpoint" />
-                  <ReplicatorEndpoint Name="VoiceMailBoxActorServiceReplicatorEndpoint" />
-                  <ReplicatorConfigSection Name="VoiceMailBoxActorServiceReplicatorConfig" />
-                  <ReplicatorSecurityConfigSection Name="VoiceMailBoxActorServiceReplicatorSecurityConfig" />
-                  <StoreConfigSection Name="VoiceMailBoxActorServiceLocalStoreConfig" />
-               </GeneratedNames>
-            </Extension>
-         </Extensions>
-      </StatefulServiceType>
-   </ServiceTypes>
-   <CodePackage Name="Code" Version="1.0.0">
-      <EntryPoint>
-         <ExeHost>
-            <Program>VoiceMailBox.exe</Program>
-         </ExeHost>
-      </EntryPoint>
-   </CodePackage>
-   <ConfigPackage Name="Config" Version="1.0.0" />
-   <Resources>
-      <Endpoints>
-         <Endpoint Name="VoiceMailBoxActorServiceEndpoint" />
-         <Endpoint Name="VoiceMailBoxActorServiceReplicatorEndpoint" />
-      </Endpoints>
-   </Resources>
+  <ServiceTypes>
+    <StatefulServiceType ServiceTypeName="VoiceMailBoxActorServiceType">
+      <Extensions>
+        <Extension Name="__GeneratedServiceType__" GeneratedId="b24b6bdc-58b1-4dda-b1d2-640bafcbeb27|None">
+          <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
+            <DefaultService Name="VoicemailBoxActorService" />
+            <ServiceEndpoint Name="VoiceMailBoxActorServiceEndpoint" />
+            <ReplicatorEndpoint Name="VoiceMailBoxActorServiceReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="VoiceMailBoxActorServiceReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="VoiceMailBoxActorServiceReplicatorSecurityConfig" />
+            <StoreConfigSection Name="VoiceMailBoxActorServiceLocalStoreConfig" />
+          </GeneratedNames>
+        </Extension>
+      </Extensions>
+    </StatefulServiceType>
+  </ServiceTypes>
+  <CodePackage Name="Code" Version="1.0.0">
+    <EntryPoint>
+      <ExeHost>
+        <Program>VoiceMailBox.exe</Program>
+      </ExeHost>
+    </EntryPoint>
+  </CodePackage>
+  <ConfigPackage Name="Config" Version="1.0.0" />
+  <Resources>
+    <Endpoints>
+      <Endpoint Name="VoiceMailBoxActorServiceEndpoint" />
+      <Endpoint Name="VoiceMailBoxActorServiceReplicatorEndpoint" />
+    </Endpoints>
+  </Resources>
 </ServiceManifest>

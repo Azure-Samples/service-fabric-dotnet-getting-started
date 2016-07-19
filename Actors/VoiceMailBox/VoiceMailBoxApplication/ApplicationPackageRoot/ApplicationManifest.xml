@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="VoiceMailBoxApplication" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-   <Parameters>
-      <Parameter Name="VoicemailBoxActorService_PartitionCount" DefaultValue="9" />
-      <Parameter Name="VoicemailBoxActorService_MinReplicaSetSize" DefaultValue="2" />
-      <Parameter Name="VoicemailBoxActorService_TargetReplicaSetSize" DefaultValue="3" />
-      <Parameter Name="VoicemailBoxWebService_InstanceCount" DefaultValue="1" />
-   </Parameters>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="VoiceMailBoxActorServicePkg" ServiceManifestVersion="1.0.0" />
-   </ServiceManifestImport>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="VoicemailBoxWebServicePkg" ServiceManifestVersion="1.0.0" />
-   </ServiceManifestImport>
-   <DefaultServices>
-      <Service Name="VoicemailBoxActorService" GeneratedIdRef="b24b6bdc-58b1-4dda-b1d2-640bafcbeb27|None">
-         <StatefulService ServiceTypeName="VoiceMailBoxActorServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="2">
-            <UniformInt64Partition PartitionCount="[VoicemailBoxActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-         </StatefulService>
-      </Service>
-      <Service Name="VoicemailBoxWebService">
-         <StatelessService ServiceTypeName="VoicemailBoxWebServiceType" InstanceCount="[VoicemailBoxWebService_InstanceCount]">
-            <SingletonPartition />
-         </StatelessService>
-      </Service>
-   </DefaultServices>
+  <Parameters>
+    <Parameter Name="VoicemailBoxActorService_PartitionCount" DefaultValue="9" />
+    <Parameter Name="VoicemailBoxActorService_MinReplicaSetSize" DefaultValue="2" />
+    <Parameter Name="VoicemailBoxActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="VoicemailBoxWebService_InstanceCount" DefaultValue="1" />
+  </Parameters>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="VoiceMailBoxActorServicePkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="VoicemailBoxWebServicePkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <DefaultServices>
+    <Service Name="VoicemailBoxActorService" GeneratedIdRef="b24b6bdc-58b1-4dda-b1d2-640bafcbeb27|None">
+      <StatefulService ServiceTypeName="VoiceMailBoxActorServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="2">
+        <UniformInt64Partition PartitionCount="[VoicemailBoxActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="VoicemailBoxWebService">
+      <StatelessService ServiceTypeName="VoicemailBoxWebServiceType" InstanceCount="[VoicemailBoxWebService_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+  </DefaultServices>
 </ApplicationManifest>
