@@ -5,6 +5,7 @@
     <ProjectGuid>de5d59b0-1752-4cf7-a980-4edddba8935e</ProjectGuid>
     <ProjectVersion>1.1</ProjectVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
