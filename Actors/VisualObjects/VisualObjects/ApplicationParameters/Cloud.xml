@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/VisualObjects" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-   <Parameters>
-      <Parameter Name="VisualObjects.WebService_InstanceCount" Value="-1" />
-      <Parameter Name="VisualObjects.ActorService_PartitionCount" Value="10" />
-   </Parameters>
+  <Parameters>
+    <Parameter Name="VisualObjects.WebService_InstanceCount" Value="-1" />
+    <Parameter Name="VisualObjects.ActorService_PartitionCount" Value="10" />
+  </Parameters>
 </Application>
