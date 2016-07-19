@@ -1,29 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="AlphabetPartitionsType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-   <Parameters>
-      <Parameter Name="Processing_MinReplicaSetSize" DefaultValue="2" />
-      <Parameter Name="Processing_PartitionCount" DefaultValue="26" />
-      <Parameter Name="Processing_TargetReplicaSetSize" DefaultValue="3" />
-      <Parameter Name="Web_InstanceCount" DefaultValue="-1" />
-   </Parameters>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="Alphabet.ProcessingPkg" ServiceManifestVersion="1.0.0" />
-      <ConfigOverrides />
-   </ServiceManifestImport>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="Alphabet.WebPkg" ServiceManifestVersion="1.0.0" />
-      <ConfigOverrides />
-   </ServiceManifestImport>
-   <DefaultServices>
-      <Service Name="Processing">
-         <StatefulService ServiceTypeName="ProcessingType" TargetReplicaSetSize="[Processing_TargetReplicaSetSize]" MinReplicaSetSize="[Processing_MinReplicaSetSize]">
-            <UniformInt64Partition PartitionCount="[Processing_PartitionCount]" LowKey="0" HighKey="25" />
-         </StatefulService>
-      </Service>
-      <Service Name="Web">
-         <StatelessService ServiceTypeName="WebType" InstanceCount="[Web_InstanceCount]">
-            <SingletonPartition />
-         </StatelessService>
-      </Service>
-   </DefaultServices>
+  <Parameters>
+    <Parameter Name="Processing_MinReplicaSetSize" DefaultValue="2" />
+    <Parameter Name="Processing_PartitionCount" DefaultValue="26" />
+    <Parameter Name="Processing_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="Web_InstanceCount" DefaultValue="-1" />
+  </Parameters>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="Alphabet.ProcessingPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="Alphabet.WebPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <DefaultServices>
+    <Service Name="Processing">
+      <StatefulService ServiceTypeName="ProcessingType" TargetReplicaSetSize="[Processing_TargetReplicaSetSize]" MinReplicaSetSize="[Processing_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[Processing_PartitionCount]" LowKey="0" HighKey="25" />
+      </StatefulService>
+    </Service>
+    <Service Name="Web">
+      <StatelessService ServiceTypeName="WebType" InstanceCount="[Web_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+  </DefaultServices>
 </ApplicationManifest>
