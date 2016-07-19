@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="WordCount" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-   <Parameters>
-      <Parameter Name="WordCountWebService_InstanceCount" DefaultValue="1" />
-      <Parameter Name="WordCountService_PartitionCount" DefaultValue="2" />
-   </Parameters>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="WordCountServicePkg" ServiceManifestVersion="1.0.0" />
-   </ServiceManifestImport>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="WordCountWebServicePkg" ServiceManifestVersion="1.0.0" />
-   </ServiceManifestImport>
-   <DefaultServices>
-      <Service Name="WordCountService">
-         <StatefulService ServiceTypeName="WordCountServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="2">
-            <UniformInt64Partition PartitionCount="[WordCountService_PartitionCount]" LowKey="1" HighKey="26" />
-         </StatefulService>
-      </Service>
-      <Service Name="WordCountWebService">
-         <StatelessService ServiceTypeName="WordCountWebServiceType" InstanceCount="[WordCountWebService_InstanceCount]">
-            <SingletonPartition />
-         </StatelessService>
-      </Service>
-   </DefaultServices>
+  <Parameters>
+    <Parameter Name="WordCountWebService_InstanceCount" DefaultValue="1" />
+    <Parameter Name="WordCountService_PartitionCount" DefaultValue="2" />
+  </Parameters>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="WordCountServicePkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="WordCountWebServicePkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <DefaultServices>
+    <Service Name="WordCountService">
+      <StatefulService ServiceTypeName="WordCountServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="2">
+        <UniformInt64Partition PartitionCount="[WordCountService_PartitionCount]" LowKey="1" HighKey="26" />
+      </StatefulService>
+    </Service>
+    <Service Name="WordCountWebService">
+      <StatelessService ServiceTypeName="WordCountWebServiceType" InstanceCount="[WordCountWebService_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+  </DefaultServices>
 </ApplicationManifest>

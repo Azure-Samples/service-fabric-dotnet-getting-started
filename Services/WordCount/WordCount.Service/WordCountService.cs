@@ -35,11 +35,13 @@ namespace WordCount.Service
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
             ServiceEventSource.Current.RunAsyncInvoked(ServiceEventSourceName);
+            
 
             IReliableQueue<string> inputQueue = await this.StateManager.GetOrAddAsync<IReliableQueue<string>>("inputQueue");
             IReliableDictionary<string, long> wordCountDictionary =
                 await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("wordCountDictionary");
             IReliableDictionary<string, long> statsDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("statsDictionary");
+
 
             while (true)
             {
