@@ -44,9 +44,7 @@ The partitionKey generation is in the Web.cs file in the solution. This is simpl
 
 ### Chatter
 
-**Important note:** This sample is based on the ASP.NET Core 1 RC1 release and does not work on any other ASP.NET Core 1 release. When running this sample it must be copied to the root directory of your machine to prevent errors in long files names during build and deplpyment. 
-
-Chatter is a single-room chat application. It includes a web UI built in ASP.NET Core 1 and accessible at http://&lt;clusteraddress&gt;:8081/Chatter/. User messages are sent to a stateful service for persistence. When a limit on the number of messages posted is hit, older ones are deleted, with only the latest 50 messages being kept.
+Chatter is currently being upgraded to ASP.NET Core 1.0 and will return soon.
 
 ### WordCount
 

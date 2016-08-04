@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Name="fabric:/Chatter" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-  <Parameters>
-    <!-- Value of -1 for the instance count tells Service Fabric to deploy to every machine in the cluster -->
-    <Parameter Name="ChatWeb_InstanceCount" Value="-1" />
-  </Parameters>
-</Application>
