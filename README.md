@@ -58,7 +58,7 @@ The simple guest executable sample shows how to take an arbitrary EXE that is no
 ## Management Samples
 ### ClusterMonitor
 
-ClusterMonitor shows how to use the REST APIs provided by Service Fabric to query the state of the cluster and its running applications. It is also useful as a tool for learning how concepts like partitioning and failover work. The application's web UI is accessible at http://&lt;clusteraddress&gt;:8081/ClusterMonitor/ and shows the cluster with all deployed replicas represented within the node that is currently hosting them.
+ClusterMonitor shows how to use the REST APIs provided by Service Fabric to query the state of the cluster and its running applications. It is also useful as a tool for learning how concepts like partitioning and failover work. The application's web UI is accessible at http://&lt;clusteraddress&gt;:8081/cluster/ and shows the cluster with all deployed replicas represented within the node that is currently hosting them.
 
 To see how Service Fabric automatically rebalances replicas in the cluster when a node fails, do the following:
 
