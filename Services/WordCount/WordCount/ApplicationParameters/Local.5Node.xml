@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application Name="fabric:/WordCount" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="WordCountWebService_InstanceCount" Value="1"/>
+    <Parameter Name="WordCountService_PartitionCount" Value="10"/>
+  </Parameters>
+</Application>
