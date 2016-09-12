@@ -3,5 +3,7 @@
   <Parameters>
     <Parameter Name="Processing_PartitionCount" Value="26" />
     <Parameter Name="Web_InstanceCount" Value="1" />
+    <Parameter Name="Processing_TargetReplicaSetSize" Value="1" />
+    <Parameter Name="Processing_MinReplicaSetSize" Value="1" />
   </Parameters>
 </Application>
