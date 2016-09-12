@@ -9,14 +9,20 @@ namespace VisualObjects.ActorService
     using System.Threading.Tasks;
     using VisualObjects.Common;
     using Microsoft.ServiceFabric.Actors.Runtime;
+    using Microsoft.ServiceFabric.Actors;
 
     [ActorService(Name = "VisualObjects.ActorService")]
     [StatePersistence(StatePersistence.Persisted)]
     public class VisualObjectActor : Actor, IVisualObjectActor
     {
+
         private static readonly string StatePropertyName = "VisualObject";
         private IActorTimer updateTimer;
         private string jsonString;
+
+        public VisualObjectActor(ActorService actorService, ActorId actorId)
+            : base (actorService, actorId)
+        { }
 
         public Task<string> GetStateAsJsonAsync()
         {

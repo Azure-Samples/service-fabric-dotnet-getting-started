@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="VisualObjectsApplicationType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-   <Parameters>
-      <Parameter Name="VisualObjects.WebService_InstanceCount" DefaultValue="1" />
-      <Parameter Name="VisualObjects.ActorService_PartitionCount" DefaultValue="10" />
-      <Parameter Name="VisualObjects.ActorService_MinReplicaSetSize" DefaultValue="2" />
-      <Parameter Name="VisualObjects.ActorService_TargetReplicaSetSize" DefaultValue="3" />
-   </Parameters>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="VisualObjects.WebServicePkg" ServiceManifestVersion="1.0.0" />
-      <ConfigOverrides />
-   </ServiceManifestImport>
-   <ServiceManifestImport>
-      <ServiceManifestRef ServiceManifestName="VisualObjects.ActorServicePkg" ServiceManifestVersion="1.0.0" />
-   </ServiceManifestImport>
-   <DefaultServices>
-      <Service Name="VisualObjects.WebService">
-         <StatelessService ServiceTypeName="VisualObjects.WebServiceType" InstanceCount="[VisualObjects.WebService_InstanceCount]">
-            <SingletonPartition />
-         </StatelessService>
-      </Service>
-      <Service Name="VisualObjects.ActorService" GeneratedIdRef="e9ba88d7-7199-42f5-94fc-f093573f46c5|Persisted">
-         <StatefulService ServiceTypeName="VisualObjects.ActorServiceType" TargetReplicaSetSize="[VisualObjects.ActorService_TargetReplicaSetSize]" MinReplicaSetSize="[VisualObjects.ActorService_MinReplicaSetSize]">
-            <UniformInt64Partition PartitionCount="[VisualObjects.ActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-         </StatefulService>
-      </Service>
-   </DefaultServices>
+  <Parameters>
+    <Parameter Name="VisualObjects.WebService_InstanceCount" DefaultValue="1" />
+    <Parameter Name="VisualObjects.ActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="VisualObjects.ActorService_MinReplicaSetSize" DefaultValue="2" />
+    <Parameter Name="VisualObjects.ActorService_TargetReplicaSetSize" DefaultValue="3" />
+  </Parameters>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="VisualObjects.WebServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="VisualObjects.ActorServicePkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <DefaultServices>
+    <Service Name="VisualObjects.WebService">
+      <StatelessService ServiceTypeName="VisualObjects.WebServiceType" InstanceCount="[VisualObjects.WebService_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="VisualObjects.ActorService" GeneratedIdRef="e9ba88d7-7199-42f5-94fc-f093573f46c5|Persisted">
+      <StatefulService ServiceTypeName="VisualObjects.ActorServiceType" TargetReplicaSetSize="[VisualObjects.ActorService_TargetReplicaSetSize]" MinReplicaSetSize="[VisualObjects.ActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[VisualObjects.ActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+  </DefaultServices>
 </ApplicationManifest>
