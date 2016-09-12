@@ -12,9 +12,14 @@ namespace Microsoft.Azure.Service.Fabric.Samples.VoicemailBox
     using System.Threading.Tasks;
     using Microsoft.Azure.Service.Fabric.Samples.VoicemailBox.Interfaces;
     using Microsoft.ServiceFabric.Actors.Runtime;
+    using ServiceFabric.Actors;
 
     public class VoiceMailBoxActor : Actor, IVoicemailBoxActor
     {
+        public VoiceMailBoxActor(ActorService actorService, ActorId actorId)
+            : base (actorService, actorId)
+        { }
+
         public async Task<List<Voicemail>> GetMessagesAsync()
         {
             VoicemailBox box = await this.StateManager.GetStateAsync<VoicemailBox>("State");
