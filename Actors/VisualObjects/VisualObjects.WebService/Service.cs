@@ -9,6 +9,7 @@ namespace VisualObjects.WebService
     using System.Collections.Generic;
     using System.Fabric;
     using System.Fabric.Description;
+    using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Actors;
@@ -20,7 +21,7 @@ namespace VisualObjects.WebService
     public class Service : StatelessService
     {
         public const string ServiceTypeName = "VisualObjects.WebServiceType";
-        private Uri ActorServiceUri = null;
+        private Uri actorServiceUri;
         private IVisualObjectsBox objectBox;
         private IEnumerable<ActorId> actorIds;
 
@@ -35,9 +36,9 @@ namespace VisualObjects.WebService
             string serviceName = section.Parameters["ServiceName"].Value;
             string appName = context.CodePackageActivationContext.ApplicationName;
 
-            this.ActorServiceUri = new Uri(appName + "/" + serviceName);
+            this.actorServiceUri = new Uri(appName + "/" + serviceName);
             this.objectBox = new VisualObjectsBox();
-            this.actorIds = this.CreateVisualObjectActorIds(numObjects);
+            this.actorIds = this.CreateVisualObjectActorIds(appName, numObjects);
         }
 
 
@@ -61,7 +62,7 @@ namespace VisualObjects.WebService
 
             foreach (ActorId id in this.actorIds)
             {
-                IVisualObjectActor actorProxy = ActorProxy.Create<IVisualObjectActor>(id, this.ActorServiceUri);
+                IVisualObjectActor actorProxy = ActorProxy.Create<IVisualObjectActor>(id, this.actorServiceUri);
 
                 Task t = Task.Run(
                     async () =>
@@ -84,7 +85,7 @@ namespace VisualObjects.WebService
                                 this.objectBox.computeJson();
                             }
 
-                            await Task.Delay(TimeSpan.FromMilliseconds(10));
+                            await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
                         }
                     }
                     ,
@@ -96,16 +97,21 @@ namespace VisualObjects.WebService
             return Task.WhenAll(runners);
         }
 
-        private IEnumerable<ActorId> CreateVisualObjectActorIds(int numObjects)
+        private IEnumerable<ActorId> CreateVisualObjectActorIds(string appName, int numObjects)
         {
-            ActorId[] actorIds = new ActorId[numObjects];
-            for (int i = 0; i < actorIds.Length; i++)
+            ActorId[] ids = new ActorId[numObjects];
+            for (int i = 0; i < ids.Length; i++)
             {
-                actorIds[i] = ActorId.CreateRandom();
-                this.objectBox.SetObjectString(actorIds[i], string.Empty);
+                ids[i] = new ActorId(
+                    string.Format(
+                        CultureInfo.InvariantCulture, 
+                        "{0}-Actor-{1}",
+                        appName, i));
+
+                this.objectBox.SetObjectString(ids[i], string.Empty);
             }
 
-            return actorIds;
+            return ids;
         }
     }
 }
