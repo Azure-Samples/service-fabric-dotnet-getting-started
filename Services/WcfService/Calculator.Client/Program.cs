@@ -1,8 +1,7 @@
-﻿// ----------------------------------------------------------------------
-//  <copyright file="Program.cs" company="Microsoft">
-//       Copyright (c) Microsoft Corporation. All rights reserved.
-//  </copyright>
-// ----------------------------------------------------------------------
+﻿// ------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
+// ------------------------------------------------------------
 
 namespace Calculator.Client
 {
@@ -33,7 +32,6 @@ namespace Calculator.Client
     /// clients and attempts to reuse the clients for requests to the same service endpoint.
     /// Its using BasicHttpBinding.
     ///  </summary>
-
     public class CalculatorClient : ServicePartitionClient<WcfCommunicationClient<ICalculator>>, ICalculator
     {
         private static ICommunicationClientFactory<WcfCommunicationClient<ICalculator>> communicationClientFactory;
