@@ -8,6 +8,7 @@ namespace Calculator.Client
 {
     using System;
     using System.ServiceModel;
+    using System.Threading.Tasks;
     using Calculator.Common;
     using Microsoft.ServiceFabric.Services.Client;
     using Microsoft.ServiceFabric.Services.Communication.Client;
@@ -22,7 +23,7 @@ namespace Calculator.Client
             while (true)
             {
                 iteration++;
-                Console.WriteLine("({1}) 2 + 3 = {0}", client.Add(2, 3), iteration);
+                Console.WriteLine("({1}) 2 + 3 = {0}", client.Add(2, 3).GetAwaiter().GetResult(), iteration);
             }
         }
     }
@@ -30,7 +31,7 @@ namespace Calculator.Client
     ///<summary>
     /// It uses ClientFactoryBase which in turn provides various features like resolving endpoints during Service Failover  , ExceptionHandling and maintains a cache of communication
     /// clients and attempts to reuse the clients for requests to the same service endpoint.
-    /// By default , its using BasicHttpBinding , you can change to any Wcf binding.
+    /// Its using BasicHttpBinding.
     ///  </summary>
 
     public class CalculatorClient : ServicePartitionClient<WcfCommunicationClient<ICalculator>>, ICalculator
@@ -58,7 +59,7 @@ namespace Calculator.Client
         {
         }
 
-        public double Add(double n1, double n2)
+        public Task<double> Add(double n1, double n2)
         {
             return this.InvokeWithRetry(
                 (c) => c.Channel.Add(n1, n2));

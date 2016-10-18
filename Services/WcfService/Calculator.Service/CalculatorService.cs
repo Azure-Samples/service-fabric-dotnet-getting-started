@@ -8,6 +8,7 @@ namespace Calculator.Service
 {
     using System.Fabric;
     using System.ServiceModel;
+    using System.Threading.Tasks;
     using Calculator.Common;
 
     // Service class which implements the service contract.
@@ -21,12 +22,12 @@ namespace Calculator.Service
             this.context = context;
         }
 
-        public double Add(double n1, double n2)
+        public Task<double> Add(double n1, double n2)
         {
             var result = n1 + n2;
             ServiceEventSource.Current.ServiceMessage(this.context, "Received Add({0},{1})", n1, n2);
             ServiceEventSource.Current.ServiceMessage(this.context, "Return: {0}", result);
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

@@ -7,12 +7,13 @@
 namespace Calculator.Common
 {
     using System.ServiceModel;
+    using System.Threading.Tasks;
 
     // Define a service contract.
     [ServiceContract]
     public interface ICalculator
     {
         [OperationContract]
-        double Add(double n1, double n2);
+        Task<double> Add(double n1, double n2);
     }
 }
