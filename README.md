@@ -50,6 +50,17 @@ Chatter is currently being upgraded to ASP.NET Core 1.0 and will return soon.
 
 WordCount provides an introduction to using reliable collections and to partitioning stateful services. A client-side JavaScript function generates random five-character strings, which are then sent to the application via an ASP.NET WebAPI to be counted. The stateless web service resolves the endpoint for the stateful service's partition based on the first character of the string. The stateful service maintains a backlog of words to count in a `ReliableQueue` and then keeps track of their count in a `ReliableDictionary`. The total count, plus a per-partition count, are shown in the web UI at http://&lt;clusteraddress&gt;:8081/WordCount/.
 
+### WCFService
+
+#### Calculator.Service
+Calculator Service provides a way to integrate your existing WCF Services with service fabric framework .This shows how to create Stateless Service using communication as WCF Http binding.
+
+#### Calculator.Client
+This shows how to create WCF Client and how to connect the the service endpoint. 
+CalculatorClient is a Wcf Client uses ClientFactoryBase which in turn provides various features like resolving endpoints during Service Failover  , ExceptionHandling and maintains a cache of communication
+clients and attempts to reuse the clients for requests to the same service endpoint.
+It is using BasicHttpBinding . Any WCF binding can be chosen. It should be compatible with service binding.
+
 ## Guest Executables Samples
 ### SimpleApplication
 
