@@ -14,7 +14,7 @@
   </ServiceManifestImport>
   <DefaultServices>
     <Service Name="VoicemailBoxActorService" GeneratedIdRef="b24b6bdc-58b1-4dda-b1d2-640bafcbeb27|None">
-      <StatefulService ServiceTypeName="VoiceMailBoxActorServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="2">
+      <StatefulService ServiceTypeName="VoiceMailBoxActorServiceType" TargetReplicaSetSize="[VoicemailBoxActorService_TargetReplicaSetSize]" MinReplicaSetSize="[VoicemailBoxActorService_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[VoicemailBoxActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
