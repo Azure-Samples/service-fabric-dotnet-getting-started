@@ -7,6 +7,7 @@ namespace WordCount.WebService
 {
     using System;
     using System.Net;
+    using System.Net.Http;
     using System.Net.Sockets;
     using Microsoft.ServiceFabric.Services.Communication.Client;
 
@@ -25,6 +26,11 @@ namespace WordCount.WebService
                 return true;
             }
             else if (exceptionInformation.Exception is SocketException)
+            {
+                result = new ExceptionHandlingRetryResult(exceptionInformation.Exception, false, retrySettings, retrySettings.DefaultMaxRetryCount);
+                return true;
+            }
+            else if (exceptionInformation.Exception is HttpRequestException)
             {
                 result = new ExceptionHandlingRetryResult(exceptionInformation.Exception, false, retrySettings, retrySettings.DefaultMaxRetryCount);
                 return true;
