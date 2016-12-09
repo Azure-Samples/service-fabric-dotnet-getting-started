@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="GettingStartedApplicationType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="StatefulBackendService_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="StatefulBackendService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="StatefulBackendService_PartitionCount" DefaultValue="1" />
+    <Parameter Name="StatefulBackendService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="StatelessBackendService_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="WebService_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="ActorBackendServiceActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="ActorBackendServiceActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="ActorBackendServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
+  </Parameters>
+  <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
+       should match the Name and Version attributes of the ServiceManifest element defined in the 
+       ServiceManifest.xml file. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="StatefulBackendServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="StatelessBackendServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="WebServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="ActorBackendServicePkg" ServiceManifestVersion="1.0.0" />
+  </ServiceManifestImport>
+  <DefaultServices>
+    <!-- The section below creates instances of service types, when an instance of this 
+         application type is created. You can also create one or more instances of service type using the 
+         ServiceFabric PowerShell module.
+         
+         The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="StatefulBackendService">
+      <StatefulService ServiceTypeName="StatefulBackendServiceType" TargetReplicaSetSize="[StatefulBackendService_TargetReplicaSetSize]" MinReplicaSetSize="[StatefulBackendService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[StatefulBackendService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="StatelessBackendService">
+      <StatelessService ServiceTypeName="StatelessBackendServiceType" InstanceCount="[StatelessBackendService_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="WebService">
+      <StatelessService ServiceTypeName="WebServiceType" InstanceCount="[WebService_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="ActorBackendServiceActorService" GeneratedIdRef="392c9c19-d64c-47a7-8c6d-7f247b2bed06|Persisted">
+      <StatefulService ServiceTypeName="ActorBackendServiceActorServiceType" TargetReplicaSetSize="[ActorBackendServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ActorBackendServiceActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[ActorBackendServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+  </DefaultServices>
+</ApplicationManifest>
