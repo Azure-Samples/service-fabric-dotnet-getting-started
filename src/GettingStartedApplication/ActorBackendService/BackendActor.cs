@@ -20,14 +20,14 @@ namespace ActorBackendService
     ///  - None: State is kept in memory only and not replicated.
     /// </remarks>
     [StatePersistence(StatePersistence.Persisted)]
-    internal class ActorBackendService : Actor, IActorBackendService
+    internal class BackendActor : Actor, IActorBackendService
     {
         /// <summary>
         /// Initializes a new instance of ActorBackendService
         /// </summary>
         /// <param name="actorService">The Microsoft.ServiceFabric.Actors.Runtime.ActorService that will host this actor instance.</param>
         /// <param name="actorId">The Microsoft.ServiceFabric.Actors.ActorId for this actor instance.</param>
-        public ActorBackendService(ActorService actorService, ActorId actorId)
+        public BackendActor(ActorService actorService, ActorId actorId)
             : base(actorService, actorId)
         {
         }

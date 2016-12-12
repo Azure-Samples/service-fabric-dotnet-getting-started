@@ -50,8 +50,8 @@
         <SingletonPartition />
       </StatelessService>
     </Service>
-    <Service Name="ActorBackendServiceActorService" GeneratedIdRef="392c9c19-d64c-47a7-8c6d-7f247b2bed06|Persisted">
-      <StatefulService ServiceTypeName="ActorBackendServiceActorServiceType" TargetReplicaSetSize="[ActorBackendServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ActorBackendServiceActorService_MinReplicaSetSize]">
+    <Service Name="ActorBackendServiceActorService" GeneratedIdRef="345ccf78-fdba-4350-8d4c-a70f4afea098|Persisted">
+      <StatefulService ServiceTypeName="BackendActorServiceType" TargetReplicaSetSize="[ActorBackendServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ActorBackendServiceActorService_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[ActorBackendServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
