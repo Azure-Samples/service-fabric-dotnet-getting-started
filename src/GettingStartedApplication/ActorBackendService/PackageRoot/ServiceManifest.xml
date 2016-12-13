@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="ActorBackendServicePkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <ServiceTypes>
-    <StatefulServiceType ServiceTypeName="ActorBackendServiceActorServiceType" HasPersistedState="true">
+    <StatefulServiceType ServiceTypeName="BackendActorServiceType" HasPersistedState="true">
       <Extensions>
-        <Extension Name="__GeneratedServiceType__" GeneratedId="392c9c19-d64c-47a7-8c6d-7f247b2bed06|Persisted">
+        <Extension Name="__GeneratedServiceType__" GeneratedId="345ccf78-fdba-4350-8d4c-a70f4afea098|Persisted">
           <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
             <DefaultService Name="ActorBackendServiceActorService" />
-            <ServiceEndpoint Name="ActorBackendServiceActorServiceEndpoint" />
-            <ReplicatorEndpoint Name="ActorBackendServiceActorServiceReplicatorEndpoint" />
-            <ReplicatorConfigSection Name="ActorBackendServiceActorServiceReplicatorConfig" />
-            <ReplicatorSecurityConfigSection Name="ActorBackendServiceActorServiceReplicatorSecurityConfig" />
-            <StoreConfigSection Name="ActorBackendServiceActorServiceLocalStoreConfig" />
+            <ServiceEndpoint Name="BackendActorServiceEndpoint" />
+            <ReplicatorEndpoint Name="BackendActorServiceReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="BackendActorServiceReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="BackendActorServiceReplicatorSecurityConfig" />
+            <StoreConfigSection Name="BackendActorServiceLocalStoreConfig" />
           </GeneratedNames>
         </Extension>
       </Extensions>
@@ -26,8 +26,8 @@
   <ConfigPackage Name="Config" Version="1.0.0" />
   <Resources>
     <Endpoints>
-      <Endpoint Name="ActorBackendServiceActorServiceEndpoint" />
-      <Endpoint Name="ActorBackendServiceActorServiceReplicatorEndpoint" />
+      <Endpoint Name="BackendActorServiceEndpoint" />
+      <Endpoint Name="BackendActorServiceReplicatorEndpoint" />
     </Endpoints>
   </Resources>
   <!-- The content will be generated during build -->

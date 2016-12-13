@@ -5,6 +5,7 @@
 
 namespace ActorBackendService
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using global::ActorBackendService.Interfaces;
@@ -20,44 +21,26 @@ namespace ActorBackendService
     ///  - None: State is kept in memory only and not replicated.
     /// </remarks>
     [StatePersistence(StatePersistence.Persisted)]
-    internal class ActorBackendService : Actor, IActorBackendService
+    internal class BackendActor : Actor, IActorBackendService, IRemindable
     {
+        private const string ReminderName = "Reminder";
+        private const string StateName = "Count";
+
         /// <summary>
         /// Initializes a new instance of ActorBackendService
         /// </summary>
         /// <param name="actorService">The Microsoft.ServiceFabric.Actors.Runtime.ActorService that will host this actor instance.</param>
         /// <param name="actorId">The Microsoft.ServiceFabric.Actors.ActorId for this actor instance.</param>
-        public ActorBackendService(ActorService actorService, ActorId actorId)
+        public BackendActor(ActorService actorService, ActorId actorId)
             : base(actorService, actorId)
         {
         }
-
-        /// <summary>
-        /// TODO: Replace with your own actor method.
-        /// </summary>
-        /// <returns></returns>
-        Task<int> IActorBackendService.GetCountAsync(CancellationToken cancellationToken)
-        {
-            return this.StateManager.GetStateAsync<int>("count", cancellationToken);
-        }
-
-        /// <summary>
-        /// TODO: Replace with your own actor method.
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        Task IActorBackendService.SetCountAsync(int count, CancellationToken cancellationToken)
-        {
-            // Requests are not guaranteed to be processed in order nor at most once.
-            // The update function here verifies that the incoming count is greater than the current count to preserve order.
-            return this.StateManager.AddOrUpdateStateAsync("count", count, (key, value) => count > value ? count : value, cancellationToken);
-        }
-
+        
         /// <summary>
         /// This method is called whenever an actor is activated.
         /// An actor is activated the first time any of its methods are invoked.
         /// </summary>
-        protected override Task OnActivateAsync()
+        protected override async Task OnActivateAsync()
         {
             ActorEventSource.Current.ActorMessage(this, "Actor activated.");
 
@@ -65,8 +48,35 @@ namespace ActorBackendService
             // Data stored in the StateManager will be replicated for high-availability for actors that use volatile or persisted state storage.
             // Any serializable object can be saved in the StateManager.
             // For more information, see https://aka.ms/servicefabricactorsstateserialization
+            await base.OnActivateAsync();
+        }
 
-            return this.StateManager.TryAddStateAsync("count", 0);
+        public async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        {
+            if (reminderName.Equals(ReminderName, StringComparison.OrdinalIgnoreCase))
+            {
+                long currentValue = await this.StateManager.GetStateAsync<long>(StateName);
+
+                ActorEventSource.Current.ActorMessage(this, $"Processing. Current value: {currentValue}");
+
+                await this.StateManager.SetStateAsync<long>(StateName, ++currentValue);
+            }
+        }
+
+        public async Task StartProcessingAsync(CancellationToken cancellationToken)
+        {
+            if (this.GetReminder(ReminderName) == null)
+            {
+                bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
+
+                if (!added)
+                {
+                    // value already exists, which means processing has already started.
+                    throw new InvalidOperationException("Processing for this actor has already started.");
+                }
+
+                await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
+            }
         }
     }
 }
