@@ -2,6 +2,25 @@
 var newEntityData = new Object();
 var EntityData;
 
+function getStatelessBackendCount() {
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function () {
+        if (http.readyState === 4) {
+            if (http.status < 400) {
+                entityData = JSON.parse(http.responseText);
+                if (entityData) {
+                    statelessBackendCount.innerText = entityData.count;
+                }
+                /* myAlert(""); */
+            } else {
+                /* myAlert(http.statusText); */
+            }
+        }
+    };
+    http.open("GET", "/api/StatelessBackendService/");
+    http.send();
+}
+
 function getStatefulBackendServiceDictionary() {
     var http = new XMLHttpRequest();
     http.onreadystatechange = function () {
