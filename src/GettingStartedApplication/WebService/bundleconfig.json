@@ -15,7 +15,6 @@
     ],
     // Optionally specify minification options
     "minify": {
-      "enabled": true,
       "enabled": false,
       "renameLocals": true
     },
