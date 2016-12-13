@@ -36,3 +36,5 @@ textarea {
     display: none
   }
 }
+
+.top-buffer { padding-top:10px; }
