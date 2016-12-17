@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Service Fabric Application Template";
+}
+
+ <!-- Content Row -->
+<div class="row">
+
+    <!-- Service column -->
+    <div class="col-md-12">
+        <h3>Stateful Backend Service</h3>
+        <p>
+            The stateful backend service stores a dictionary of key/value pairs of two strings in a reliable collection.
+            You can add a key/value pair of two strings in the stateful service here.
+        </p>
+
+        <!-- Input, Table and Messages -->
+        <div class="row">
+
+            <!-- Input and Table -->
+            <div class="col-md-6">
+
+                <!-- Input -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="keyInput" placeholder="key">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="valueInput" placeholder="value">
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" onclick="addStatefulBackendServiceKeyValuePair()" type="button" id="addStatefulBackendServiceKeyValuePair">Add</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" onclick="getStatefulBackendServiceDictionary()" type="button" id="getStatefulBackendServiceDictionary">Get All</button>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="row top-buffer">
+                    <div class="col-md-12">
+                        <table class="table table-striped" id="statefulBackendServiceTable">
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages block -->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" onclick="clearLog()" type="button" id="newActor">Clear Log</button>
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-12">
+                        <div class="alert alert-info" id="message">
+                            Welcome :-)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -2,77 +2,15 @@
     ViewData["Title"] = "Service Fabric Application Template";
 }
 
+<!-- Content Row -->
 <div class="row">
-    <div class="col-sm-4">
-        <h3>Stateless Backend Service</h3>
-        <p>The stateless backend service increments a counter every second.</p>
-        <p>Click the button to get the current count from the service.</p>
-        <button class="btn btn-primary" onclick="getStatelessBackendCount()" type="button" id="getStatelessBackendCount">Get count</button>
-        <div class="row" style="padding-top: 10px">
-            <div class="form-group col-md-12">
-                <label>Stateless Backend Count: </label>
-                <label id="statelessBackendCount" class="text-info">0</label>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-sm-4">
-        <h3>Stateful Backend Service</h3>
-        <p>The stateful backend service stores a dictionary of key/value pairs of two strings in a reliable collection.</p>
-        <p>You can add a key/value pair of two strings in the stateful service here.</p>
-        <div class="row">
-            <div class="col-md-12">
-                <label>Add a key/value pair of two strings</label>
-                <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="keyInput" placeholder="key">
-                </div>
-                <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="valueInput" placeholder="value">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <button class="btn btn-primary btn-block" onclick="addStatefulBackendServiceKeyValuePair()" type="button" id="addStatefulBackendServiceKeyValuePair">Add</button>
-                </div>
-                <div class="col-md-6">
-                    <button class="btn btn-primary btn-block" onclick="getStatefulBackendServiceDictionary()" type="button" id="getStatefulBackendServiceDictionary">Get All</button>
-                </div>
-            </div>
-        </div>
-        <div class="row top-buffer">
-            <div class="col-md-12">
-                <table class="table table-striped" id="statefulBackendServiceTable">
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <h3>Actor Service</h3>
-        <p>You can create new actors that will increment their count every second.</p>
-        <P>Create a new actor by clicking the <strong>New Actor button</strong>.</P>
-        <p>Get a list of actors and their current count by pressing the <strong>Get actor(s) and count</strong> button.</p>
-        <div class="row">
-            <div class="col-md-4"><button class="btn btn-primary" onclick="newActor()" type="button" id="newActor">New actor</button></div>
-            <div class="col-md-4"><button class="btn btn-primary" onclick="getActors()" type="button" id="getActors">Get actor(s) and count</button></div>
-        </div>
-        <div class="row" style="padding-top: 10px">
-            <div class="col-md-12">
-                <table class="table table-striped">
-                    <tr>
-                        <th>Actor ID</th>
-                        <th>Count</th>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+    <!-- Service column -->
+    <div class="col-md-12">
+        <h3>Docs docs docs...</h3>
+        <p>
+            Good description of what this is and how to use it.
+            References to docs and other samples...
+        </p>
     </div>
 </div>

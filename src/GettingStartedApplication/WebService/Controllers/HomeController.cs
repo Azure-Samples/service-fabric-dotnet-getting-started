@@ -15,21 +15,17 @@ namespace WebService.Controllers
             return this.View();
         }
 
-        //public IActionResult About()
-        //{
-        //    this.ViewData["Message"] = "Your application description page.";
+        public IActionResult Stateless()
+        {
+            return this.View();
+        }
 
-        //    return this.View();
-        //}
+        public IActionResult Stateful()
+        {
+            return this.View();
+        }
 
-        //public IActionResult Contact()
-        //{
-        //    this.ViewData["Message"] = "Your contact page.";
-
-        //    return this.View();
-        //}
-
-        public IActionResult Error()
+        public IActionResult Actor()
         {
             return this.View();
         }

@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Service Fabric Application Template";
+}
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Service column -->
+    <div class="col-md-12">
+        <h3>Stateless Backend Service</h3>
+        <p>The stateless backend service increments a counter every second. Click the button to get the current count from the service.</p>
+
+        <!-- Button -->
+        <div class="row">
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-block" onclick="getStatelessBackendCount()" type="button" id="getStatelessBackendCount">Get Count</button>
+            </div>
+        </div>
+
+        <!-- Messages button row -->
+        <div class="row top-buffer">
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-block" onclick="clearLog()" type="button" id="newActor">Clear Log</button>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-md-12">
+                <div class="alert alert-info" id="message">Welcome :-)</div>
+            </div>
+        </div>
+    </div>
+</div>
