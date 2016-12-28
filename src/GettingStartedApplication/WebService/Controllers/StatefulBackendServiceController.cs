@@ -17,47 +17,38 @@ namespace WebService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            List<KeyValuePair<string, string>> returnData = new List<KeyValuePair<string, string>>()
+            List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>()
             {
                 new KeyValuePair<string, string>("key1", "value1"),
                 new KeyValuePair<string, string>("key2", "value2")
             };
 
-            return new ContentResult
-            {
-                StatusCode = 200,
-                Content = JsonConvert.SerializeObject(
-                    returnData,
-                    Formatting.Indented,
-                    new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }),
-                ContentType = "application/json"
-            };
+            return Json(result);
         }
 
-        // POST api/values
-        [HttpPost]
+        // PUT api/values
+        [HttpPut]
         public async Task<IActionResult> PostAsync([FromBody]KeyValuePair<string, string> keyValuePair)
         {
             int partitionKeyNumber;
-            
-            // Don't know if this should actually be an exception or just return a message???
+
             try
             {
                 string key = keyValuePair.Key;
 
-                // Validate this in the UI?
+                // Should we validate this in the UI or here in the controller?
                 if (!String.IsNullOrEmpty(key))
                 {
                     partitionKeyNumber = GetPartitionKey(key);
                 }
                 else
                 {
-                    throw new ArgumentException("The key must begin with a letter between A and Z");
+                    throw new ArgumentException("No key provided");
                 }
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message);
+                return new ContentResult { StatusCode = 400, Content = ex.Message };
             }
 
             // Probably need some more info from the backend that just a bool, to pass on to the client
@@ -66,21 +57,11 @@ namespace WebService.Controllers
             // How do we pass on errors from the statefulbackend?
             if (result)
             {
-                return new ContentResult
-                {
-                    StatusCode = 200,
-                    Content = JsonConvert.SerializeObject(result),
-                    ContentType = "application/json"
-                };
+                return Json(result);
             }
             else
             {
-                return new ContentResult
-                {
-                    StatusCode = 500,
-                    Content = JsonConvert.SerializeObject(result),
-                    ContentType = "application/json"
-                };
+                return new ContentResult { StatusCode = 503, Content = "Something went wrong." };
             }
         }
 
@@ -110,7 +91,6 @@ namespace WebService.Controllers
 
         #endregion
 
-
         #region NotImplemented HTTPMethods
 
         // GET api/values/5
@@ -120,8 +100,8 @@ namespace WebService.Controllers
             throw new NotImplementedException("No method implemented to get a specific key/value pair from the Stateful Backend Service");
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
+        // POST api/values/5
+        [HttpPost("{id}")]
         public void Put(int id, [FromBody]string value)
         {
             throw new NotImplementedException("No method implemented to update the entire dictionary of key/value pairs in the Stateful Backend Service");
@@ -135,7 +115,6 @@ namespace WebService.Controllers
         }
 
         #endregion
-
 
     }
 }

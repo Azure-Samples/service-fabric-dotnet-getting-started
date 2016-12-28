@@ -12,22 +12,22 @@ namespace WebService.Controllers
 
         public IActionResult Index()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult Stateless()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult Stateful()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult Actor()
         {
-            return this.View();
+            return View();
         }
     }
 }

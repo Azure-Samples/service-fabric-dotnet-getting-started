@@ -17,20 +17,12 @@ namespace WebService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var returnData = new
+            var result = new
             {
                 ActorCount = 12345
             };
 
-            return new ContentResult
-            {
-                StatusCode = 200,
-                Content = JsonConvert.SerializeObject(
-                    returnData,
-                    Formatting.Indented,
-                    new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }),
-                ContentType = "application/json"
-            };
+            return Json(result);
         }
 
         // POST api/actorbackendservice
@@ -44,12 +36,7 @@ namespace WebService.Controllers
             // How do we pass on errors from the statefulbackend?
             if (result)
             {
-                return new ContentResult
-                {
-                    StatusCode = 200,
-                    Content = JsonConvert.SerializeObject(result),
-                    ContentType = "application/json"
-                };
+                return Json(result);
             }
             else
             {
