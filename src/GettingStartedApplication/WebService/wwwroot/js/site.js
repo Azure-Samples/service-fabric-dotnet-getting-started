@@ -111,61 +111,61 @@ function newActor() {
     start = new Date().getTime();
     http.open("POST", "/api/ActorBackendService/");
     http.send();
+}
 
-    /* UI Helper fuctions */
+/* UI Helper fuctions */
 
-    /* This function renders the output of the call to the Stateful Backend Service in a table */
-    function renderStatefulBackendServiceDictionary(dictionary) {
-        var table = document.getElementById('statefulBackendServiceTable').childNodes[1];
+/* This function renders the output of the call to the Stateful Backend Service in a table */
+function renderStatefulBackendServiceDictionary(dictionary) {
+    var table = document.getElementById('statefulBackendServiceTable').childNodes[1];
 
-        while (table.childElementCount > 1) {
-            table.removeChild(table.lastChild);
-        }
-
-        for (var i = 0; i < dictionary.length; i++) {
-            var tr = document.createElement('tr');
-            var tdKey = document.createElement('td');
-            tdKey.appendChild(document.createTextNode(dictionary[i].key));
-            tr.appendChild(tdKey);
-            var tdValue = document.createElement('td');
-            tdValue.appendChild(document.createTextNode(dictionary[i].value));
-            tr.appendChild(tdValue);
-            table.appendChild(tr);
-        }
+    while (table.childElementCount > 1) {
+        table.removeChild(table.lastChild);
     }
 
-    /* This function posts messages to the log in the UI*/
-    function postMessage(text, alertType, add) {
-        switch (alertType) {
-            case "success":
-                message.className = 'alert alert-success';
-                break;
-            case "info":
-                message.className = 'alert alert-info';
-                break;
-            case "warning":
-                message.className = 'alert alert-warning';
-                break;
-            case "danger":
-                message.className = 'alert alert-danger';
-                break;
-        }
+    for (var i = 0; i < dictionary.length; i++) {
+        var tr = document.createElement('tr');
+        var tdKey = document.createElement('td');
+        tdKey.appendChild(document.createTextNode(dictionary[i].key));
+        tr.appendChild(tdKey);
+        var tdValue = document.createElement('td');
+        tdValue.appendChild(document.createTextNode(dictionary[i].value));
+        tr.appendChild(tdValue);
+        table.appendChild(tr);
+    }
+}
 
-        if (add) {
-            if (message.innerHTML == "") {
-                message.innerHTML = text;
-            }
-            else {
-                message.innerHTML = message.innerHTML + "<br>" + text;
-            }
-        }
-        else {
+/* This function posts messages to the log in the UI*/
+function postMessage(text, alertType, add) {
+    switch (alertType) {
+        case "success":
+            message.className = 'alert alert-success';
+            break;
+        case "info":
+            message.className = 'alert alert-info';
+            break;
+        case "warning":
+            message.className = 'alert alert-warning';
+            break;
+        case "danger":
+            message.className = 'alert alert-danger';
+            break;
+    }
+
+    if (add) {
+        if (message.innerHTML === "") {
             message.innerHTML = text;
         }
+        else {
+            message.innerHTML = message.innerHTML + "<br>" + text;
+        }
     }
+    else {
+        message.innerHTML = text;
+    }
+}
 
-    /* This function - wait for it... clears the log in the UI!!! */
-    function clearLog() {
-        postMessage("", "info", false)
-    }
+/* This function - wait for it... clears the log in the UI!!! */
+function clearLog() {
+    postMessage("", "info", false)
 }
