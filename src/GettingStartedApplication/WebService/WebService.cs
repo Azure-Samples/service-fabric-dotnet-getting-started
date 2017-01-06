@@ -13,6 +13,8 @@ namespace WebService
     using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using Microsoft.ServiceFabric.Services.Runtime;
+    using System.Net.Http;
+    using System.Fabric.Description;
 
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
@@ -30,6 +32,7 @@ namespace WebService
         /// <returns>The collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
+
             return new ServiceInstanceListener[]
             {
                 new ServiceInstanceListener(
@@ -44,6 +47,8 @@ namespace WebService
                                 return new WebHostBuilder().UseWebListener()
                                     .ConfigureServices(
                                         services => services
+                                            .AddSingleton<ConfigSettings>(new ConfigSettings(serviceContext))
+                                            .AddSingleton<HttpClient>(new HttpClient())
                                             .AddSingleton<StatelessServiceContext>(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
@@ -52,5 +57,6 @@ namespace WebService
                             }))
             };
         }
+
     }
 }

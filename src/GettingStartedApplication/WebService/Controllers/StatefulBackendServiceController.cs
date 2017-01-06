@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Fabric;
+using System.Net.Http;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +15,17 @@ namespace WebService.Controllers
     [Route("api/[controller]")]
     public class StatefulBackendServiceController : Controller
     {
+        private readonly HttpClient httpClient;
+        private readonly StatelessServiceContext serviceContext;
+        private readonly ConfigSettings configSettings;
+
+        public StatefulBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, ConfigSettings settings)
+        {
+            this.serviceContext = serviceContext;
+            this.httpClient = httpClient;
+            this.configSettings = settings;
+        }
+
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> GetAsync()
@@ -22,7 +35,7 @@ namespace WebService.Controllers
                 new KeyValuePair<string, string>("key1", "value1"),
                 new KeyValuePair<string, string>("key2", "value2")
             };
-
+            
             return Json(result);
         }
 
