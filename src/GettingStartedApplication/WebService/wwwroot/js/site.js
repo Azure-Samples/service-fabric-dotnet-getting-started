@@ -15,7 +15,7 @@ function getStatelessBackendCount() {
         }
     };
     start = new Date().getTime();
-    http.open("GET", "/api/StatelessBackendService/");
+    http.open("GET", "/api/StatelessBackendService/?c=" + start);
     http.send();
 }
 
@@ -37,7 +37,7 @@ function getStatefulBackendServiceDictionary() {
         }
     };
     start = new Date().getTime();
-    http.open("GET", "/api/StatefulBackendService/");
+    http.open("GET", "/api/StatefulBackendService/?c=" + start);
     http.send();
 }
 
@@ -65,7 +65,7 @@ function addStatefulBackendServiceKeyValuePair() {
         }
     };
     start = new Date().getTime();
-    http.open("PUT", "/api/StatefulBackendService/");
+    http.open("PUT", "/api/StatefulBackendService/?c=" + start);
     http.setRequestHeader("content-type", "application/json");
     http.send(JSON.stringify(keyValue));
 }
@@ -87,7 +87,7 @@ function getActorCount() {
         }
     };
     start = new Date().getTime();
-    http.open("GET", "/api/ActorBackendService/");
+    http.open("GET", "/api/ActorBackendService/?c=" + start);
     http.send();
 }
 
@@ -109,7 +109,7 @@ function newActor() {
         }
     };
     start = new Date().getTime();
-    http.open("POST", "/api/ActorBackendService/");
+    http.open("POST", "/api/ActorBackendService/?c=" + start);
     http.send();
 }
 

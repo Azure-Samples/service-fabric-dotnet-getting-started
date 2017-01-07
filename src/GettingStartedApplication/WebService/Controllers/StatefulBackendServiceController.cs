@@ -7,6 +7,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Fabric;
 using System.Net.Http;
+using System.Fabric.Query;
+using System.IO;
+using System.Text;
+using System.Net.Http.Headers;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,24 +22,53 @@ namespace WebService.Controllers
         private readonly HttpClient httpClient;
         private readonly StatelessServiceContext serviceContext;
         private readonly ConfigSettings configSettings;
+        private readonly FabricClient fabricClient;
 
-        public StatefulBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, ConfigSettings settings)
+        public StatefulBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings)
         {
             this.serviceContext = serviceContext;
             this.httpClient = httpClient;
             this.configSettings = settings;
+            this.fabricClient = fabricClient;
         }
 
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>()
+            // the stateful service service may have more than one partition.
+            // this sample code uses a very basic loop to aggregate the results from each partition to illustrate aggregation.
+            // note that this can be optimized in multiple ways for production code.
+            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName + "/" + this.configSettings.StatefulBackendServiceName;
+            ServicePartitionList partitions = await this.fabricClient.QueryManager.GetPartitionListAsync(new Uri(serviceUri));
+
+            List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>();
+
+            JsonSerializer serializer = new JsonSerializer();
+            foreach (Partition partition in partitions)
             {
-                new KeyValuePair<string, string>("key1", "value1"),
-                new KeyValuePair<string, string>("key2", "value2")
-            };
-            
+                long partitionKey = ((Int64RangePartitionInformation)partition.PartitionInformation).LowKey;
+
+                string proxyUrl = 
+                    $"http://localhost:{this.configSettings.ReverseProxyPort}/{serviceUri.Replace("fabric:/", "")}/api/values?PartitionKind={partition.PartitionInformation.Kind}&PartitionKey={partitionKey}";
+
+                HttpResponseMessage response = await this.httpClient.GetAsync(proxyUrl);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    // if one partition returns a failure, you can either fail the entire request or skip that partition.
+                    return this.StatusCode((int)response.StatusCode);
+                }
+
+                List<KeyValuePair<string, string>> list =
+                    JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(await response.Content.ReadAsStringAsync());
+
+                if (list != null && list.Any())
+                {
+                    result.AddRange(list);
+                }
+            }
+
             return Json(result);
         }
 
@@ -43,6 +76,7 @@ namespace WebService.Controllers
         [HttpPut]
         public async Task<IActionResult> PostAsync([FromBody]KeyValuePair<string, string> keyValuePair)
         {
+            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName.Replace("fabric:/", "") + "/" + this.configSettings.StatefulBackendServiceName;
             int partitionKeyNumber;
 
             try
@@ -64,21 +98,18 @@ namespace WebService.Controllers
                 return new ContentResult { StatusCode = 400, Content = ex.Message };
             }
 
-            // Probably need some more info from the backend that just a bool, to pass on to the client
-            bool result = await AddKeyValuePairToStatefulBackendService(partitionKeyNumber, keyValuePair);
+            string proxyUrl =
+                    $"http://localhost:{this.configSettings.ReverseProxyPort}/{serviceUri}/api/values/{keyValuePair.Key}?PartitionKind=Int64Range&PartitionKey={partitionKeyNumber}";
 
-            // How do we pass on errors from the statefulbackend?
-            if (result)
-            {
-                return Json(result);
-            }
-            else
-            {
-                return new ContentResult { StatusCode = 503, Content = "Something went wrong." };
-            }
+            string payload = $"{{ 'value' : '{keyValuePair.Value}' }}";
+            StringContent putContent = new StringContent(payload, Encoding.UTF8, "application/json");
+            putContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await this.httpClient.PutAsync(proxyUrl, putContent);
+            
+            return this.StatusCode((int)response.StatusCode);
         }
-
-        #region Helper Methods
+        
         private static int GetPartitionKey(string key)
         {
             // The partitioning scheme of the processing service is a range of integers from 0 - 25.
@@ -94,18 +125,8 @@ namespace WebService.Controllers
 
             return partitionKeyInt;
         }
-
-        private async Task<bool> AddKeyValuePairToStatefulBackendService(int partitionKey, KeyValuePair<string, string> keyValuePair)
-        {
-            var result = await Task.FromResult(true);
-
-            return result;
-        }
-
-        #endregion
-
-        #region NotImplemented HTTPMethods
-
+        
+       
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -126,8 +147,6 @@ namespace WebService.Controllers
         {
             throw new NotImplementedException("No method implemented to delete a specified key/value pair in the Stateful Backend Service");
         }
-
-        #endregion
 
     }
 }

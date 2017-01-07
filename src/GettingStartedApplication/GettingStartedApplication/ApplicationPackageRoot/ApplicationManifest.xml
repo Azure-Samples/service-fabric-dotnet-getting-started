@@ -7,6 +7,8 @@
     <Parameter Name="StatefulBackendService_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="StatelessBackendService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="WebService_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="WebService_StatefulBackendServiceName" DefaultValue="StatefulBackendService" />
+    <Parameter Name="WebService_ReverseProxyPort" DefaultValue="19081" />
     <Parameter Name="ActorBackendServiceActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="ActorBackendServiceActorService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="ActorBackendServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
@@ -24,7 +26,16 @@
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="WebServicePkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="MyConfigSection">
+            <Parameter Name="StatefulBackendServiceName" Value="[WebService_StatefulBackendServiceName]" />
+            <Parameter Name="ReverseProxyPort" Value="[WebService_ReverseProxyPort]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="ActorBackendServicePkg" ServiceManifestVersion="1.0.0" />
