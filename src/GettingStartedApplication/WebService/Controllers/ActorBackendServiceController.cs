@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿// ------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
+// ------------------------------------------------------------
 
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+ // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebService.Controllers
 {
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+
     [Route("api/[controller]")]
     public class ActorBackendServiceController : Controller
     {
@@ -22,21 +23,20 @@ namespace WebService.Controllers
                 ActorCount = 12345
             };
 
-            return Json(result);
+            return this.Json(result);
         }
 
         // POST api/actorbackendservice
         [HttpPost]
         public async Task<IActionResult> PostAsync()
         {
-
             // Probably need some more info from the backend that just a bool, to pass on to the client
-            bool result = await NewActor();
+            bool result = await this.NewActor();
 
             // How do we pass on errors from the statefulbackend?
             if (result)
             {
-                return Json(result);
+                return this.Json(result);
             }
             else
             {
@@ -50,14 +50,14 @@ namespace WebService.Controllers
         }
 
         #region Helper Methods
+
         private async Task<bool> NewActor()
         {
-            var result = await Task.FromResult(true);
+            bool result = await Task.FromResult(true);
 
             return result;
         }
 
         #endregion
-
     }
 }

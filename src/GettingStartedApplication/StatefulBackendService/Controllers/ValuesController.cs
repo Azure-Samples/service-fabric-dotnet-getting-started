@@ -10,6 +10,7 @@ namespace StatefulBackendService.Controllers
     using System.Fabric;
     using System.Threading;
     using System.Threading.Tasks;
+    using global::StatefulBackendService.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.ServiceFabric.Data;
     using Microsoft.ServiceFabric.Data.Collections;
@@ -20,7 +21,7 @@ namespace StatefulBackendService.Controllers
         private static readonly Uri ValuesDictionaryName = new Uri("store:/values");
 
         private readonly IReliableStateManager stateManager;
-        
+
         public ValuesController(IReliableStateManager stateManager)
         {
             this.stateManager = stateManager;
@@ -32,27 +33,31 @@ namespace StatefulBackendService.Controllers
         {
             try
             {
-                IReliableDictionary<string, string> dictionary =
-                    await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
-
                 List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>();
 
-                using (ITransaction tx = this.stateManager.CreateTransaction())
-                {
-                    IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
-                    IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
+                ConditionalValue<IReliableDictionary<string, string>> tryGetResult =
+                    await this.stateManager.TryGetAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
-                    while (await enumerator.MoveNextAsync(CancellationToken.None))
+                if (tryGetResult.HasValue)
+                {
+                    IReliableDictionary<string, string> dictionary = tryGetResult.Value;
+
+                    using (ITransaction tx = this.stateManager.CreateTransaction())
                     {
-                        result.Add(enumerator.Current);
+                        IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
+                        IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
+
+                        while (await enumerator.MoveNextAsync(CancellationToken.None))
+                        {
+                            result.Add(enumerator.Current);
+                        }
                     }
                 }
-
-                return Json(result);
+                return this.Json(result);
             }
-            catch (FabricNotPrimaryException)
+            catch (FabricException)
             {
-                return new ContentResult { StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service." };
+                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
             }
         }
 
@@ -79,22 +84,26 @@ namespace StatefulBackendService.Controllers
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult { StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service." };
+                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
+            }
+            catch (FabricException)
+            {
+                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
             }
         }
 
         // POST api/values/name
         [HttpPost("{name}")]
-        public async Task<IActionResult> Post(string name, [FromBody] string value)
+        public async Task<IActionResult> Post(string name, [FromBody] ValueViewModel value)
         {
             try
             {
                 IReliableDictionary<string, string> dictionary =
-                       await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                    await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
                 using (ITransaction tx = this.stateManager.CreateTransaction())
                 {
-                    await dictionary.SetAsync(tx, name, value);
+                    await dictionary.SetAsync(tx, name, value.Value);
                     await tx.CommitAsync();
                 }
 
@@ -102,33 +111,40 @@ namespace StatefulBackendService.Controllers
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult { StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service." };
+                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
+            }
+            catch (FabricException)
+            {
+                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
             }
         }
 
         // PUT api/values/5
         [HttpPut("{name}")]
-        public async Task<IActionResult> Put(string name, [FromBody] string value)
+        public async Task<IActionResult> Put(string name, [FromBody] ValueViewModel value)
         {
             try
             {
                 IReliableDictionary<string, string> dictionary =
-                         await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                    await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
                 using (ITransaction tx = this.stateManager.CreateTransaction())
                 {
-
-                    await dictionary.AddAsync(tx, name, value);
+                    await dictionary.AddAsync(tx, name, value.Value);
                     await tx.CommitAsync();
                 }
             }
             catch (ArgumentException)
             {
-                return new ContentResult { StatusCode = 400, Content = $"A value with name {name} already exists." };
+                return new ContentResult {StatusCode = 400, Content = $"A value with name {name} already exists."};
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult { StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service." };
+                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
+            }
+            catch (FabricException)
+            {
+                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
             }
 
             return this.Ok();
@@ -139,7 +155,7 @@ namespace StatefulBackendService.Controllers
         public async Task<IActionResult> Delete(string name)
         {
             IReliableDictionary<string, string> dictionary =
-                       await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
             try
             {
@@ -154,12 +170,12 @@ namespace StatefulBackendService.Controllers
                         return this.Ok();
                     }
 
-                    return new ContentResult { StatusCode = 400, Content = $"A value with name {name} doesn't exist." };
+                    return new ContentResult {StatusCode = 400, Content = $"A value with name {name} doesn't exist."};
                 }
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult { StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service." };
+                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
             }
         }
     }

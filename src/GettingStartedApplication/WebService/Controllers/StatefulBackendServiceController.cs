@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Fabric;
-using System.Net.Http;
-using System.Fabric.Query;
-using System.IO;
-using System.Text;
-using System.Net.Http.Headers;
+﻿// ------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
+// ------------------------------------------------------------
 
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+ // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebService.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Fabric;
+    using System.Fabric.Query;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+
     [Route("api/[controller]")]
     public class StatefulBackendServiceController : Controller
     {
@@ -24,7 +27,8 @@ namespace WebService.Controllers
         private readonly ConfigSettings configSettings;
         private readonly FabricClient fabricClient;
 
-        public StatefulBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings)
+        public StatefulBackendServiceController(
+            StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings)
         {
             this.serviceContext = serviceContext;
             this.httpClient = httpClient;
@@ -47,9 +51,9 @@ namespace WebService.Controllers
             JsonSerializer serializer = new JsonSerializer();
             foreach (Partition partition in partitions)
             {
-                long partitionKey = ((Int64RangePartitionInformation)partition.PartitionInformation).LowKey;
+                long partitionKey = ((Int64RangePartitionInformation) partition.PartitionInformation).LowKey;
 
-                string proxyUrl = 
+                string proxyUrl =
                     $"http://localhost:{this.configSettings.ReverseProxyPort}/{serviceUri.Replace("fabric:/", "")}/api/values?PartitionKind={partition.PartitionInformation.Kind}&PartitionKey={partitionKey}";
 
                 HttpResponseMessage response = await this.httpClient.GetAsync(proxyUrl);
@@ -57,7 +61,7 @@ namespace WebService.Controllers
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 {
                     // if one partition returns a failure, you can either fail the entire request or skip that partition.
-                    return this.StatusCode((int)response.StatusCode);
+                    return this.StatusCode((int) response.StatusCode);
                 }
 
                 List<KeyValuePair<string, string>> list =
@@ -69,14 +73,15 @@ namespace WebService.Controllers
                 }
             }
 
-            return Json(result);
+            return this.Json(result);
         }
 
         // PUT api/values
         [HttpPut]
-        public async Task<IActionResult> PostAsync([FromBody]KeyValuePair<string, string> keyValuePair)
+        public async Task<IActionResult> PutAsync([FromBody] KeyValuePair<string, string> keyValuePair)
         {
-            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName.Replace("fabric:/", "") + "/" + this.configSettings.StatefulBackendServiceName;
+            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName.Replace("fabric:/", "") + "/" +
+                                this.configSettings.StatefulBackendServiceName;
             int partitionKeyNumber;
 
             try
@@ -95,21 +100,41 @@ namespace WebService.Controllers
             }
             catch (Exception ex)
             {
-                return new ContentResult { StatusCode = 400, Content = ex.Message };
+                return new ContentResult {StatusCode = 400, Content = ex.Message};
             }
 
             string proxyUrl =
-                    $"http://localhost:{this.configSettings.ReverseProxyPort}/{serviceUri}/api/values/{keyValuePair.Key}?PartitionKind=Int64Range&PartitionKey={partitionKeyNumber}";
+                $"http://localhost:{this.configSettings.ReverseProxyPort}/{serviceUri}/api/values/{keyValuePair.Key}?PartitionKind=Int64Range&PartitionKey={partitionKeyNumber}";
 
             string payload = $"{{ 'value' : '{keyValuePair.Value}' }}";
             StringContent putContent = new StringContent(payload, Encoding.UTF8, "application/json");
             putContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             HttpResponseMessage response = await this.httpClient.PutAsync(proxyUrl, putContent);
-            
-            return this.StatusCode((int)response.StatusCode);
+
+            return new ContentResult()
+            {
+                StatusCode = (int) response.StatusCode,
+                Content = await response.Content.ReadAsStringAsync()
+            };
         }
-        
+
+
+        // GET api/values/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            throw new NotImplementedException("No method implemented to get a specific key/value pair from the Stateful Backend Service");
+        }
+
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            throw new NotImplementedException("No method implemented to delete a specified key/value pair in the Stateful Backend Service");
+        }
+
         private static int GetPartitionKey(string key)
         {
             // The partitioning scheme of the processing service is a range of integers from 0 - 25.
@@ -125,28 +150,5 @@ namespace WebService.Controllers
 
             return partitionKeyInt;
         }
-        
-       
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            throw new NotImplementedException("No method implemented to get a specific key/value pair from the Stateful Backend Service");
-        }
-
-        // POST api/values/5
-        [HttpPost("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-            throw new NotImplementedException("No method implemented to update the entire dictionary of key/value pairs in the Stateful Backend Service");
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            throw new NotImplementedException("No method implemented to delete a specified key/value pair in the Stateful Backend Service");
-        }
-
     }
 }

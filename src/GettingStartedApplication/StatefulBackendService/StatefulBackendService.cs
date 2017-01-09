@@ -8,8 +8,6 @@ namespace StatefulBackendService
     using System.Collections.Generic;
     using System.Fabric;
     using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.ServiceFabric.Data;

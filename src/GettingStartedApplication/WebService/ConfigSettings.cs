@@ -10,10 +10,9 @@ namespace WebService
 
     public class ConfigSettings
     {
-
         public ConfigSettings(StatelessServiceContext context)
         {
-            context.CodePackageActivationContext.ConfigurationPackageModifiedEvent += CodePackageActivationContext_ConfigurationPackageModifiedEvent;
+            context.CodePackageActivationContext.ConfigurationPackageModifiedEvent += this.CodePackageActivationContext_ConfigurationPackageModifiedEvent;
             this.UpdateConfigSettings(context.CodePackageActivationContext.GetConfigurationPackageObject("Config").Settings);
         }
 
@@ -29,7 +28,7 @@ namespace WebService
 
         private void UpdateConfigSettings(ConfigurationSettings settings)
         {
-            var section = settings.Sections["MyConfigSection"];
+            ConfigurationSection section = settings.Sections["MyConfigSection"];
             this.StatefulBackendServiceName = section.Parameters["StatefulBackendServiceName"].Value;
             this.ReverseProxyPort = int.Parse(section.Parameters["ReverseProxyPort"].Value);
         }

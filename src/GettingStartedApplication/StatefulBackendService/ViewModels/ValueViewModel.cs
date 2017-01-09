@@ -3,13 +3,10 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace StatelessBackendService.Interfaces
+namespace StatefulBackendService.ViewModels
 {
-    using System.Threading.Tasks;
-    using Microsoft.ServiceFabric.Services.Remoting;
-
-    public interface IStatelessBackendService : IService
+    public class ValueViewModel
     {
-        Task<long> GetCountAsync();
+        public string Value { get; set; }
     }
 }

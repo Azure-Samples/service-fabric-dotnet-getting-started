@@ -10,7 +10,7 @@ namespace StatelessBackendService
     using System.Fabric;
     using System.Threading;
     using System.Threading.Tasks;
-    using Interfaces;
+    using global::StatelessBackendService.Interfaces;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using Microsoft.ServiceFabric.Services.Remoting.Runtime;
     using Microsoft.ServiceFabric.Services.Runtime;
@@ -29,7 +29,7 @@ namespace StatelessBackendService
 
         public Task<long> GetCountAsync()
         {
-            return Task.FromResult(iterations);
+            return Task.FromResult(this.iterations);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace StatelessBackendService
                 cancellationToken.ThrowIfCancellationRequested();
 
                 ++this.iterations;
-                
+
                 ServiceEventSource.Current.ServiceMessage(this.Context, "Working-{0}", this.iterations);
 
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);

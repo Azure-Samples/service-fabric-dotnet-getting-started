@@ -8,7 +8,7 @@ namespace ActorBackendService
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using global::ActorBackendService.Interfaces;
+    using ActorBackendService.Interfaces;
     using Microsoft.ServiceFabric.Actors;
     using Microsoft.ServiceFabric.Actors.Runtime;
 
@@ -35,33 +35,6 @@ namespace ActorBackendService
             : base(actorService, actorId)
         {
         }
-        
-        /// <summary>
-        /// This method is called whenever an actor is activated.
-        /// An actor is activated the first time any of its methods are invoked.
-        /// </summary>
-        protected override async Task OnActivateAsync()
-        {
-            ActorEventSource.Current.ActorMessage(this, "Actor activated.");
-
-            // The StateManager is this actor's private state store.
-            // Data stored in the StateManager will be replicated for high-availability for actors that use volatile or persisted state storage.
-            // Any serializable object can be saved in the StateManager.
-            // For more information, see https://aka.ms/servicefabricactorsstateserialization
-            await base.OnActivateAsync();
-        }
-
-        public async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
-        {
-            if (reminderName.Equals(ReminderName, StringComparison.OrdinalIgnoreCase))
-            {
-                long currentValue = await this.StateManager.GetStateAsync<long>(StateName);
-
-                ActorEventSource.Current.ActorMessage(this, $"Processing. Current value: {currentValue}");
-
-                await this.StateManager.SetStateAsync<long>(StateName, ++currentValue);
-            }
-        }
 
         public async Task StartProcessingAsync(CancellationToken cancellationToken)
         {
@@ -77,6 +50,33 @@ namespace ActorBackendService
 
                 await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
             }
+        }
+
+        public async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
+        {
+            if (reminderName.Equals(ReminderName, StringComparison.OrdinalIgnoreCase))
+            {
+                long currentValue = await this.StateManager.GetStateAsync<long>(StateName);
+
+                ActorEventSource.Current.ActorMessage(this, $"Processing. Current value: {currentValue}");
+
+                await this.StateManager.SetStateAsync<long>(StateName, ++currentValue);
+            }
+        }
+
+        /// <summary>
+        /// This method is called whenever an actor is activated.
+        /// An actor is activated the first time any of its methods are invoked.
+        /// </summary>
+        protected override async Task OnActivateAsync()
+        {
+            ActorEventSource.Current.ActorMessage(this, "Actor activated.");
+
+            // The StateManager is this actor's private state store.
+            // Data stored in the StateManager will be replicated for high-availability for actors that use volatile or persisted state storage.
+            // Any serializable object can be saved in the StateManager.
+            // For more information, see https://aka.ms/servicefabricactorsstateserialization
+            await base.OnActivateAsync();
         }
     }
 }
