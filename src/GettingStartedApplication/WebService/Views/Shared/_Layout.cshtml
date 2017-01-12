@@ -4,9 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-
     <link rel="icon" type="image/png" href="~/images/favicon.png" />
-
     <environment names="Development">
         <link rel="stylesheet" href="~/css/light.min.css">
         <link rel="stylesheet" href="~/css/lib.min.css">
@@ -15,45 +13,57 @@
         <link rel="stylesheet" href="~/css/light.min.css" asp-append-version="true">
         <link rel="stylesheet" href="~/css/lib.min.css" asp-append-version="true">
     </environment>
-
     <style>
-        .top-buffer { padding-top:10px; }
+        .top-buffer {
+            padding-top: 10px;
+        }
+
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            height: 100px;
+        }
+
+        .no-margin {
+            margin: unset;
+        }
     </style>
-
 </head>
-
-<body>
-
+<body onload="navTab()">
     <!-- Navigation Bar -->
-    <div class="navbar navbar-inverse">
-        <div class="container">
+    <div class="navbar navbar-default">
+        <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Home</a>
+                <a class="navbar-brand">
+                    <img alt="Service Fabric" src="~/images/favicon.png" />
+                </a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
+                <ul class="nav navbar-nav" id="navbarUl">
+                    <li id="navHome">
+                        <a href="/">Home</a>
+                    </li>
+                    <li id="navStateless">
                         <a href="/Home/Stateless">Stateless</a>
                     </li>
-                    <li>
+                    <li id="navStateful">
                         <a href="/Home/Stateful">Stateful</a>
                     </li>
-                    <li>
+                    <li id="navActor">
                         <a href="/Home/Actor">Actor</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-
     <!-- Content -->
     <div class="container body-content">
-
         <!-- Heading row -->
         <div class="row">
             <div class="col-md-12">
@@ -62,18 +72,26 @@
                 <p>The application consists of four services and shows how the different service types works and can communicate.</p>
             </div>
         </div>
-
         @RenderBody()
-
     </div>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="panel panel-success" id="statusPanel">
+                <div class="panel-heading" id="statusPanelHeading">
+                    HTTP Status Code
+                </div>
+                <div class="panel-body" id="statusPanelBody">Information</div>
+            </div>
+        </div>
+    </footer>
 
     <environment names="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

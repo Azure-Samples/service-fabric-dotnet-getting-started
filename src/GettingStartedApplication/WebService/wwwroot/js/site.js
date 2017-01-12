@@ -7,10 +7,11 @@ function getStatelessBackendCount() {
             if (http.status < 400) {
                 returnData = JSON.parse(http.responseText);
                 if (returnData) {
-                    postMessage("Count is " + returnData.count + ".  Result returned in " + (end - start).toString() + "ms.", "success", true);
+                    countDisplay.innerHTML = returnData.count;
+                    updateFooter(http, (end - start));
                 }
             } else {
-                postMessage(http.statusText, "danger", true);
+                updateFooter(http, (end - start));
             }
         }
     };
@@ -29,10 +30,12 @@ function getStatefulBackendServiceDictionary() {
                 returnData = JSON.parse(http.responseText);
                 if (returnData) {
                     renderStatefulBackendServiceDictionary(returnData);
-                    postMessage("Got all KeyValuePairs in  " + (end - start).toString() + "ms.", "success", true);
+                    updateFooter(http, (end - start));
+                    //postMessage("Got all KeyValuePairs in  " + (end - start).toString() + "ms.", "success", true);
                 }
             } else {
-                postMessage(http.statusText, "danger", true);
+                updateFooter(http, (end - start));
+                //postMessage(http.statusText, "danger", true);
             }
         }
     };
@@ -57,10 +60,12 @@ function addStatefulBackendServiceKeyValuePair() {
                     getStatefulBackendServiceDictionary();
                     keyInput.value = '';
                     valueInput.value = '';
-                    postMessage("Entry created in " + (end - start).toString() + "ms.", "success", true);
+                    updateFooter(http, (end - start));
+                    //postMessage("Entry created in " + (end - start).toString() + "ms.", "success", true);
                 }
             } else {
-                postMessage(http.statusText + ": " + http.responseText, "danger", true);
+                updateFooter(http, (end - start));
+                //postMessage(http.statusText + ": " + http.responseText, "danger", true);
             }
         }
     };
@@ -79,10 +84,11 @@ function getActorCount() {
             if (http.status < 400) {
                 returnData = JSON.parse(http.responseText);
                 if (returnData) {
-                    postMessage("Number of Actors: " + returnData.actorCount + ".  Result returned in " + (end - start).toString() + "ms.", "success", true);
+                    countDisplay.innerHTML = returnData.actorCount;
+                    updateFooter(http, (end - start));
                 }
             } else {
-                postMessage(http.statusText, "danger", true);
+                updateFooter(http, (end - start));
             }
         }
     };
@@ -100,11 +106,10 @@ function newActor() {
             if (http.status < 400) {
                 returnData = JSON.parse(http.responseText);
                 if (returnData) {
-                    postMessage("Actor created in " + (end - start).toString() + "ms.", "success", true);
-                    getActorCount();
+                    updateFooter(http, (end - start));
                 }
             } else {
-                postMessage(http.statusText, "danger", true);
+                updateFooter(http, (end - start));
             }
         }
     };
@@ -135,6 +140,59 @@ function renderStatefulBackendServiceDictionary(dictionary) {
     }
 }
 
+/* This function highlights the current nav tab */
+function navTab() {
+    toggleFooter(0);
+    var pathName = document.location.pathname.substring(6);
+    switch (pathName) {
+        case "":
+            document.getElementById('navHome').className = "active";
+            break;
+        case "Stateless":
+            document.getElementById('navStateless').className = "active";
+            break;
+        case "Stateful":
+            document.getElementById('navStateful').className = "active";
+            break;
+        case "Actor":
+            document.getElementById('navActor').className = "active";
+            break;
+        case "Guest":
+            document.getElementById('navGuest').className = "active";
+            break;
+    }
+}
+
+/*This function hides the footer*/
+function toggleFooter(option) {
+    var footer = document.getElementById('footer');
+    switch (option) {
+        case 0:
+            footer.classList = 'footer hidden';
+            break;
+        case 1:
+            footer.classList = 'footer';
+            break;
+    }
+}
+
+/*This function puts HTTP result in the footer */
+function updateFooter(http, timeTaken) {
+    toggleFooter(1);
+    if (http.status < 299) {
+        statusPanel.className = 'panel panel-success';
+        statusPanelHeading.innerHTML = http.status + ' ' + http.statusText;
+        statusPanelBody.innerHTML = 'Result returned in ' + timeTaken.toString() + ' ms from ' + http.responseURL;
+    }
+    else {
+        statusPanel.className = 'panel panel-danger';
+        statusPanelHeading.innerHTML = http.status + ' ' + http.statusText;
+        statusPanelBody.innerHTML = http.responseText;
+    }
+}
+
+
+/*To be deleted...
 /* This function posts messages to the log in the UI*/
 function postMessage(text, alertType, add) {
     switch (alertType) {

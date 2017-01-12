@@ -1,38 +1,26 @@
 ﻿@{
     ViewData["Title"] = "SF OneApp - Actors";
 }
-
 <!-- Content Row -->
 <div class="row">
-
     <!-- Service column -->
     <div class="col-md-12">
         <h3>Actor Service</h3>
         <p>You can create new actors that will increment their count every second.</p>
         <p>Create a new actor by clicking the <strong>New Actor button</strong>. Get a list of actors and their current count by pressing the <strong>Get actor(s) and count</strong> button.</p>
-
         <!-- Button -->
         <div class="row">
             <div class="col-md-3">
-                <button class="btn btn-primary btn-block" onclick="newActor()" type="button" id="newActor">New Actor</button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-primary btn-block" onclick="getActorCount()" type="button" id="getActorCount">Get # of Actors</button>
-            </div>
-        </div>
-
-        <!-- Messages button row -->
-        <div class="row top-buffer">
-            <div class="col-md-3">
-                <button class="btn btn-primary btn-block" onclick="clearLog()" type="button" id="newActor">Clear Log</button>
+                <div class="panel">
+                    <div class="panel-heading">
+                        <button class="btn btn-primary btn-block" onclick="newActor()" type="button" id="newActor">New Actor</button>
+                        <button class="btn btn-primary btn-block" onclick="getActorCount()" type="button" id="getActorCount">Get # of Actors</button>
+                    </div>
+                    <div class="panel-body">
+                        <h1 class="text-center no-margin" id="countDisplay">0</h1>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row top-buffer">
-            <div class="col-md-12">
-                <div class="alert alert-info" id="message">Welcome :-)</div>
-            </div>
-        </div>
-
     </div>
-
 </div>
