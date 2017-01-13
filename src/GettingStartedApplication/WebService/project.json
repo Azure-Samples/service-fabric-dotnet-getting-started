@@ -15,6 +15,7 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.ServiceFabric": "5.4.145",
+    "Microsoft.ServiceFabric.Actors": "2.4.145",
     "Microsoft.ServiceFabric.AspNetCore.WebListener": "2.4.145-preview",
     "Microsoft.ServiceFabric.Data": "2.4.145",
     "Microsoft.ServiceFabric.Services": "2.4.145",
@@ -27,7 +28,16 @@
   },
 
   "frameworks": {
-    "net452": { }
+    "net452": {
+      "dependencies": {
+        "ActorBackendService.Interfaces": {
+          "target": "project"
+        },
+        "StatelessBackendService.Interfaces": {
+          "target": "project"
+        }
+      }
+    }
   },
 
   "buildOptions": {

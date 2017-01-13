@@ -79,7 +79,7 @@ function getActorCount() {
             if (http.status < 400) {
                 returnData = JSON.parse(http.responseText);
                 if (returnData) {
-                    postMessage("Number of Actors: " + returnData.actorCount + ".  Result returned in " + (end - start).toString() + "ms.", "success", true);
+                    postMessage("Number of Actors: " + returnData.count + ".  Result returned in " + (end - start).toString() + "ms.", "success", true);
                 }
             } else {
                 postMessage(http.statusText, "danger", true);

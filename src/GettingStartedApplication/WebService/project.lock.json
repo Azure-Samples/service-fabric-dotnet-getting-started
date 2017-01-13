@@ -1197,6 +1197,22 @@
           "lib/net45/System.Fabric.dll": {}
         }
       },
+      "Microsoft.ServiceFabric.Actors/2.4.145": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.ServiceFabric": "[5.4.145]",
+          "Microsoft.ServiceFabric.Data": "[2.4.145]",
+          "Microsoft.ServiceFabric.Services": "[2.4.145]"
+        },
+        "compile": {
+          "lib/net45/Microsoft.ServiceFabric.Actors.dll": {},
+          "lib/net45/ServiceFabricServiceModel.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.ServiceFabric.Actors.dll": {},
+          "lib/net45/ServiceFabricServiceModel.dll": {}
+        }
+      },
       "Microsoft.ServiceFabric.AspNetCore.WebListener/2.4.145-preview": {
         "type": "package",
         "dependencies": {
@@ -1810,6 +1826,12 @@
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         }
+      },
+      "ActorBackendService.Interfaces/1.0.0": {
+        "type": "project"
+      },
+      "StatelessBackendService.Interfaces/1.0.0": {
+        "type": "project"
       }
     }
   },
@@ -2866,6 +2888,20 @@
         "lib/net45/System.Fabric.Strings.dll",
         "lib/net45/System.Fabric.dll",
         "lib/net45/System.Fabric.xml"
+      ]
+    },
+    "Microsoft.ServiceFabric.Actors/2.4.145": {
+      "sha512": "oDldOWy7BX2zdtlbiMUsSLyV4c08+bv/Ope9lechv7LQN2CN7VLfF/72Mpo480a+p5aVKeo97WdJF5dYSckgPw==",
+      "type": "package",
+      "path": "Microsoft.ServiceFabric.Actors/2.4.145",
+      "files": [
+        "Microsoft.ServiceFabric.Actors.2.4.145.nupkg.sha512",
+        "Microsoft.ServiceFabric.Actors.nuspec",
+        "build/FabActUtil.exe",
+        "build/Microsoft.ServiceFabric.Actors.targets",
+        "lib/net45/Microsoft.ServiceFabric.Actors.dll",
+        "lib/net45/Microsoft.ServiceFabric.Actors.xml",
+        "lib/net45/ServiceFabricServiceModel.dll"
       ]
     },
     "Microsoft.ServiceFabric.AspNetCore.WebListener/2.4.145-preview": {
@@ -4761,6 +4797,14 @@
         "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll",
         "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.xml"
       ]
+    },
+    "ActorBackendService.Interfaces/1.0.0": {
+      "type": "project",
+      "msbuildProject": "../ActorBackendService.Interfaces/ActorBackendService.Interfaces.csproj"
+    },
+    "StatelessBackendService.Interfaces/1.0.0": {
+      "type": "project",
+      "msbuildProject": "../StatelessBackendService.Interfaces/StatelessBackendService.Interfaces.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4777,12 +4821,16 @@
       "Microsoft.Extensions.Logging.Debug >= 1.0.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
       "Microsoft.ServiceFabric >= 5.4.145",
+      "Microsoft.ServiceFabric.Actors >= 2.4.145",
       "Microsoft.ServiceFabric.AspNetCore.WebListener >= 2.4.145-preview",
       "Microsoft.ServiceFabric.Data >= 2.4.145",
       "Microsoft.ServiceFabric.Services >= 2.4.145",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0"
     ],
-    ".NETFramework,Version=v4.5.2": []
+    ".NETFramework,Version=v4.5.2": [
+      "ActorBackendService.Interfaces",
+      "StatelessBackendService.Interfaces"
+    ]
   },
   "tools": {
     ".NETCoreApp,Version=v1.0": {

@@ -21,7 +21,7 @@ namespace ActorBackendService
     ///  - None: State is kept in memory only and not replicated.
     /// </remarks>
     [StatePersistence(StatePersistence.Persisted)]
-    internal class BackendActor : Actor, IActorBackendService, IRemindable
+    internal class MyActor : Actor, IMyActor, IRemindable
     {
         private const string ReminderName = "Reminder";
         private const string StateName = "Count";
@@ -31,15 +31,17 @@ namespace ActorBackendService
         /// </summary>
         /// <param name="actorService">The Microsoft.ServiceFabric.Actors.Runtime.ActorService that will host this actor instance.</param>
         /// <param name="actorId">The Microsoft.ServiceFabric.Actors.ActorId for this actor instance.</param>
-        public BackendActor(ActorService actorService, ActorId actorId)
+        public MyActor(ActorService actorService, ActorId actorId)
             : base(actorService, actorId)
         {
         }
 
         public async Task StartProcessingAsync(CancellationToken cancellationToken)
         {
-            if (this.GetReminder(ReminderName) == null)
+            try
             {
+                this.GetReminder(ReminderName);
+            
                 bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
 
                 if (!added)
@@ -47,7 +49,9 @@ namespace ActorBackendService
                     // value already exists, which means processing has already started.
                     throw new InvalidOperationException("Processing for this actor has already started.");
                 }
-
+            }
+            catch (ReminderNotFoundException)
+            {
                 await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
             }
         }
