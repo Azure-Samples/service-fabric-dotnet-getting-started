@@ -9,20 +9,34 @@ namespace WebService.Controllers
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.ServiceFabric.Services.Remoting.Client;
+    using StatelessBackendService.Interfaces;
+    using System.Fabric;
+    using System;
 
     [Route("api/[controller]")]
     public class StatelessBackendServiceController : Controller
     {
+        private readonly ConfigSettings configSettings;
+        private readonly StatelessServiceContext serviceContext;
+
+        public StatelessBackendServiceController(StatelessServiceContext serviceContext, ConfigSettings settings)
+        {
+            this.serviceContext = serviceContext;
+            this.configSettings = settings;
+        }
+
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var result = new
-            {
-                Count = 12345
-            };
+            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName + "/" + this.configSettings.StatelessBackendServiceName;
 
-            return this.Json(result);
+            IStatelessBackendService proxy = ServiceProxy.Create<IStatelessBackendService>(new Uri(serviceUri));
+
+            long result = await proxy.GetCountAsync();
+
+            return this.Json(new CountViewModel() { Count = result });
         }
     }
 }

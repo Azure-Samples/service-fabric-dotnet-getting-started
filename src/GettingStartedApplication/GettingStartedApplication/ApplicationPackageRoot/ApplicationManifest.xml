@@ -8,10 +8,12 @@
     <Parameter Name="StatelessBackendService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="WebService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="WebService_StatefulBackendServiceName" DefaultValue="StatefulBackendService" />
+    <Parameter Name="WebService_StatelessBackendServiceName" DefaultValue="StatelessBackendService" />
+    <Parameter Name="WebService_ActorBackendServiceName" DefaultValue="MyActorService" />
     <Parameter Name="WebService_ReverseProxyPort" DefaultValue="19081" />
-    <Parameter Name="ActorBackendServiceActorService_PartitionCount" DefaultValue="10" />
-    <Parameter Name="ActorBackendServiceActorService_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="ActorBackendServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="MyActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="MyActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="MyActorService_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -31,6 +33,8 @@
         <Settings>
           <Section Name="MyConfigSection">
             <Parameter Name="StatefulBackendServiceName" Value="[WebService_StatefulBackendServiceName]" />
+            <Parameter Name="StatelessBackendServiceName" Value="[WebService_StatelessBackendServiceName]" />
+            <Parameter Name="ActorBackendServiceName" Value="[WebService_ActorBackendServiceName]" />
             <Parameter Name="ReverseProxyPort" Value="[WebService_ReverseProxyPort]" />
           </Section>
         </Settings>
@@ -61,9 +65,9 @@
         <SingletonPartition />
       </StatelessService>
     </Service>
-    <Service Name="ActorBackendServiceActorService" GeneratedIdRef="345ccf78-fdba-4350-8d4c-a70f4afea098|Persisted">
-      <StatefulService ServiceTypeName="BackendActorServiceType" TargetReplicaSetSize="[ActorBackendServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ActorBackendServiceActorService_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[ActorBackendServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+    <Service Name="MyActorService" GeneratedIdRef="8ee0b536-a5bd-4862-ae99-122d1c45ef10|Persisted">
+      <StatefulService ServiceTypeName="MyActorServiceType" TargetReplicaSetSize="[MyActorService_TargetReplicaSetSize]" MinReplicaSetSize="[MyActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[MyActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
   </DefaultServices>

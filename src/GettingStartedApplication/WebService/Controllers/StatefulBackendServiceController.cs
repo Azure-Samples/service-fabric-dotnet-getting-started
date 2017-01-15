@@ -27,8 +27,7 @@ namespace WebService.Controllers
         private readonly ConfigSettings configSettings;
         private readonly FabricClient fabricClient;
 
-        public StatefulBackendServiceController(
-            StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings)
+        public StatefulBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings)
         {
             this.serviceContext = serviceContext;
             this.httpClient = httpClient;

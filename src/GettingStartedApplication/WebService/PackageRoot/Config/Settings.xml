@@ -3,7 +3,9 @@
   <!-- Add your custom configuration sections and parameters here -->
  
   <Section Name="MyConfigSection">
+    <Parameter Name="StatelessBackendServiceName" Value="" MustOverride="true" />
     <Parameter Name="StatefulBackendServiceName" Value="" MustOverride="true" />
+    <Parameter Name="ActorBackendServiceName" Value="" MustOverride="true" />
     <Parameter Name="ReverseProxyPort" Value="" MustOverride="true" />
   </Section>
   
