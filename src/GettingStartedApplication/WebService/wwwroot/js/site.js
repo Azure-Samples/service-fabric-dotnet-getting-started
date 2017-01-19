@@ -55,17 +55,13 @@ function addStatefulBackendServiceKeyValuePair() {
         if (http.readyState === 4) {
             end = new Date().getTime();
             if (http.status < 400) {
-                returnData = JSON.parse(http.responseText);
-                if (returnData) {
-                    getStatefulBackendServiceDictionary();
-                    keyInput.value = '';
-                    valueInput.value = '';
-                    updateFooter(http, (end - start));
-                    //postMessage("Entry created in " + (end - start).toString() + "ms.", "success", true);
-                }
-            } else {
+                keyInput.value = '';
+                valueInput.value = '';
+                keyInput.focus();
                 updateFooter(http, (end - start));
-                //postMessage(http.statusText + ": " + http.responseText, "danger", true);
+            } else {
+                keyInput.focus();
+                updateFooter(http, (end - start));
             }
         }
     };
@@ -84,7 +80,7 @@ function getActorCount() {
             if (http.status < 400) {
                 returnData = JSON.parse(http.responseText);
                 if (returnData) {
-                    countDisplay.innerHTML = returnData.actorCount;
+                    countDisplay.innerHTML = returnData.count;
                     updateFooter(http, (end - start));
                 }
             } else {
@@ -191,39 +187,30 @@ function updateFooter(http, timeTaken) {
     }
 }
 
-
-/*To be deleted...
-/* This function posts messages to the log in the UI*/
-function postMessage(text, alertType, add) {
-    switch (alertType) {
-        case "success":
-            message.className = 'alert alert-success';
+function handleEnter() {
+    var pathName = document.location.pathname.substring(6);
+    switch (pathName) {
+        case "Stateless":
+            onkeyup = function (e) {
+                if (e.keyCode == 13) {
+                    getStatelessBackendCount();
+                    return false;
+                }
+            };
             break;
-        case "info":
-            message.className = 'alert alert-info';
-            break;
-        case "warning":
-            message.className = 'alert alert-warning';
-            break;
-        case "danger":
-            message.className = 'alert alert-danger';
+        case "Stateful":
+            keyInput.onkeyup = function (e) {
+                if (e.keyCode == 13) {
+                    addStatefulBackendServiceKeyValuePair();
+                    return false;
+                }
+            };
+            valueInput.onkeyup = function (e) {
+                if (e.keyCode == 13) {
+                    addStatefulBackendServiceKeyValuePair();
+                    return false;
+                }
+            };
             break;
     }
-
-    if (add) {
-        if (message.innerHTML === "") {
-            message.innerHTML = text;
-        }
-        else {
-            message.innerHTML = message.innerHTML + "<br>" + text;
-        }
-    }
-    else {
-        message.innerHTML = text;
-    }
-}
-
-/* This function - wait for it... clears the log in the UI!!! */
-function clearLog() {
-    postMessage("", "info", false)
 }

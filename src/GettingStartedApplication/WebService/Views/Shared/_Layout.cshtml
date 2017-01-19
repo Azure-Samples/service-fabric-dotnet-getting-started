@@ -35,7 +35,7 @@
         }
     </style>
 </head>
-<body onload="navTab()">
+<body onload="navTab(); handleEnter()">
     <!-- Navigation Bar -->
     <div class="navbar navbar-default">
         <div class="container-fluid">
@@ -64,14 +64,6 @@
     </div>
     <!-- Content -->
     <div class="container body-content">
-        <!-- Heading row -->
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Service Fabric Application</h1>
-                <p class="">This application is aimed at helping you get a good introduction to developing Service Fabric applications.</p>
-                <p>The application consists of four services and shows how the different service types works and can communicate.</p>
-            </div>
-        </div>
         @RenderBody()
     </div>
 

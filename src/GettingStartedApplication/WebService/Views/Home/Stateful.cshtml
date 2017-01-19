@@ -17,23 +17,23 @@
                 <!-- Input -->
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="keyInput" placeholder="key">
+                        <input type="text" class="form-control" id="keyInput" placeholder="key" tabindex="1">
                     </div>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="valueInput" placeholder="value">
+                        <input type="text" class="form-control" id="valueInput" placeholder="value" tabindex="2">
                     </div>
                 </div>
                 <div class="row top-buffer">
                     <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="addStatefulBackendServiceKeyValuePair()" type="button" id="addStatefulBackendServiceKeyValuePair">Add</button>
+                        <button class="btn btn-primary btn-block" onclick="addStatefulBackendServiceKeyValuePair()" type="button" id="addStatefulBackendServiceKeyValuePair" tabindex="3">Add</button>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="getStatefulBackendServiceDictionary()" type="button" id="getStatefulBackendServiceDictionary">Get All</button>
+                        <button class="btn btn-primary btn-block" onclick="getStatefulBackendServiceDictionary()" type="button" id="getStatefulBackendServiceDictionary" tabindex="4">Get All</button>
                     </div>
                 </div>
                 <!-- Table -->
                 <div class="row top-buffer">
-                    <div class="col-md-12">
+                    <div class="col-md-12 table-responsive" style="overflow: auto; height:150px">
                         <table class="table table-striped" id="statefulBackendServiceTable">
                             <tr>
                                 <th>Key</th>
