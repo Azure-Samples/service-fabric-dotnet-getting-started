@@ -3,21 +3,37 @@
 }
 <!-- Content Row -->
 <div class="row">
-    <!-- Service column -->
-    <div class="col-md-12">
-        <h3>Actor Service</h3>
-        <p>You can create new actors that will increment their count every second.</p>
-        <p>Create a new actor by clicking the <strong>New Actor button</strong>. Get a list of actors and their current count by pressing the <strong>Get actor(s) and count</strong> button.</p>
-        <!-- Button -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <button class="btn btn-primary btn-block" onclick="newActor()" type="button" id="newActor" tabindex="1">New Actor</button>
-                        <button class="btn btn-primary btn-block" onclick="getActorCount()" type="button" id="getActorCount" tabindex="2">Get # of Actors</button>
-                    </div>
-                    <div class="panel-body">
-                        <h1 class="text-center no-margin" id="countDisplay">0</h1>
+    <!-- Heading row -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Actor Backend Service</h1>
+            <p>A reliable actor service built using .NET Framework. The service create actor instances and exposes a Service Remoting endpoint and two methods to invoke an actor instance and to get the number of active actors.</p>
+            <p>
+                Click here to learn more about reliable actors:
+                <a href="https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-actors-introduction">
+                    https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-actors-introduction
+                </a>
+            </p>
+        </div>
+        <!-- Service column -->
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <p>You can create new actors that will increment their count every second.</p>
+                    <p>Create a new actor by clicking the <strong>New Actor button</strong>. Get a list of actors and their current count by pressing the <strong>Get actor(s) and count</strong> button.</p>
+                    <!-- Button -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button class="btn btn-primary btn-block" onclick="newActor()" type="button" id="newActor" tabindex="1">New Actor</button>
+                                    <button class="btn btn-primary btn-block" onclick="getActorCount()" type="button" id="getActorCount" tabindex="2">Get # of Actors</button>
+                                </div>
+                                <div class="panel-body">
+                                    <h1 class="text-center no-margin" id="countDisplay">0</h1>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

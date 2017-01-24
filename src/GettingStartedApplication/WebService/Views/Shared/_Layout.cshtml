@@ -4,15 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+
     <link rel="icon" type="image/png" href="~/images/favicon.png" />
-    <environment names="Development">
-        <link rel="stylesheet" href="~/css/light.min.css">
-        <link rel="stylesheet" href="~/css/lib.min.css">
-    </environment>
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/light.min.css" asp-append-version="true">
-        <link rel="stylesheet" href="~/css/lib.min.css" asp-append-version="true">
-    </environment>
+    <link rel="stylesheet" href="~/css/site.css">
+
     <style>
         .top-buffer {
             padding-top: 10px;
@@ -78,12 +73,8 @@
         </div>
     </footer>
 
-    <environment names="Development">
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

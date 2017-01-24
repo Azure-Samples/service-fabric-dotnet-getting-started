@@ -1,45 +1,54 @@
 ﻿@{
     ViewData["Title"] = "SF OneApp - Stateful";
 }
-<!-- Content Row -->
 <div class="row">
-    <!-- Service column -->
-    <div class="col-md-12">
-        <h3>Stateful Backend Service</h3>
-        <p>
-            The stateful backend service stores a dictionary of key/value pairs of two strings in a reliable collection.
-            You can add a key/value pair of two strings in the stateful service here.
-        </p>
-        <!-- Input, Table and Messages -->
-        <div class="row">
-            <!-- Input and Table -->
-            <div class="col-md-6">
-                <!-- Input -->
-                <div class="row">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="keyInput" placeholder="key" tabindex="1">
+    <!-- Heading row -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Stateful Backend Service</h1>
+            <p>A reliable stateful service built using ASP.NET Core. The service exposes an HTTP RESTFul endpoint with an API.</p>
+            <p>
+                Click here to learn more about reliable services:
+                <a href="https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-services-introduction">
+                    https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-services-introduction
+                </a>
+            </p>
+        </div>
+    </div>
+    <!-- Input, Table and Messages -->
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <p>The services store key value pairs in partitions based on the first letter of the key. Add a key value pair to the service below and/or get all the key value pairs from the stateful service.</p>
+                <!-- Input and Table -->
+                <div class="col-md-6">
+                    <!-- Input -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="keyInput" placeholder="key" tabindex="1">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="valueInput" placeholder="value" tabindex="2">
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="valueInput" placeholder="value" tabindex="2">
+                    <div class="row top-buffer">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary btn-block" onclick="addStatefulBackendServiceKeyValuePair()" type="button" id="addStatefulBackendServiceKeyValuePair" tabindex="3">Add</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary btn-block" onclick="getStatefulBackendServiceDictionary()" type="button" id="getStatefulBackendServiceDictionary" tabindex="4">Get All</button>
+                        </div>
                     </div>
-                </div>
-                <div class="row top-buffer">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="addStatefulBackendServiceKeyValuePair()" type="button" id="addStatefulBackendServiceKeyValuePair" tabindex="3">Add</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="getStatefulBackendServiceDictionary()" type="button" id="getStatefulBackendServiceDictionary" tabindex="4">Get All</button>
-                    </div>
-                </div>
-                <!-- Table -->
-                <div class="row top-buffer">
-                    <div class="col-md-12 table-responsive" style="overflow: auto; height:150px">
-                        <table class="table table-striped" id="statefulBackendServiceTable">
-                            <tr>
-                                <th>Key</th>
-                                <th>Value</th>
-                            </tr>
-                        </table>
+                    <!-- Table -->
+                    <div class="row top-buffer">
+                        <div class="col-md-12 table-responsive" style="overflow: auto; height:150px">
+                            <table class="table table-striped" id="statefulBackendServiceTable">
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

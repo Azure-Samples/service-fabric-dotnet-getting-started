@@ -3,19 +3,37 @@
 }
 <!-- Content Row -->
 <div class="row">
+    <!-- Heading row -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Stateless Backend Service</h1>
+            <p>A reliable stateless service built using .NET Framework. The service exposes a Service Remoting endpoint and a single method though an interface.</p>
+            <p>
+                Click here to learn more about reliable steless services:
+                <a href="https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-services-introduction">
+                    https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-services-introduction
+                </a>
+            </p>
+        </div>
+    </div>
     <!-- Service column -->
-    <div class="col-md-12">
-        <h3>Stateless Backend Service</h3>
-        <p>The stateless backend service increments a counter every second. Click the button to get the current count from the service.</p>
-        <!-- Button -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <button class="btn btn-primary btn-block" onclick="getStatelessBackendCount()" type="button" id="getStatelessBackendCount" tabindex="1">Get Count</button>
-                    </div>
-                    <div class="panel-body">
-                        <h1 class="text-center no-margin" id="countDisplay">0</h1>
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <p>The service increments a counter every second. Click the button to get the current count from the service.</p>
+                    <!-- Button -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button class="btn btn-primary btn-block" onclick="getStatelessBackendCount()" type="button" id="getStatelessBackendCount" tabindex="1">Get Count</button>
+                                </div>
+                                <div class="panel-body">
+                                    <h1 class="text-center no-margin" id="countDisplay">0</h1>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
