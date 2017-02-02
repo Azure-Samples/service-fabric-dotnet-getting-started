@@ -5,7 +5,7 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.5.2",
       "compile": {
-        "bin/x64/Debug/ActorBackendService.Interfaces.dll": {}
+        "bin/x64/Release/ActorBackendService.Interfaces.dll": {}
       },
       "runtime": {
         "../packages/Microsoft.ServiceFabric.5.4.145/lib/net45/Microsoft.ServiceFabric.Internal.Strings.dll": {},
@@ -17,10 +17,10 @@
         "../packages/Microsoft.ServiceFabric.Data.2.4.145/lib/net45/Microsoft.ServiceFabric.Data.Interfaces.dll": {},
         "../packages/Microsoft.ServiceFabric.Data.2.4.145/lib/net45/Microsoft.ServiceFabric.Data.dll": {},
         "../packages/Microsoft.ServiceFabric.Services.2.4.145/lib/net45/Microsoft.ServiceFabric.Services.dll": {},
-        "bin/x64/Debug/ActorBackendService.Interfaces.dll": {}
+        "bin/x64/Release/ActorBackendService.Interfaces.dll": {}
       },
       "contentFiles": {
-        "bin/x64/Debug/ActorBackendService.Interfaces.pdb": {
+        "bin/x64/Release/ActorBackendService.Interfaces.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -31,7 +31,7 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.5.1",
       "compile": {
-        "bin/x64/Debug/StatelessBackendService.Interfaces.dll": {}
+        "bin/x64/Release/StatelessBackendService.Interfaces.dll": {}
       },
       "runtime": {
         "../packages/Microsoft.ServiceFabric.5.4.145/lib/net45/Microsoft.ServiceFabric.Internal.Strings.dll": {},
@@ -42,10 +42,10 @@
         "../packages/Microsoft.ServiceFabric.Data.2.4.145/lib/net45/Microsoft.ServiceFabric.Data.dll": {},
         "../packages/Microsoft.ServiceFabric.Services.2.4.145/lib/net45/Microsoft.ServiceFabric.Services.dll": {},
         "../packages/Microsoft.ServiceFabric.Services.2.4.145/lib/net45/ServiceFabricServiceModel.dll": {},
-        "bin/x64/Debug/StatelessBackendService.Interfaces.dll": {}
+        "bin/x64/Release/StatelessBackendService.Interfaces.dll": {}
       },
       "contentFiles": {
-        "bin/x64/Debug/StatelessBackendService.Interfaces.pdb": {
+        "bin/x64/Release/StatelessBackendService.Interfaces.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
