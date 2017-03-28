@@ -38,11 +38,12 @@ namespace WebService
                         new WebListenerCommunicationListener(
                             serviceContext,
                             "ServiceEndpoint",
-                            url =>
+                            (url, listener) =>
                             {
                                 ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting WebListener on {url}");
 
-                                return new WebHostBuilder().UseWebListener()
+                                return new WebHostBuilder()
+                                    .UseWebListener()
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<ConfigSettings>(new ConfigSettings(serviceContext))
@@ -50,6 +51,7 @@ namespace WebService
                                             .AddSingleton<FabricClient>(new FabricClient())
                                             .AddSingleton<StatelessServiceContext>(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
+                                    .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseStartup<Startup>()
                                     .UseUrls(url)
                                     .Build();

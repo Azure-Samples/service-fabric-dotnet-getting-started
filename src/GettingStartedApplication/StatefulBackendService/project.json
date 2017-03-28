@@ -1,19 +1,19 @@
 {
-    "dependencies": {
-        "Microsoft.AspNetCore.Mvc": "1.0.0",
-        "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-        "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
-        "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
-        "Microsoft.Extensions.Configuration.Json": "1.0.0",
-        "Microsoft.Extensions.Logging": "1.0.0",
-        "Microsoft.Extensions.Logging.Console": "1.0.0",
-        "Microsoft.Extensions.Logging.Debug": "1.0.0",
-        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-        "Microsoft.ServiceFabric": "5.4.145",
-        "Microsoft.ServiceFabric.AspNetCore.WebListener": "2.4.145-preview",
-        "Microsoft.ServiceFabric.Data": "2.4.145",
-        "Microsoft.ServiceFabric.Services": "2.4.145"
-    },
+  "dependencies": {
+    "Microsoft.AspNetCore.Mvc": "1.0.2",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
+    "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+    "Microsoft.Extensions.Logging": "1.0.0",
+    "Microsoft.Extensions.Logging.Console": "1.0.0",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Microsoft.ServiceFabric": "5.5.216",
+    "Microsoft.ServiceFabric.AspNetCore.Kestrel": "2.5.216",
+    "Microsoft.ServiceFabric.Data": "2.5.216",
+    "Microsoft.ServiceFabric.Services": "2.5.216"
+  },
 
   "tools": {
   },

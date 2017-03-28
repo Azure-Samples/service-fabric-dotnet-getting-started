@@ -35,19 +35,21 @@ namespace StatefulBackendService
             {
                 new ServiceReplicaListener(
                     serviceContext =>
-                        new WebListenerCommunicationListener(
+                        new KestrelCommunicationListener(
                             serviceContext,
                             "ServiceEndpoint",
-                            url =>
+                            (url, listener) =>
                             {
-                                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting WebListener on {url}");
+                                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
 
-                                return new WebHostBuilder().UseWebListener()
+                                return new WebHostBuilder()
+                                    .UseKestrel()
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<IReliableStateManager>(this.StateManager)
                                             .AddSingleton<StatefulServiceContext>(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
+                                    .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.UseUniqueServiceUrl)
                                     .UseStartup<Startup>()
                                     .UseUrls(url)
                                     .Build();
