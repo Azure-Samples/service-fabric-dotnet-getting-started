@@ -37,7 +37,6 @@ namespace StatefulBackendService
                     serviceContext =>
                         new KestrelCommunicationListener(
                             serviceContext,
-                            "ServiceEndpoint",
                             (url, listener) =>
                             {
                                 ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
