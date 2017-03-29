@@ -26,13 +26,13 @@ namespace Alphabet.WebApi
         private readonly ServicePartitionResolver servicePartitionResolver = ServicePartitionResolver.GetDefault();
         private readonly HttpClient httpClient = new HttpClient();
 
-        public Web(StatelessServiceContext context): base(context)
+        public Web(StatelessServiceContext context) : base(context)
         {
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            return new[] {new ServiceInstanceListener(context => this.CreateInputListener(context))};
+            return new[] { new ServiceInstanceListener(context => this.CreateInputListener(context)) };
         }
 
         private ICommunicationListener CreateInputListener(ServiceContext context)
@@ -44,7 +44,7 @@ namespace Alphabet.WebApi
             // The "alphabetpartitions" path is a unique URL prefix for this service so that other
             // services that might be hosted on the same node can also use this port with their own unique URL prefix.
             string uriPrefix = String.Format("{0}://+:{1}/alphabetpartitions/", inputEndpoint.Protocol, inputEndpoint.Port);
-            
+
             // The published URL is slightly different from the listening URL prefix.
             // The listening URL is given to HttpListener.
             // The published URL is the URL that is published to the Service Fabric Naming Service,
@@ -68,7 +68,7 @@ namespace Alphabet.WebApi
                 // This generates a partition key within that range by converting the first letter of the input name
                 // into its numerica position in the alphabet.
                 char firstLetterOfLastName = lastname.First();
-                ServicePartitionKey partitionKey = new ServicePartitionKey(Char.ToUpper(firstLetterOfLastName) - 'A');                
+                ServicePartitionKey partitionKey = new ServicePartitionKey(Char.ToUpper(firstLetterOfLastName) - 'A');
 
                 // This contacts the Service Fabric Naming Services to get the addresses of the replicas of the processing service 
                 // for the partition with the partition key generated above. 
@@ -77,25 +77,48 @@ namespace Alphabet.WebApi
                 // a few lines below.
                 // For a complete solution, a retry mechanism is required.
                 // For more information, see http://aka.ms/servicefabricservicecommunication
-                ResolvedServicePartition partition = await this.servicePartitionResolver.ResolveAsync(alphabetServiceUri, partitionKey, cancelRequest);
-                ResolvedServiceEndpoint ep = partition.GetEndpoint();
-                
-                JObject addresses = JObject.Parse(ep.Address);
-                string primaryReplicaAddress = (string)addresses["Endpoints"].First();
+                ResolvedServicePartition partition = null;
+                for (int i = 0; i < 5; i++)
+                {
+                    try
+                    {
+                        if (partition == null)
+                            partition = await this.servicePartitionResolver.ResolveAsync(alphabetServiceUri, partitionKey, cancelRequest);
+                        else
+                            // The partition resolver will cache routes to the existing partitions.
+                            // When we retry the connection we must also ask the partition resolver to fetch fresh data
+                            // to ensure that the endpoint we receive is for the current primary service partition
+                            partition = await this.servicePartitionResolver.ResolveAsync(partition, cancelRequest);
 
-                UriBuilder primaryReplicaUriBuilder = new UriBuilder(primaryReplicaAddress);
-                primaryReplicaUriBuilder.Query = "lastname=" + lastname;
+                        ResolvedServiceEndpoint ep = partition.GetEndpoint();
 
-                string result = await this.httpClient.GetStringAsync(primaryReplicaUriBuilder.Uri);
+                        JObject addresses = JObject.Parse(ep.Address);
+                        string primaryReplicaAddress = (string)addresses["Endpoints"].First();
 
-                output = String.Format(
-                    "Result: {0}. <p>Partition key: '{1}' generated from the first letter '{2}' of input value '{3}'. <br>Processing service partition ID: {4}. <br>Processing service replica address: {5}",
-                    result,
-                    partitionKey,
-                    firstLetterOfLastName,
-                    lastname,
-                    partition.Info.Id,
-                    primaryReplicaAddress);
+                        UriBuilder primaryReplicaUriBuilder = new UriBuilder(primaryReplicaAddress);
+                        primaryReplicaUriBuilder.Query = "lastname=" + lastname;
+
+                        string result = await this.httpClient.GetStringAsync(primaryReplicaUriBuilder.Uri);
+
+                        output = String.Format(
+                            "Result: {0}. <p>Partition key: '{1}' generated from the first letter '{2}' of input value '{3}'. <br>Processing service partition ID: {4}. <br>Processing service replica address: {5}",
+                            result,
+                            partitionKey,
+                            firstLetterOfLastName,
+                            lastname,
+                            partition.Info.Id,
+                            primaryReplicaAddress);
+
+                        break;
+                    }
+                    catch (HttpRequestException)
+                    {
+                        // When the incorrect partition has been resolved we'll receive an exception
+                        // Message: Response status code does not indicate success: 503 (Service Unavailable).
+                        // This indicates that the partition resolver's cache is invalid and we should ask it
+                        // it to refresh when we retry the connection
+                    }
+                }
             }
             catch (Exception ex)
             {
