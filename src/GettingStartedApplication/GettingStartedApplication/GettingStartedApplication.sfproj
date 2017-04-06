@@ -28,9 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ActorBackendService\ActorBackendService.csproj" />
-    <ProjectReference Include="..\StatefulBackendService\StatefulBackendService.xproj" />
+    <ProjectReference Include="..\StatefulBackendService\StatefulBackendService.csproj" />
     <ProjectReference Include="..\StatelessBackendService\StatelessBackendService.csproj" />
-    <ProjectReference Include="..\WebService\WebService.xproj" />
+    <ProjectReference Include="..\WebService\WebService.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "GettingStartedApplication", "GettingStartedApplication\GettingStartedApplication.sfproj", "{238FD6AF-5EC7-4D5F-AB77-CFA6F85B16FA}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,7 +9,7 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "GettingStartedApplication",
 		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941} = {AFA658C2-2ED3-490A-9C6A-B1C579CAA941}
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WebService", "WebService\WebService.xproj", "{DED0E2BF-1236-4A55-A109-9A77341141B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService", "WebService\WebService.csproj", "{DED0E2BF-1236-4A55-A109-9A77341141B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatelessBackendService", "StatelessBackendService\StatelessBackendService.csproj", "{32CEC6CD-A819-4A94-AA72-A173F7093BBF}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActorBackendService.Interfa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatelessBackendService.Interfaces", "StatelessBackendService.Interfaces\StatelessBackendService.Interfaces.csproj", "{49E73BBD-A3FA-46F3-8314-73417C972F68}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StatefulBackendService", "StatefulBackendService\StatefulBackendService.xproj", "{8CD4EAA3-0100-4504-91C4-2EC486BCF953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatefulBackendService", "StatefulBackendService\StatefulBackendService.csproj", "{8CD4EAA3-0100-4504-91C4-2EC486BCF953}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +45,8 @@ Global
 		{07501716-D7C6-4B1D-BD39-AFDFFF2B393F}.Debug|x64.Build.0 = Debug|x64
 		{07501716-D7C6-4B1D-BD39-AFDFFF2B393F}.Release|x64.ActiveCfg = Release|x64
 		{07501716-D7C6-4B1D-BD39-AFDFFF2B393F}.Release|x64.Build.0 = Release|x64
-		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Debug|x64.Build.0 = Debug|Any CPU
+		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Debug|x64.ActiveCfg = Debug|x64
+		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Debug|x64.Build.0 = Debug|x64
 		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Release|x64.ActiveCfg = Release|Any CPU
 		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Release|x64.Build.0 = Release|Any CPU
 		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Debug|x64.ActiveCfg = Debug|Any CPU
