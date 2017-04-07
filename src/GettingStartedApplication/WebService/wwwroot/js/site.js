@@ -1,4 +1,4 @@
-﻿/* This function calls the StatelessBackendController's HTTP GET method to get the current count from the StatefulBackendService */
+﻿/* This function calls the StatelessBackendController's HTTP GET method to get the current count from the StatelessBackendService */
 function getStatelessBackendCount() {
     var http = new XMLHttpRequest();
     http.onreadystatechange = function () {
@@ -17,6 +17,27 @@ function getStatelessBackendCount() {
     };
     start = new Date().getTime();
     http.open("GET", "/api/StatelessBackendService/?c=" + start);
+    http.send();
+}
+
+/* This function calls the GuestExeBackendService's HTTP GET method to get the current count from the GuestExeBackendService */
+function getGuestExeBackendService() {
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function () {
+        if (http.readyState === 4) {
+            end = new Date().getTime();
+            if (http.status < 400) {
+                if (http.responseText) {
+                    countDisplay.innerHTML = "This node is named " + http.responseText;
+                    updateFooter(http, (end - start));
+                }
+            } else {
+                updateFooter(http, (end - start));
+            }
+        }
+    };
+    start = new Date().getTime();
+    http.open("GET", "/api/GuestExeBackendService/?c=" + start);
     http.send();
 }
 

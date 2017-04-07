@@ -3,6 +3,7 @@
   <!-- Add your custom configuration sections and parameters here -->
  
   <Section Name="MyConfigSection">
+    <Parameter Name="GuestExeBackendServiceName" Value="" MustOverride="true" />
     <Parameter Name="StatelessBackendServiceName" Value="" MustOverride="true" />
     <Parameter Name="StatefulBackendServiceName" Value="" MustOverride="true" />
     <Parameter Name="ActorBackendServiceName" Value="" MustOverride="true" />
