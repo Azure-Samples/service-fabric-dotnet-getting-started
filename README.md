@@ -7,17 +7,23 @@ author: vturecek
 # Service Fabric Getting Started Sample
 This repository contains an introductory sample project for [Microsoft Azure Service Fabric](https://azure.microsoft.com/services/service-fabric/). The sample project contains a single application with multiple services demonstrating the basic concepts needed to get you started building highly-available, scalable, distributed applications.
 
+*Looking for the older getting started samples? They're in the [classic branch](https://github.com/Azure-Samples/service-fabric-dotnet-getting-started/tree/classic).*
+
 More info on Service Fabric:
  - [Documentation](https://docs.microsoft.com/azure/service-fabric/)
  - [More sample projects](https://azure.microsoft.com/resources/samples/?service=service-fabric)
  - [Service Fabric open source home repo](https://github.com/azure/service-fabric)
 
 ## Building and deploying
-This sample application can be built and deployed immediately using Visual Studio 2017. To deploy on the local cluster, you can simply hit F5 to debug the sample. If you'd like to try publishing the sample to an Azure cluster:
+*Looking for the Visual Studio 2015 version? It's in the [vs2015 branch](https://github.com/Azure-Samples/service-fabric-dotnet-getting-started/tree/vs2015).*
+
+This sample application can be built and deployed immediately using **Visual Studio 2017**. To deploy on the local cluster, you can simply hit F5 to debug the sample. If you'd like to try publishing the sample to an Azure cluster:
 
 1. Right-click on the application project in Solution Explorer and choose Publish.
 2. Sign-in to the Microsoft account associated with your Azure subscription.
 3. Choose the cluster you'd like to deploy to.
+
+
 
 ## About this sample application
 The sample application contains several services, each demonstrating how to use key parts of Service Fabric.
@@ -34,6 +40,12 @@ This is a stateless front-end web service using [ASP.NET Core in a Reliable Serv
  - Communicating with partitioned services, including partition key generation, querying, and aggregation.
  - Using the Service Fabric cluster querying APIs
  - Dependency injection of Service Fabric components into an ASP.NET Core application
+
+### Guest EXE Backend Service
+This is a simple [guest executable service](https://docs.microsoft.com/azure/service-fabric/service-fabric-deploy-existing-app) that is not built on Reliable Services, Reliable Actors, or any Service Fabric APIs. It is a pre-compiled EXE that is packaged up and run on Service Fabric as-is. The EXE is a simple web server that returns the machine name of the node it is currently running on.
+
+#### Key concepts
+ - How to take an existing executable and host it on Service Fabric.
 
 ### Stateless Backend Service
 This is a stateless back-end service using [Service Remoting](https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-services-communication-remoting). This service demonstrates a basic back-end service that can be used for processing work with an RPC API to check the status of that work.
