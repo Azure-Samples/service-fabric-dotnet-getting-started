@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "SF OneApp - Stateless";
+}
+<!-- Content Row -->
+<div class="row">
+    <!-- Heading row -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Guest EXE Backend Service</h1>
+            <p>A guest executable service. The service is an executable program that hosts a webserver responding to HTTP GET commands.</p>
+            <ul>
+                <li>
+                    <a href="https://docs.microsoft.com/azure/service-fabric/service-fabric-deploy-existing-app" target="_blank">
+                        Learn more about Guest EXEs
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Service column -->
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <p>Click the button to get a response from the guest EXE service.</p>
+                    <!-- Button -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button class="btn btn-primary btn-block" onclick="getGuestExeBackendService()" type="button" id="getGuestExeBackendService" tabindex="1">Get Response</button>
+                                </div>
+                                <div class="panel-body">
+                                    <h4 class="text-center no-margin" id="countDisplay"></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

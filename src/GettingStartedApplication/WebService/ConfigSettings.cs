@@ -16,6 +16,8 @@ namespace WebService
             this.UpdateConfigSettings(context.CodePackageActivationContext.GetConfigurationPackageObject("Config").Settings);
         }
 
+        public string GuestExeBackendServiceName { get; private set; }
+
         public string StatefulBackendServiceName { get; private set; }
 
         public string StatelessBackendServiceName { get; private set; }
@@ -33,6 +35,7 @@ namespace WebService
         private void UpdateConfigSettings(ConfigurationSettings settings)
         {
             ConfigurationSection section = settings.Sections["MyConfigSection"];
+            this.GuestExeBackendServiceName = section.Parameters["GuestExeBackendServiceName"].Value;
             this.StatefulBackendServiceName = section.Parameters["StatefulBackendServiceName"].Value;
             this.StatelessBackendServiceName = section.Parameters["StatelessBackendServiceName"].Value;
             this.ActorBackendServiceName = section.Parameters["ActorBackendServiceName"].Value;

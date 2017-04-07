@@ -14,6 +14,11 @@ namespace WebService.Controllers
             return this.View();
         }
 
+        public IActionResult GuestExe()
+        {
+            return this.View();
+        }
+
         public IActionResult Stateless()
         {
             return this.View();

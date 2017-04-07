@@ -6,12 +6,24 @@
     <div class="row">
         <div class="col-md-12">
             <h1>Stateful Backend Service</h1>
-            <p>A reliable stateful service built using ASP.NET Core. The service exposes an HTTP RESTFul endpoint with an API.</p>
-            <p>
-                Click here to learn more about reliable services:
-                <a href="https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-services-introduction">
-                    https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-services-introduction
-                </a>
+            <p>A stateful Reliable Service built using ASP.NET Core and Reliable Collections. The service exposes an HTTP endpoint with an API hosted with Kestrel. The services store key-value pairs in a Reliable Dictionary and can be partitioned based on the first letter of the key.</p>
+            <ul>
+                <li>
+                    <a href="https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-services-introduction" target="_blank">
+                        Learn more about Reliable Services
+                    </a>
+                </li>
+                <li>
+                    <a href="https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-services-reliable-collections" target="_blank">
+                        Learn more Reliable Collections
+                    </a>
+                </li>
+                <li>
+                    <a href="https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-services-communication-aspnetcore" target="_blank">
+                        Learn more about ASP.NET Core in Reliable Services
+                    </a>
+                </li>
+            </ul>
             </p>
         </div>
     </div>

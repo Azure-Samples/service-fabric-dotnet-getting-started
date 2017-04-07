@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -6921,8 +6921,7 @@ a.dark-background-link {
     color: #00BCF2; }
 
 h1, h2, h3, h4, h5, h6 {
-  text-overflow: ellipsis;
-  white-space: nowrap; }
+  text-overflow: ellipsis; }
 
 .icon-refresh-animate {
   animation-name: rotate;
