@@ -9,6 +9,8 @@ namespace WebService
     using System.Fabric;
     using System.IO;
     using System.Net.Http;
+    using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
@@ -49,10 +51,12 @@ namespace WebService
                                             .AddSingleton<ConfigSettings>(new ConfigSettings(serviceContext))
                                             .AddSingleton<HttpClient>(new HttpClient())
                                             .AddSingleton<FabricClient>(new FabricClient())
-                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                            .AddSingleton<StatelessServiceContext>(serviceContext)
+                                            .AddSingleton<ITelemetryInitializer>((serviceProvider) => new FabricTelemetryInitializer(serviceContext)))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseStartup<Startup>()
+                                    .UseApplicationInsights()
                                     .UseUrls(url)
                                     .Build();
                             }))

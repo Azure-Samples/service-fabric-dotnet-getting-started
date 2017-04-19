@@ -8,6 +8,8 @@ namespace StatefulBackendService
     using System.Collections.Generic;
     using System.Fabric;
     using System.IO;
+    using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.ServiceFabric.Data;
@@ -46,10 +48,12 @@ namespace StatefulBackendService
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<IReliableStateManager>(this.StateManager)
-                                            .AddSingleton<StatefulServiceContext>(serviceContext))
+                                            .AddSingleton<StatefulServiceContext>(serviceContext)
+                                            .AddSingleton<ITelemetryInitializer>((serviceProvider) => new FabricTelemetryInitializer(serviceContext)))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.UseUniqueServiceUrl)
                                     .UseStartup<Startup>()
+                                    .UseApplicationInsights()
                                     .UseUrls(url)
                                     .Build();
                             }))
