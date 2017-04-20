@@ -33,6 +33,7 @@
     <ProjectReference Include="..\WebService\WebService.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app.config" />
     <Content Include="ApplicationPackageRoot\GuestExeBackendServicePkg\Code\SimpleWebServer.exe" />
     <Content Include="ApplicationPackageRoot\GuestExeBackendServicePkg\ServiceManifest.xml" />
     <Content Include="packages.config" />
