@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.4.0-beta1-build12047" />
-    <PackageReference Include="Microsoft.ApplicationInsights.ServiceFabric" Version="2.3.0-build1268" />
+    <PackageReference Include="Microsoft.ApplicationInsights.ServiceFabric" Version="2.3.0-build1270" />
     <PackageReference Include="Microsoft.AspNet.TelemetryCorrelation" Version="1.0.0-preview1-10407-02" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.0.3" />

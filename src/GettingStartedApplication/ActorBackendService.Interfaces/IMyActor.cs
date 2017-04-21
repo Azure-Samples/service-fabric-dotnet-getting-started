@@ -8,6 +8,7 @@ namespace ActorBackendService.Interfaces
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Actors;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This interface defines the methods exposed by an actor.
@@ -20,6 +21,6 @@ namespace ActorBackendService.Interfaces
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        Task StartProcessingAsync(CancellationToken cancellationToken);
+        Task StartProcessingAsync(string requestId, Dictionary<string, string> correlationContextHeader, CancellationToken cancellationToken);
     }
 }
