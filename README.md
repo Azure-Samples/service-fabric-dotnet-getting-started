@@ -16,7 +16,7 @@ More info on Service Fabric:
 
 ## Building and deploying
 
-First, [set up your development environment](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started) with [Visual Studio 2017](https://www.visualstudio.com/vs/). Make sure you have at least version **15.1** of Visual Studio 2017 installed.
+First, [set up your development environment](https://docs.microsoft.com/azure/service-fabric/service-fabric-get-started) with [Visual Studio 2017](https://www.visualstudio.com/vs/). Make sure you have at least version **15.1** of Visual Studio 2017 installed.
 
  > *Looking for the Visual Studio 2015 version? It's in the [vs2015 branch](https://github.com/Azure-Samples/service-fabric-dotnet-getting-started/tree/vs2015).*
 
