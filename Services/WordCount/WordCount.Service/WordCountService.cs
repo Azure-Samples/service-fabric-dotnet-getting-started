@@ -37,10 +37,10 @@ namespace WordCount.Service
             ServiceEventSource.Current.RunAsyncInvoked(ServiceEventSourceName);
             
 
-            IReliableQueue<string> inputQueue = await this.StateManager.GetOrAddAsync<IReliableQueue<string>>("inputQueue");
+            IReliableConcurrentQueue<string> inputQueue = await this.StateManager.GetOrAddAsync<IReliableConcurrentQueue<string>>("inputQueue").ConfigureAwait(false);
             IReliableDictionary<string, long> wordCountDictionary =
                 await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("wordCountDictionary");
-            IReliableDictionary<string, long> statsDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("statsDictionary");
+            IReliableDictionary<string, long> statsDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("statsDictionary").ConfigureAwait(false);
 
 
             while (true)
@@ -51,7 +51,7 @@ namespace WordCount.Service
                 {
                     using (ITransaction tx = this.StateManager.CreateTransaction())
                     {
-                        ConditionalValue<string> dequeuReply = await inputQueue.TryDequeueAsync(tx);
+                        ConditionalValue<string> dequeuReply = await inputQueue.TryDequeueAsync(tx, cancellationToken).ConfigureAwait(false);
 
                         if (dequeuReply.HasValue)
                         {
@@ -61,17 +61,17 @@ namespace WordCount.Service
                                 tx,
                                 word,
                                 1,
-                                (key, oldValue) => oldValue + 1);
+                                (key, oldValue) => oldValue + 1).ConfigureAwait(false);
 
                             long numberOfProcessedWords = await statsDictionary.AddOrUpdateAsync(
                                 tx,
                                 "Number of Words Processed",
                                 1,
-                                (key, oldValue) => oldValue + 1);
+                                (key, oldValue) => oldValue + 1).ConfigureAwait(false);
 
-                            long queueLength = await inputQueue.GetCountAsync(tx);
+                            long queueLength = inputQueue.Count;
 
-                            await tx.CommitAsync();
+                            await tx.CommitAsync().ConfigureAwait(false);
 
                             ServiceEventSource.Current.RunAsyncStatus(
                                 this.Partition.PartitionInfo.Id,
@@ -82,7 +82,7 @@ namespace WordCount.Service
                         }
                     }
 
-                    await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
+                    await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken).ConfigureAwait(false);
                 }
                 catch (TimeoutException)
                 {
