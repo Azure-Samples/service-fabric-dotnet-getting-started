@@ -1182,7 +1182,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.ServiceFabric/5.5.216": {
+      "Microsoft.ServiceFabric/5.6.204": {
         "type": "package",
         "compile": {
           "lib/net45/Microsoft.ServiceFabric.Internal.Strings.dll": {},
@@ -1201,13 +1201,13 @@
           "lib/net45/System.Fabric.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.Actors/2.5.216": {
+      "Microsoft.ServiceFabric.Actors/2.6.204": {
         "type": "package",
         "dependencies": {
-          "Microsoft.ServiceFabric": "[5.5.216]",
-          "Microsoft.ServiceFabric.Data": "[2.5.216]",
-          "Microsoft.ServiceFabric.Services": "[2.5.216]",
-          "Microsoft.ServiceFabric.Services.Remoting": "[2.5.216]"
+          "Microsoft.ServiceFabric": "[5.6.204]",
+          "Microsoft.ServiceFabric.Data": "[2.6.204]",
+          "Microsoft.ServiceFabric.Services": "[2.6.204]",
+          "Microsoft.ServiceFabric.Services.Remoting": "[2.6.204]"
         },
         "compile": {
           "lib/net45/Microsoft.ServiceFabric.Actors.dll": {}
@@ -1216,7 +1216,7 @@
           "lib/net45/Microsoft.ServiceFabric.Actors.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.AspNetCore.WebListener/2.5.216": {
+      "Microsoft.ServiceFabric.AspNetCore.WebListener/2.6.204": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Hosting": "1.0.0",
@@ -1227,7 +1227,7 @@
           "Microsoft.AspNetCore.Server.WebListener": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-          "Microsoft.ServiceFabric.Services": "[2.5.216]"
+          "Microsoft.ServiceFabric.Services": "[2.6.204]"
         },
         "compile": {
           "lib/net452/Microsoft.ServiceFabric.AspNetCore.WebListener.dll": {},
@@ -1238,10 +1238,10 @@
           "lib/net452/Microsoft.ServiceFabric.AspNetCore.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.Data/2.5.216": {
+      "Microsoft.ServiceFabric.Data/2.6.204": {
         "type": "package",
         "dependencies": {
-          "Microsoft.ServiceFabric": "[5.5.216]"
+          "Microsoft.ServiceFabric": "[5.6.204]"
         },
         "frameworkAssemblies": [
           "System.Runtime.Serialization"
@@ -1255,10 +1255,10 @@
           "lib/net45/Microsoft.ServiceFabric.Data.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.FabricTransport.Internal/2.5.216": {
+      "Microsoft.ServiceFabric.FabricTransport.Internal/2.6.204": {
         "type": "package",
         "dependencies": {
-          "Microsoft.ServiceFabric": "[5.5.216]"
+          "Microsoft.ServiceFabric": "[5.6.204]"
         },
         "frameworkAssemblies": [
           "System.Runtime.Serialization",
@@ -1271,11 +1271,11 @@
           "lib/net45/Microsoft.ServiceFabric.FabricTransport.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.Services/2.5.216": {
+      "Microsoft.ServiceFabric.Services/2.6.204": {
         "type": "package",
         "dependencies": {
-          "Microsoft.ServiceFabric": "[5.5.216]",
-          "Microsoft.ServiceFabric.Data": "[2.5.216]"
+          "Microsoft.ServiceFabric": "[5.6.204]",
+          "Microsoft.ServiceFabric.Data": "[2.6.204]"
         },
         "compile": {
           "lib/net45/Microsoft.ServiceFabric.Services.dll": {}
@@ -1284,11 +1284,11 @@
           "lib/net45/Microsoft.ServiceFabric.Services.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.Services.Remoting/2.5.216": {
+      "Microsoft.ServiceFabric.Services.Remoting/2.6.204": {
         "type": "package",
         "dependencies": {
-          "Microsoft.ServiceFabric.FabricTransport.Internal": "[2.5.216]",
-          "Microsoft.ServiceFabric.Services": "[2.5.216]"
+          "Microsoft.ServiceFabric.FabricTransport.Internal": "[2.6.204]",
+          "Microsoft.ServiceFabric.Services": "[2.6.204]"
         },
         "compile": {
           "lib/net45/Microsoft.ServiceFabric.Services.Remoting.dll": {}
@@ -1877,9 +1877,9 @@
       "type": "package",
       "path": "Libuv/1.9.0",
       "files": [
+        "Libuv.1.9.0.nupkg.sha512",
+        "Libuv.nuspec",
         "License.txt",
-        "libuv.1.9.0.nupkg.sha512",
-        "libuv.nuspec",
         "runtimes/debian-x64/native/libuv.so",
         "runtimes/fedora-x64/native/libuv.so",
         "runtimes/opensuse-x64/native/libuv.so",
@@ -2399,13 +2399,13 @@
       "type": "package",
       "path": "Microsoft.CodeAnalysis.Analyzers/1.1.0",
       "files": [
+        "Microsoft.CodeAnalysis.Analyzers.1.1.0.nupkg.sha512",
+        "Microsoft.CodeAnalysis.Analyzers.nuspec",
         "ThirdPartyNotices.rtf",
         "analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll",
         "analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll",
         "analyzers/dotnet/vb/Microsoft.CodeAnalysis.Analyzers.dll",
         "analyzers/dotnet/vb/Microsoft.CodeAnalysis.VisualBasic.Analyzers.dll",
-        "microsoft.codeanalysis.analyzers.1.1.0.nupkg.sha512",
-        "microsoft.codeanalysis.analyzers.nuspec",
         "tools/install.ps1",
         "tools/uninstall.ps1"
       ]
@@ -2415,15 +2415,15 @@
       "type": "package",
       "path": "Microsoft.CodeAnalysis.Common/1.3.0",
       "files": [
+        "Microsoft.CodeAnalysis.Common.1.3.0.nupkg.sha512",
+        "Microsoft.CodeAnalysis.Common.nuspec",
         "ThirdPartyNotices.rtf",
         "lib/net45/Microsoft.CodeAnalysis.dll",
         "lib/net45/Microsoft.CodeAnalysis.xml",
         "lib/netstandard1.3/Microsoft.CodeAnalysis.dll",
         "lib/netstandard1.3/Microsoft.CodeAnalysis.xml",
         "lib/portable-net45+win8/Microsoft.CodeAnalysis.dll",
-        "lib/portable-net45+win8/Microsoft.CodeAnalysis.xml",
-        "microsoft.codeanalysis.common.1.3.0.nupkg.sha512",
-        "microsoft.codeanalysis.common.nuspec"
+        "lib/portable-net45+win8/Microsoft.CodeAnalysis.xml"
       ]
     },
     "Microsoft.CodeAnalysis.CSharp/1.3.0": {
@@ -2431,15 +2431,15 @@
       "type": "package",
       "path": "Microsoft.CodeAnalysis.CSharp/1.3.0",
       "files": [
+        "Microsoft.CodeAnalysis.CSharp.1.3.0.nupkg.sha512",
+        "Microsoft.CodeAnalysis.CSharp.nuspec",
         "ThirdPartyNotices.rtf",
         "lib/net45/Microsoft.CodeAnalysis.CSharp.dll",
         "lib/net45/Microsoft.CodeAnalysis.CSharp.xml",
         "lib/netstandard1.3/Microsoft.CodeAnalysis.CSharp.dll",
         "lib/netstandard1.3/Microsoft.CodeAnalysis.CSharp.xml",
         "lib/portable-net45+win8/Microsoft.CodeAnalysis.CSharp.dll",
-        "lib/portable-net45+win8/Microsoft.CodeAnalysis.CSharp.xml",
-        "microsoft.codeanalysis.csharp.1.3.0.nupkg.sha512",
-        "microsoft.codeanalysis.csharp.nuspec"
+        "lib/portable-net45+win8/Microsoft.CodeAnalysis.CSharp.xml"
       ]
     },
     "Microsoft.CSharp/4.0.1": {
@@ -2447,6 +2447,8 @@
       "type": "package",
       "path": "Microsoft.CSharp/4.0.1",
       "files": [
+        "Microsoft.CSharp.4.0.1.nupkg.sha512",
+        "Microsoft.CSharp.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -2462,8 +2464,6 @@
         "lib/xamarinmac20/_._",
         "lib/xamarintvos10/_._",
         "lib/xamarinwatchos10/_._",
-        "microsoft.csharp.4.0.1.nupkg.sha512",
-        "microsoft.csharp.nuspec",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
         "ref/net45/_._",
@@ -2679,10 +2679,10 @@
       "type": "package",
       "path": "Microsoft.Extensions.FileProviders.Abstractions/1.0.1",
       "files": [
-        "Microsoft.Extensions.FileProviders.Abstractions.1.0.1.nupkg.sha512",
-        "Microsoft.Extensions.FileProviders.Abstractions.nuspec",
         "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
-        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Abstractions.xml"
+        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
+        "microsoft.extensions.fileproviders.abstractions.1.0.1.nupkg.sha512",
+        "microsoft.extensions.fileproviders.abstractions.nuspec"
       ]
     },
     "Microsoft.Extensions.FileProviders.Composite/1.0.1": {
@@ -2690,10 +2690,10 @@
       "type": "package",
       "path": "Microsoft.Extensions.FileProviders.Composite/1.0.1",
       "files": [
-        "Microsoft.Extensions.FileProviders.Composite.1.0.1.nupkg.sha512",
-        "Microsoft.Extensions.FileProviders.Composite.nuspec",
         "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.dll",
-        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.xml"
+        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.xml",
+        "microsoft.extensions.fileproviders.composite.1.0.1.nupkg.sha512",
+        "microsoft.extensions.fileproviders.composite.nuspec"
       ]
     },
     "Microsoft.Extensions.FileProviders.Physical/1.0.1": {
@@ -2701,12 +2701,12 @@
       "type": "package",
       "path": "Microsoft.Extensions.FileProviders.Physical/1.0.1",
       "files": [
-        "Microsoft.Extensions.FileProviders.Physical.1.0.1.nupkg.sha512",
-        "Microsoft.Extensions.FileProviders.Physical.nuspec",
         "lib/net451/Microsoft.Extensions.FileProviders.Physical.dll",
         "lib/net451/Microsoft.Extensions.FileProviders.Physical.xml",
         "lib/netstandard1.3/Microsoft.Extensions.FileProviders.Physical.dll",
-        "lib/netstandard1.3/Microsoft.Extensions.FileProviders.Physical.xml"
+        "lib/netstandard1.3/Microsoft.Extensions.FileProviders.Physical.xml",
+        "microsoft.extensions.fileproviders.physical.1.0.1.nupkg.sha512",
+        "microsoft.extensions.fileproviders.physical.nuspec"
       ]
     },
     "Microsoft.Extensions.FileSystemGlobbing/1.0.1": {
@@ -2714,12 +2714,12 @@
       "type": "package",
       "path": "Microsoft.Extensions.FileSystemGlobbing/1.0.1",
       "files": [
-        "Microsoft.Extensions.FileSystemGlobbing.1.0.1.nupkg.sha512",
-        "Microsoft.Extensions.FileSystemGlobbing.nuspec",
         "lib/net451/Microsoft.Extensions.FileSystemGlobbing.dll",
         "lib/net451/Microsoft.Extensions.FileSystemGlobbing.xml",
         "lib/netstandard1.3/Microsoft.Extensions.FileSystemGlobbing.dll",
-        "lib/netstandard1.3/Microsoft.Extensions.FileSystemGlobbing.xml"
+        "lib/netstandard1.3/Microsoft.Extensions.FileSystemGlobbing.xml",
+        "microsoft.extensions.filesystemglobbing.1.0.1.nupkg.sha512",
+        "microsoft.extensions.filesystemglobbing.nuspec"
       ]
     },
     "Microsoft.Extensions.Globalization.CultureInfoCache/1.0.1": {
@@ -2810,12 +2810,12 @@
       "type": "package",
       "path": "Microsoft.Extensions.ObjectPool/1.0.1",
       "files": [
-        "Microsoft.Extensions.ObjectPool.1.0.1.nupkg.sha512",
-        "Microsoft.Extensions.ObjectPool.nuspec",
         "lib/net451/Microsoft.Extensions.ObjectPool.dll",
         "lib/net451/Microsoft.Extensions.ObjectPool.xml",
         "lib/netstandard1.3/Microsoft.Extensions.ObjectPool.dll",
-        "lib/netstandard1.3/Microsoft.Extensions.ObjectPool.xml"
+        "lib/netstandard1.3/Microsoft.Extensions.ObjectPool.xml",
+        "microsoft.extensions.objectpool.1.0.1.nupkg.sha512",
+        "microsoft.extensions.objectpool.nuspec"
       ]
     },
     "Microsoft.Extensions.Options/1.0.1": {
@@ -2858,10 +2858,10 @@
       "type": "package",
       "path": "Microsoft.Extensions.Primitives/1.0.1",
       "files": [
-        "Microsoft.Extensions.Primitives.1.0.1.nupkg.sha512",
-        "Microsoft.Extensions.Primitives.nuspec",
         "lib/netstandard1.0/Microsoft.Extensions.Primitives.dll",
-        "lib/netstandard1.0/Microsoft.Extensions.Primitives.xml"
+        "lib/netstandard1.0/Microsoft.Extensions.Primitives.xml",
+        "microsoft.extensions.primitives.1.0.1.nupkg.sha512",
+        "microsoft.extensions.primitives.nuspec"
       ]
     },
     "Microsoft.Extensions.WebEncoders/1.0.1": {
@@ -2904,18 +2904,18 @@
       "type": "package",
       "path": "Microsoft.NETCore.Platforms/1.0.1",
       "files": [
+        "Microsoft.NETCore.Platforms.1.0.1.nupkg.sha512",
+        "Microsoft.NETCore.Platforms.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
-        "microsoft.netcore.platforms.1.0.1.nupkg.sha512",
-        "microsoft.netcore.platforms.nuspec",
         "runtime.json"
       ]
     },
-    "Microsoft.ServiceFabric/5.5.216": {
-      "sha512": "H+FCJy4ZdaWBPLIbuVT8wTI0yaQs+sUIXtJpC1DSyuwh3900lvQNWV8VC4gLo5lFpth1kXvV78KSZL1fjuV6rQ==",
+    "Microsoft.ServiceFabric/5.6.204": {
+      "sha512": "+b7CEAPRbvfE3oiof1zbARof8MrMWfo8xACq9lrqWTvj3eSS43UHhTs7s6cSRbjrVsNRvU+4l2MMwybK7LFxMQ==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric/5.5.216",
+      "path": "Microsoft.ServiceFabric/5.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.Internal.Strings.dll",
         "lib/net45/Microsoft.ServiceFabric.Internal.dll",
@@ -2924,79 +2924,79 @@
         "lib/net45/System.Fabric.Strings.dll",
         "lib/net45/System.Fabric.dll",
         "lib/net45/System.Fabric.xml",
-        "microsoft.servicefabric.5.5.216.nupkg.sha512",
+        "microsoft.servicefabric.5.6.204.nupkg.sha512",
         "microsoft.servicefabric.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.Actors/2.5.216": {
-      "sha512": "3SFtnHiu2fHtKYZ2gHVr9WcPD9cTG2dqpigU0GYdiFeJdqlfcTd9WaFkUFrTrVjs6Jj/AuL1KzzCU7BZ9bn5wg==",
+    "Microsoft.ServiceFabric.Actors/2.6.204": {
+      "sha512": "q+RHIKt7lwbszWnk49XaBp8eZwEyt3eep+jVlUtjyKyQIfX+/xApXSLZWQMRPNae83hidrAFurcfy93dr72r1Q==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.Actors/2.5.216",
+      "path": "Microsoft.ServiceFabric.Actors/2.6.204",
       "files": [
         "build/FabActUtil.exe",
         "build/Microsoft.ServiceFabric.Actors.targets",
         "lib/net45/Microsoft.ServiceFabric.Actors.dll",
         "lib/net45/Microsoft.ServiceFabric.Actors.xml",
-        "microsoft.servicefabric.actors.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.actors.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.actors.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.AspNetCore.WebListener/2.5.216": {
-      "sha512": "C0Rf0S8dTmoJxSO+o561AIWtfqm+wyYiDgE+1oY8sk+PrNRNUhmBHDYH5oKd+TZy7e+0rBS4YEzMv27aaalb6Q==",
+    "Microsoft.ServiceFabric.AspNetCore.WebListener/2.6.204": {
+      "sha512": "80AilcrUWNzFg9QpnpSoQsQH0Hafki0C8BOGQesVEeXU29Zd4739PKF6vybDmCS45FtlVyUoPlctjyqWPoyPwg==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.AspNetCore.WebListener/2.5.216",
+      "path": "Microsoft.ServiceFabric.AspNetCore.WebListener/2.6.204",
       "files": [
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.WebListener.dll",
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.WebListener.xml",
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.dll",
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.xml",
-        "microsoft.servicefabric.aspnetcore.weblistener.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.aspnetcore.weblistener.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.aspnetcore.weblistener.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.Data/2.5.216": {
-      "sha512": "M0oiBm65HORyj13XvegA09yB4lXaVqal8UIQgEs82O/Ed1fR8Dir0MIH/9fbA0vfoGDbWp9/kJXqG0aDTqYcuQ==",
+    "Microsoft.ServiceFabric.Data/2.6.204": {
+      "sha512": "hsfgdv+JEVGjtyR6JLCAc+7uXOeD+/Tj/2szP06ompERAHJqlS+g3LwCPhYFwiwyNST3F1/KFwusvzJGJE8h6Q==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.Data/2.5.216",
+      "path": "Microsoft.ServiceFabric.Data/2.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.Data.Interfaces.dll",
         "lib/net45/Microsoft.ServiceFabric.Data.Interfaces.xml",
         "lib/net45/Microsoft.ServiceFabric.Data.dll",
         "lib/net45/Microsoft.ServiceFabric.Data.xml",
-        "microsoft.servicefabric.data.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.data.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.data.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.FabricTransport.Internal/2.5.216": {
-      "sha512": "pax0a9IYgVGZRilqDNEavmyDWw1Zb+nsYnQjb3jr5ih3fBnY3v42X4/5vdMEqyUDNyyk//4tT+c9qxq86wGt4A==",
+    "Microsoft.ServiceFabric.FabricTransport.Internal/2.6.204": {
+      "sha512": "5ff/apnHmZUULdoUntDrjMx6lNo7/Rfd8Zs9cls8voB6C7JorqhLvpfvnG58++Rev4OeXj/bPm7NfgxHs/AIGQ==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.FabricTransport.Internal/2.5.216",
+      "path": "Microsoft.ServiceFabric.FabricTransport.Internal/2.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.FabricTransport.dll",
         "lib/net45/Microsoft.ServiceFabric.FabricTransport.xml",
-        "microsoft.servicefabric.fabrictransport.internal.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.fabrictransport.internal.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.fabrictransport.internal.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.Services/2.5.216": {
-      "sha512": "PFBuKDMAqqIty65tiOzOYqM8Hdk/GTmfr8AjK/W3BCe8nUB2DW2yOEQXgolyb5WNGLF5+SEz5Y3MD04VtdplQg==",
+    "Microsoft.ServiceFabric.Services/2.6.204": {
+      "sha512": "U8kUnXkLLx2x80L3dFEHG3Fg5J3ECO20IlFa3zEpbP7TKKjPBJXPgpgkyD0tX+HOME4uE9iSjSO4yyyevZb4jQ==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.Services/2.5.216",
+      "path": "Microsoft.ServiceFabric.Services/2.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.Services.dll",
         "lib/net45/Microsoft.ServiceFabric.Services.xml",
-        "microsoft.servicefabric.services.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.services.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.services.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.Services.Remoting/2.5.216": {
-      "sha512": "2DX3EFzeNruOHnb93KHFax/7rmxcy6hTsJm/OMclo+lVWtRkwhCGLcF9g59GbTfrsC/hgV1lHYtzS0MEMGqtfw==",
+    "Microsoft.ServiceFabric.Services.Remoting/2.6.204": {
+      "sha512": "02ATY1x60rMA6tbr0Srspwuot9/Gw4n8Jdspt5n9f942tuRZmJ3flQIISUM6MniIIchtHkzhAEjI5NtAGYDnPw==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.Services.Remoting/2.5.216",
+      "path": "Microsoft.ServiceFabric.Services.Remoting/2.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.Services.Remoting.dll",
         "lib/net45/Microsoft.ServiceFabric.Services.Remoting.xml",
-        "microsoft.servicefabric.services.remoting.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.services.remoting.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.services.remoting.nuspec"
       ]
     },
@@ -3226,12 +3226,12 @@
       "type": "package",
       "path": "System.Buffers/4.0.0",
       "files": [
+        "System.Buffers.4.0.0.nupkg.sha512",
+        "System.Buffers.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.1/.xml",
-        "lib/netstandard1.1/System.Buffers.dll",
-        "system.buffers.4.0.0.nupkg.sha512",
-        "system.buffers.nuspec"
+        "lib/netstandard1.1/System.Buffers.dll"
       ]
     },
     "System.Collections/4.0.11": {
@@ -3239,6 +3239,8 @@
       "type": "package",
       "path": "System.Collections/4.0.11",
       "files": [
+        "System.Collections.4.0.11.nupkg.sha512",
+        "System.Collections.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3295,9 +3297,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.collections.4.0.11.nupkg.sha512",
-        "system.collections.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Collections.Concurrent/4.0.12": {
@@ -3305,6 +3305,8 @@
       "type": "package",
       "path": "System.Collections.Concurrent/4.0.12",
       "files": [
+        "System.Collections.Concurrent.4.0.12.nupkg.sha512",
+        "System.Collections.Concurrent.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3361,9 +3363,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.collections.concurrent.4.0.12.nupkg.sha512",
-        "system.collections.concurrent.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Collections.Immutable/1.2.0": {
@@ -3371,14 +3371,14 @@
       "type": "package",
       "path": "System.Collections.Immutable/1.2.0",
       "files": [
+        "System.Collections.Immutable.1.2.0.nupkg.sha512",
+        "System.Collections.Immutable.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Collections.Immutable.dll",
         "lib/netstandard1.0/System.Collections.Immutable.xml",
         "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll",
-        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.xml",
-        "system.collections.immutable.1.2.0.nupkg.sha512",
-        "system.collections.immutable.nuspec"
+        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.xml"
       ]
     },
     "System.ComponentModel/4.0.1": {
@@ -3386,6 +3386,8 @@
       "type": "package",
       "path": "System.ComponentModel/4.0.1",
       "files": [
+        "System.ComponentModel.4.0.1.nupkg.sha512",
+        "System.ComponentModel.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3433,9 +3435,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.componentmodel.4.0.1.nupkg.sha512",
-        "system.componentmodel.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.ComponentModel.Primitives/4.1.0": {
@@ -3589,6 +3589,8 @@
       "type": "package",
       "path": "System.Diagnostics.Debug/4.0.11",
       "files": [
+        "System.Diagnostics.Debug.4.0.11.nupkg.sha512",
+        "System.Diagnostics.Debug.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3645,9 +3647,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.diagnostics.debug.4.0.11.nupkg.sha512",
-        "system.diagnostics.debug.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Diagnostics.DiagnosticSource/4.0.0": {
@@ -3655,6 +3655,8 @@
       "type": "package",
       "path": "System.Diagnostics.DiagnosticSource/4.0.0",
       "files": [
+        "System.Diagnostics.DiagnosticSource.4.0.0.nupkg.sha512",
+        "System.Diagnostics.DiagnosticSource.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net46/System.Diagnostics.DiagnosticSource.dll",
@@ -3664,9 +3666,7 @@
         "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll",
         "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.xml",
         "lib/portable-net45+win8+wpa81/System.Diagnostics.DiagnosticSource.dll",
-        "lib/portable-net45+win8+wpa81/System.Diagnostics.DiagnosticSource.xml",
-        "system.diagnostics.diagnosticsource.4.0.0.nupkg.sha512",
-        "system.diagnostics.diagnosticsource.nuspec"
+        "lib/portable-net45+win8+wpa81/System.Diagnostics.DiagnosticSource.xml"
       ]
     },
     "System.Globalization/4.0.11": {
@@ -3674,6 +3674,8 @@
       "type": "package",
       "path": "System.Globalization/4.0.11",
       "files": [
+        "System.Globalization.4.0.11.nupkg.sha512",
+        "System.Globalization.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3730,9 +3732,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.globalization.4.0.11.nupkg.sha512",
-        "system.globalization.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.IO/4.1.0": {
@@ -3740,6 +3740,8 @@
       "type": "package",
       "path": "System.IO/4.1.0",
       "files": [
+        "System.IO.4.1.0.nupkg.sha512",
+        "System.IO.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3809,9 +3811,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.io.4.1.0.nupkg.sha512",
-        "system.io.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Linq/4.1.0": {
@@ -3819,6 +3819,8 @@
       "type": "package",
       "path": "System.Linq/4.1.0",
       "files": [
+        "System.Linq.4.1.0.nupkg.sha512",
+        "System.Linq.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3879,9 +3881,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.linq.4.1.0.nupkg.sha512",
-        "system.linq.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Linq.Expressions/4.1.0": {
@@ -3889,6 +3889,8 @@
       "type": "package",
       "path": "System.Linq.Expressions/4.1.0",
       "files": [
+        "System.Linq.Expressions.4.1.0.nupkg.sha512",
+        "System.Linq.Expressions.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3961,9 +3963,7 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
-        "runtimes/aot/lib/netcore50/System.Linq.Expressions.dll",
-        "system.linq.expressions.4.1.0.nupkg.sha512",
-        "system.linq.expressions.nuspec"
+        "runtimes/aot/lib/netcore50/System.Linq.Expressions.dll"
       ]
     },
     "System.Numerics.Vectors/4.1.1": {
@@ -3971,6 +3971,8 @@
       "type": "package",
       "path": "System.Numerics.Vectors/4.1.1",
       "files": [
+        "System.Numerics.Vectors.4.1.1.nupkg.sha512",
+        "System.Numerics.Vectors.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -3994,9 +3996,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.numerics.vectors.4.1.1.nupkg.sha512",
-        "system.numerics.vectors.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Reflection/4.1.0": {
@@ -4004,6 +4004,8 @@
       "type": "package",
       "path": "System.Reflection/4.1.0",
       "files": [
+        "System.Reflection.4.1.0.nupkg.sha512",
+        "System.Reflection.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4073,9 +4075,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.reflection.4.1.0.nupkg.sha512",
-        "system.reflection.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Reflection.Extensions/4.0.1": {
@@ -4083,6 +4083,8 @@
       "type": "package",
       "path": "System.Reflection.Extensions/4.0.1",
       "files": [
+        "System.Reflection.Extensions.4.0.1.nupkg.sha512",
+        "System.Reflection.Extensions.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4128,9 +4130,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.reflection.extensions.4.0.1.nupkg.sha512",
-        "system.reflection.extensions.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Reflection.Metadata/1.3.0": {
@@ -4138,14 +4138,14 @@
       "type": "package",
       "path": "System.Reflection.Metadata/1.3.0",
       "files": [
+        "System.Reflection.Metadata.1.3.0.nupkg.sha512",
+        "System.Reflection.Metadata.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.1/System.Reflection.Metadata.dll",
         "lib/netstandard1.1/System.Reflection.Metadata.xml",
         "lib/portable-net45+win8/System.Reflection.Metadata.dll",
-        "lib/portable-net45+win8/System.Reflection.Metadata.xml",
-        "system.reflection.metadata.1.3.0.nupkg.sha512",
-        "system.reflection.metadata.nuspec"
+        "lib/portable-net45+win8/System.Reflection.Metadata.xml"
       ]
     },
     "System.Resources.ResourceManager/4.0.1": {
@@ -4153,6 +4153,8 @@
       "type": "package",
       "path": "System.Resources.ResourceManager/4.0.1",
       "files": [
+        "System.Resources.ResourceManager.4.0.1.nupkg.sha512",
+        "System.Resources.ResourceManager.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4198,9 +4200,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.resources.resourcemanager.4.0.1.nupkg.sha512",
-        "system.resources.resourcemanager.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Runtime/4.1.0": {
@@ -4208,6 +4208,8 @@
       "type": "package",
       "path": "System.Runtime/4.1.0",
       "files": [
+        "System.Runtime.4.1.0.nupkg.sha512",
+        "System.Runtime.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4288,9 +4290,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.runtime.4.1.0.nupkg.sha512",
-        "system.runtime.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Runtime.Extensions/4.1.0": {
@@ -4298,6 +4298,8 @@
       "type": "package",
       "path": "System.Runtime.Extensions/4.1.0",
       "files": [
+        "System.Runtime.Extensions.4.1.0.nupkg.sha512",
+        "System.Runtime.Extensions.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4367,9 +4369,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.runtime.extensions.4.1.0.nupkg.sha512",
-        "system.runtime.extensions.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Runtime.InteropServices/4.1.0": {
@@ -4377,6 +4377,8 @@
       "type": "package",
       "path": "System.Runtime.InteropServices/4.1.0",
       "files": [
+        "System.Runtime.InteropServices.4.1.0.nupkg.sha512",
+        "System.Runtime.InteropServices.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4455,9 +4457,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.runtime.interopservices.4.1.0.nupkg.sha512",
-        "system.runtime.interopservices.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Runtime.InteropServices.RuntimeInformation/4.0.0": {
@@ -4465,6 +4465,8 @@
       "type": "package",
       "path": "System.Runtime.InteropServices.RuntimeInformation/4.0.0",
       "files": [
+        "System.Runtime.InteropServices.RuntimeInformation.4.0.0.nupkg.sha512",
+        "System.Runtime.InteropServices.RuntimeInformation.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4487,9 +4489,7 @@
         "runtimes/unix/lib/netstandard1.1/System.Runtime.InteropServices.RuntimeInformation.dll",
         "runtimes/win/lib/net45/System.Runtime.InteropServices.RuntimeInformation.dll",
         "runtimes/win/lib/netcore50/System.Runtime.InteropServices.RuntimeInformation.dll",
-        "runtimes/win/lib/netstandard1.1/System.Runtime.InteropServices.RuntimeInformation.dll",
-        "system.runtime.interopservices.runtimeinformation.4.0.0.nupkg.sha512",
-        "system.runtime.interopservices.runtimeinformation.nuspec"
+        "runtimes/win/lib/netstandard1.1/System.Runtime.InteropServices.RuntimeInformation.dll"
       ]
     },
     "System.Runtime.Serialization.Primitives/4.1.1": {
@@ -4568,6 +4568,8 @@
       "type": "package",
       "path": "System.Text.Encoding/4.0.11",
       "files": [
+        "System.Text.Encoding.4.0.11.nupkg.sha512",
+        "System.Text.Encoding.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4624,9 +4626,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.text.encoding.4.0.11.nupkg.sha512",
-        "system.text.encoding.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Text.Encoding.Extensions/4.0.11": {
@@ -4634,6 +4634,8 @@
       "type": "package",
       "path": "System.Text.Encoding.Extensions/4.0.11",
       "files": [
+        "System.Text.Encoding.Extensions.4.0.11.nupkg.sha512",
+        "System.Text.Encoding.Extensions.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4690,9 +4692,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.text.encoding.extensions.4.0.11.nupkg.sha512",
-        "system.text.encoding.extensions.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Text.Encodings.Web/4.0.0": {
@@ -4713,6 +4713,8 @@
       "type": "package",
       "path": "System.Threading/4.0.11",
       "files": [
+        "System.Threading.4.0.11.nupkg.sha512",
+        "System.Threading.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4772,9 +4774,7 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
-        "runtimes/aot/lib/netcore50/System.Threading.dll",
-        "system.threading.4.0.11.nupkg.sha512",
-        "system.threading.nuspec"
+        "runtimes/aot/lib/netcore50/System.Threading.dll"
       ]
     },
     "System.Threading.Tasks/4.0.11": {
@@ -4782,6 +4782,8 @@
       "type": "package",
       "path": "System.Threading.Tasks/4.0.11",
       "files": [
+        "System.Threading.Tasks.4.0.11.nupkg.sha512",
+        "System.Threading.Tasks.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4838,9 +4840,7 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.threading.tasks.4.0.11.nupkg.sha512",
-        "system.threading.tasks.nuspec"
+        "ref/xamarinwatchos10/_._"
       ]
     },
     "System.Threading.Tasks.Extensions/4.0.0": {
@@ -4848,14 +4848,14 @@
       "type": "package",
       "path": "System.Threading.Tasks.Extensions/4.0.0",
       "files": [
+        "System.Threading.Tasks.Extensions.4.0.0.nupkg.sha512",
+        "System.Threading.Tasks.Extensions.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Threading.Tasks.Extensions.dll",
         "lib/netstandard1.0/System.Threading.Tasks.Extensions.xml",
         "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll",
-        "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.xml",
-        "system.threading.tasks.extensions.4.0.0.nupkg.sha512",
-        "system.threading.tasks.extensions.nuspec"
+        "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.xml"
       ]
     },
     "ActorBackendService.Interfaces/1.0.0": {
@@ -4880,11 +4880,11 @@
       "Microsoft.Extensions.Logging.Console >= 1.0.0",
       "Microsoft.Extensions.Logging.Debug >= 1.0.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
-      "Microsoft.ServiceFabric >= 5.5.216",
-      "Microsoft.ServiceFabric.Actors >= 2.5.216",
-      "Microsoft.ServiceFabric.AspNetCore.WebListener >= 2.5.216",
-      "Microsoft.ServiceFabric.Data >= 2.5.216",
-      "Microsoft.ServiceFabric.Services >= 2.5.216",
+      "Microsoft.ServiceFabric >= 5.6.204",
+      "Microsoft.ServiceFabric.Actors >= 2.6.204",
+      "Microsoft.ServiceFabric.AspNetCore.WebListener >= 2.6.204",
+      "Microsoft.ServiceFabric.Data >= 2.6.204",
+      "Microsoft.ServiceFabric.Services >= 2.6.204",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0"
     ],
     ".NETFramework,Version=v4.5.2": [

@@ -14,11 +14,11 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "Microsoft.ServiceFabric": "5.5.216",
-    "Microsoft.ServiceFabric.Actors": "2.5.216",
-    "Microsoft.ServiceFabric.AspNetCore.WebListener": "2.5.216",
-    "Microsoft.ServiceFabric.Data": "2.5.216",
-    "Microsoft.ServiceFabric.Services": "2.5.216",
+    "Microsoft.ServiceFabric": "5.6.204",
+    "Microsoft.ServiceFabric.Actors": "2.6.204",
+    "Microsoft.ServiceFabric.AspNetCore.WebListener": "2.6.204",
+    "Microsoft.ServiceFabric.Data": "2.6.204",
+    "Microsoft.ServiceFabric.Services": "2.6.204",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0"
   },
 

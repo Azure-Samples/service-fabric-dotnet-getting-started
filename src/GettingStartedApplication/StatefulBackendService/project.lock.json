@@ -1052,7 +1052,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.ServiceFabric/5.5.216": {
+      "Microsoft.ServiceFabric/5.6.204": {
         "type": "package",
         "compile": {
           "lib/net45/Microsoft.ServiceFabric.Internal.Strings.dll": {},
@@ -1071,7 +1071,7 @@
           "lib/net45/System.Fabric.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.AspNetCore.Kestrel/2.5.216": {
+      "Microsoft.ServiceFabric.AspNetCore.Kestrel/2.6.204": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Hosting": "1.0.0",
@@ -1082,7 +1082,7 @@
           "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-          "Microsoft.ServiceFabric.Services": "[2.5.216]"
+          "Microsoft.ServiceFabric.Services": "[2.6.204]"
         },
         "compile": {
           "lib/net452/Microsoft.ServiceFabric.AspNetCore.Kestrel.dll": {},
@@ -1093,10 +1093,10 @@
           "lib/net452/Microsoft.ServiceFabric.AspNetCore.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.Data/2.5.216": {
+      "Microsoft.ServiceFabric.Data/2.6.204": {
         "type": "package",
         "dependencies": {
-          "Microsoft.ServiceFabric": "[5.5.216]"
+          "Microsoft.ServiceFabric": "[5.6.204]"
         },
         "frameworkAssemblies": [
           "System.Runtime.Serialization"
@@ -1110,11 +1110,11 @@
           "lib/net45/Microsoft.ServiceFabric.Data.dll": {}
         }
       },
-      "Microsoft.ServiceFabric.Services/2.5.216": {
+      "Microsoft.ServiceFabric.Services/2.6.204": {
         "type": "package",
         "dependencies": {
-          "Microsoft.ServiceFabric": "[5.5.216]",
-          "Microsoft.ServiceFabric.Data": "[2.5.216]"
+          "Microsoft.ServiceFabric": "[5.6.204]",
+          "Microsoft.ServiceFabric.Data": "[2.6.204]"
         },
         "compile": {
           "lib/net45/Microsoft.ServiceFabric.Services.dll": {}
@@ -2410,10 +2410,10 @@
         "runtime.json"
       ]
     },
-    "Microsoft.ServiceFabric/5.5.216": {
-      "sha512": "H+FCJy4ZdaWBPLIbuVT8wTI0yaQs+sUIXtJpC1DSyuwh3900lvQNWV8VC4gLo5lFpth1kXvV78KSZL1fjuV6rQ==",
+    "Microsoft.ServiceFabric/5.6.204": {
+      "sha512": "+b7CEAPRbvfE3oiof1zbARof8MrMWfo8xACq9lrqWTvj3eSS43UHhTs7s6cSRbjrVsNRvU+4l2MMwybK7LFxMQ==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric/5.5.216",
+      "path": "Microsoft.ServiceFabric/5.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.Internal.Strings.dll",
         "lib/net45/Microsoft.ServiceFabric.Internal.dll",
@@ -2422,44 +2422,44 @@
         "lib/net45/System.Fabric.Strings.dll",
         "lib/net45/System.Fabric.dll",
         "lib/net45/System.Fabric.xml",
-        "microsoft.servicefabric.5.5.216.nupkg.sha512",
+        "microsoft.servicefabric.5.6.204.nupkg.sha512",
         "microsoft.servicefabric.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.AspNetCore.Kestrel/2.5.216": {
-      "sha512": "czT5grTatFP5Y3vI6kb1DOMSfnOwOk/oi3Yb+B6dp+dZIOWQa83sBHMWz8xHWk8HN9bUlIRj6vWeUMKYzsPrUg==",
+    "Microsoft.ServiceFabric.AspNetCore.Kestrel/2.6.204": {
+      "sha512": "rM4ERnpuNY26yTXPWLxEoj6xEotuZerrL3IBaFNW2tgj3ehbj+RB22rJZWyFDCWqT9wsSf/0+E+XrUtZk/Qmcw==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.AspNetCore.Kestrel/2.5.216",
+      "path": "Microsoft.ServiceFabric.AspNetCore.Kestrel/2.6.204",
       "files": [
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.Kestrel.dll",
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.Kestrel.xml",
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.dll",
         "lib/net452/Microsoft.ServiceFabric.AspNetCore.xml",
-        "microsoft.servicefabric.aspnetcore.kestrel.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.aspnetcore.kestrel.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.aspnetcore.kestrel.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.Data/2.5.216": {
-      "sha512": "M0oiBm65HORyj13XvegA09yB4lXaVqal8UIQgEs82O/Ed1fR8Dir0MIH/9fbA0vfoGDbWp9/kJXqG0aDTqYcuQ==",
+    "Microsoft.ServiceFabric.Data/2.6.204": {
+      "sha512": "hsfgdv+JEVGjtyR6JLCAc+7uXOeD+/Tj/2szP06ompERAHJqlS+g3LwCPhYFwiwyNST3F1/KFwusvzJGJE8h6Q==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.Data/2.5.216",
+      "path": "Microsoft.ServiceFabric.Data/2.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.Data.Interfaces.dll",
         "lib/net45/Microsoft.ServiceFabric.Data.Interfaces.xml",
         "lib/net45/Microsoft.ServiceFabric.Data.dll",
         "lib/net45/Microsoft.ServiceFabric.Data.xml",
-        "microsoft.servicefabric.data.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.data.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.data.nuspec"
       ]
     },
-    "Microsoft.ServiceFabric.Services/2.5.216": {
-      "sha512": "PFBuKDMAqqIty65tiOzOYqM8Hdk/GTmfr8AjK/W3BCe8nUB2DW2yOEQXgolyb5WNGLF5+SEz5Y3MD04VtdplQg==",
+    "Microsoft.ServiceFabric.Services/2.6.204": {
+      "sha512": "U8kUnXkLLx2x80L3dFEHG3Fg5J3ECO20IlFa3zEpbP7TKKjPBJXPgpgkyD0tX+HOME4uE9iSjSO4yyyevZb4jQ==",
       "type": "package",
-      "path": "Microsoft.ServiceFabric.Services/2.5.216",
+      "path": "Microsoft.ServiceFabric.Services/2.6.204",
       "files": [
         "lib/net45/Microsoft.ServiceFabric.Services.dll",
         "lib/net45/Microsoft.ServiceFabric.Services.xml",
-        "microsoft.servicefabric.services.2.5.216.nupkg.sha512",
+        "microsoft.servicefabric.services.2.6.204.nupkg.sha512",
         "microsoft.servicefabric.services.nuspec"
       ]
     },
@@ -4136,10 +4136,10 @@
       "Microsoft.Extensions.Logging.Console >= 1.0.0",
       "Microsoft.Extensions.Logging.Debug >= 1.0.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
-      "Microsoft.ServiceFabric >= 5.5.216",
-      "Microsoft.ServiceFabric.AspNetCore.Kestrel >= 2.5.216",
-      "Microsoft.ServiceFabric.Data >= 2.5.216",
-      "Microsoft.ServiceFabric.Services >= 2.5.216"
+      "Microsoft.ServiceFabric >= 5.6.204",
+      "Microsoft.ServiceFabric.AspNetCore.Kestrel >= 2.6.204",
+      "Microsoft.ServiceFabric.Data >= 2.6.204",
+      "Microsoft.ServiceFabric.Services >= 2.6.204"
     ],
     ".NETFramework,Version=v4.5.2": []
   },
