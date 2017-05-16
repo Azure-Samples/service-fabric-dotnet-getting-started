@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "GettingStartedApplication", "GettingStartedApplication\GettingStartedApplication.sfproj", "{238FD6AF-5EC7-4D5F-AB77-CFA6F85B16FA}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -47,12 +47,12 @@ Global
 		{07501716-D7C6-4B1D-BD39-AFDFFF2B393F}.Release|x64.Build.0 = Release|x64
 		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Debug|x64.ActiveCfg = Debug|x64
 		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Debug|x64.Build.0 = Debug|x64
-		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Release|x64.ActiveCfg = Release|Any CPU
-		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Release|x64.Build.0 = Release|Any CPU
-		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Debug|x64.Build.0 = Debug|Any CPU
-		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Release|x64.ActiveCfg = Release|Any CPU
-		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Release|x64.Build.0 = Release|Any CPU
+		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Release|x64.ActiveCfg = Release|x64
+		{AFA658C2-2ED3-490A-9C6A-B1C579CAA941}.Release|x64.Build.0 = Release|x64
+		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Debug|x64.ActiveCfg = Debug|x64
+		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Debug|x64.Build.0 = Debug|x64
+		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Release|x64.ActiveCfg = Release|x64
+		{49E73BBD-A3FA-46F3-8314-73417C972F68}.Release|x64.Build.0 = Release|x64
 		{8CD4EAA3-0100-4504-91C4-2EC486BCF953}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{8CD4EAA3-0100-4504-91C4-2EC486BCF953}.Debug|x64.Build.0 = Debug|Any CPU
 		{8CD4EAA3-0100-4504-91C4-2EC486BCF953}.Release|x64.ActiveCfg = Release|Any CPU

@@ -84,7 +84,7 @@ namespace StatefulBackendService.Controllers
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
+                return new ContentResult {StatusCode = 410, Content = "The primary replica has moved. Please re-resolve the service."};
             }
             catch (FabricException)
             {
@@ -111,7 +111,7 @@ namespace StatefulBackendService.Controllers
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
+                return new ContentResult {StatusCode = 410, Content = "The primary replica has moved. Please re-resolve the service."};
             }
             catch (FabricException)
             {
@@ -140,7 +140,7 @@ namespace StatefulBackendService.Controllers
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
+                return new ContentResult {StatusCode = 410, Content = "The primary replica has moved. Please re-resolve the service."};
             }
             catch (FabricException)
             {

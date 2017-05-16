@@ -29,10 +29,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.0.2" />
-    <PackageReference Include="Microsoft.ServiceFabric" Version="5.5.216" />
-    <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.Kestrel" Version="2.5.216" />
-    <PackageReference Include="Microsoft.ServiceFabric.Data" Version="2.5.216" />
-    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="2.5.216" />
+    <PackageReference Include="Microsoft.ServiceFabric" Version="5.6.204" />
+    <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.Kestrel" Version="2.6.204" />
+    <PackageReference Include="Microsoft.ServiceFabric.Data" Version="2.6.204" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services" Version="2.6.204" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
