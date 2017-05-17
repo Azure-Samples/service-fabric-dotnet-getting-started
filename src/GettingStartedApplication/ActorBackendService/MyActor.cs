@@ -6,17 +6,18 @@
 namespace ActorBackendService
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading;
-    using System.Threading.Tasks;
-    using ActorBackendService.Interfaces;
+    using System.Threading.Tasks;    
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.Diagnostics.Activities;
     using Microsoft.ServiceFabric.Actors;
     using Microsoft.ServiceFabric.Actors.Runtime;
-    using Microsoft.ApplicationInsights;
-    using Microsoft.ApplicationInsights.ServiceFabric;
-    using Microsoft.ApplicationInsights.Extensibility;
-    using System.Collections.Generic;
-    using Microsoft.ApplicationInsights.DataContracts;
-    using System.Diagnostics;
+    using ActorBackendService.Interfaces;
 
     /// <remarks>
     /// This class represents an actor.
@@ -45,32 +46,26 @@ namespace ActorBackendService
             FabricTelemetryInitializer.SetServiceCallContext(actorService.Context);
         }
 
-        public async Task StartProcessingAsync(string requestId, Dictionary<string, string> correlationContextHeader, CancellationToken cancellationToken)
+        public Task StartProcessingAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContextHeader, CancellationToken cancellationToken)
         {
-            var telemetry = new RequestTelemetry();
-
-            try
+            return Activities.HandleActorRequestAsync(async () =>
             {
-                // Create a new activity for this new request, and end it when we finish processing
-                StartActivity("StartProcessingAsync", telemetry, requestId, correlationContextHeader);
-                this.GetReminder(ReminderName);
-            
-                bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
+                try
+                {
+                    this.GetReminder(ReminderName);
+                }
+                catch (ReminderNotFoundException)
+                {
+                    await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
+                }
 
+                bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
                 if (!added)
                 {
                     // value already exists, which means processing has already started.
                     throw new InvalidOperationException("Processing for this actor has already started.");
                 }
-            }
-            catch (ReminderNotFoundException)
-            {
-                await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
-            }
-            finally
-            {
-                this.StopActivity(telemetry);
-            }
+            }, requestId, requestName: "fabric:/GettingStartedApplication/ActorBackendService/StartProcessingAsync", correlationContext: correlationContextHeader);
         }
 
         public async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
@@ -98,60 +93,6 @@ namespace ActorBackendService
             // Any serializable object can be saved in the StateManager.
             // For more information, see https://aka.ms/servicefabricactorsstateserialization
             await base.OnActivateAsync();
-        }
-
-        private void StartActivity(string callerName, RequestTelemetry telemetry, string requestId, Dictionary<string, string> correlationContextHeader)
-        {
-            // Initialize all needed properties on the activity object
-            var activity = new Activity(callerName);
-            activity.SetParentId(requestId);
-            telemetry.Context.Operation.ParentId = requestId;
-
-            foreach (KeyValuePair<string, string> pair in correlationContextHeader)
-            {
-                activity.AddBaggage(pair.Key, pair.Value);
-            }
-
-            activity.Start();
-
-            // Initialize all needed properties on the request telemetry object, and start tracking
-            telemetry.Id = activity.Id;
-            telemetry.Context.Operation.Id = activity.RootId;
-            telemetry.Context.Operation.ParentId = activity.ParentId;
-
-            this.telemetryClient.Initialize(telemetry);
-            telemetry.Start(Stopwatch.GetTimestamp());
-
-            //IHeaderDictionary responseHeaders = httpContext.Response?.Headers;
-            //if (responseHeaders != null &&
-            //    !string.IsNullOrEmpty(telemetry.Context.InstrumentationKey) &&
-            //    (!responseHeaders.ContainsKey(RequestResponseHeaders.RequestContextHeader) || HttpHeadersUtilities.ContainsRequestContextKeyValue(responseHeaders, RequestResponseHeaders.RequestContextTargetKey)))
-            //{
-            //    string correlationId = null;
-            //    if (this.correlationIdLookupHelper.TryGetXComponentCorrelationId(telemetry.Context.InstrumentationKey, out correlationId))
-            //    {
-            //        HttpHeadersUtilities.SetRequestContextKeyValue(responseHeaders, RequestResponseHeaders.RequestContextTargetKey, correlationId);
-            //    }
-            //}
-        }
-
-        private void StopActivity(RequestTelemetry telemetry)
-        {
-            // Stop the request telemetry tracking and log it with the telemetry client
-            telemetry.Stop(Stopwatch.GetTimestamp());
-            telemetry.Success = true;
-
-            if (string.IsNullOrEmpty(telemetry.Name))
-            {
-                telemetry.Name = "POST " + "StartProcessingAsync";
-            }
-
-            telemetry.HttpMethod = "POST";
-            telemetry.Url = new Uri("fabric:/GettingStartedApplication/ActorBackendService/StartProcessingAsync");
-            telemetryClient.TrackRequest(telemetry);
-
-            // Stop and conclude the activity
-            Activity.Current.Stop();
         }
     }
 }

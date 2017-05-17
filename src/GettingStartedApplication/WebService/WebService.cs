@@ -6,10 +6,12 @@
 namespace WebService
 {
     using System.Collections.Generic;
+    using System.Diagnostics.Tracing;
     using System.Fabric;
     using System.IO;
     using System.Net.Http;
     using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.ApplicationInsights.EventSourceListener;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
@@ -52,7 +54,8 @@ namespace WebService
                                             .AddSingleton<HttpClient>(new HttpClient())
                                             .AddSingleton<FabricClient>(new FabricClient())
                                             .AddSingleton<StatelessServiceContext>(serviceContext)
-                                            .AddSingleton<ITelemetryInitializer>((serviceProvider) => new FabricTelemetryInitializer(serviceContext)))
+                                            .AddSingleton<ITelemetryInitializer>((serviceProvider) => new FabricTelemetryInitializer(serviceContext))
+                                            .AddSingleton<ITelemetryModule>((serviceProvider) => CreateEventSourceTelemetryModule()))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseStartup<Startup>()
@@ -61,6 +64,14 @@ namespace WebService
                                     .Build();
                             }))
             };
+        }
+
+        private EventSourceTelemetryModule CreateEventSourceTelemetryModule()
+        {
+            var module = new EventSourceTelemetryModule();
+            module.Sources.Add(new EventSourceListeningRequest() { Name = "Microsoft-ServiceFabric-Services", Level = EventLevel.Verbose });
+            module.Sources.Add(new EventSourceListeningRequest() { Name = "MyCompany-GettingStartedApplication-WebService", Level = EventLevel.Verbose });
+            return module;
         }
     }
 }

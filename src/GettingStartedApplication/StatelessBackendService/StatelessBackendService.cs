@@ -19,6 +19,7 @@ namespace StatelessBackendService
     using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.DataContracts;
     using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.Diagnostics.Activities;
 
     /// <summary>
     /// An instance of this class is created for each service instance by the Service Fabric runtime.
@@ -35,16 +36,17 @@ namespace StatelessBackendService
             FabricTelemetryInitializer.SetServiceCallContext(context);
         }
 
-        public Task<long> GetCountAsync(string requestId, Dictionary<string, string> correlationContextHeader)
+        public Task<long> GetCountAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContext)
         {
-            var telemetry = new RequestTelemetry();
-
-            // Create a new activity for this new request, and end it when we finish processing
-            StartActivity("GetCountAsync", telemetry, requestId, correlationContextHeader);
-            return Task.FromResult(this.iterations).ContinueWith((task) => {
-                this.StopActivity(telemetry);
-                return task.Result;
-            });
+            return Activities.HandleServiceRemotingRequestAsync<long>(async () => {
+                ServiceEventSource.Current.ServiceMessage(this.Context, "In the backend service, getting the count!");
+                long result = await Task.FromResult(this.iterations);
+                if (result % 5 == 0)
+                {
+                    throw new InvalidOperationException("Not happy with this number!");
+                }
+                return result;
+            }, requestId: requestId, requestName: "fabric:/GettingStartedApplication/StatelessBackendService/GetCountAsync", correlationContext: correlationContext);
         }
 
         /// <summary>
@@ -74,64 +76,14 @@ namespace StatelessBackendService
 
                 ++this.iterations;
 
-                ServiceEventSource.Current.ServiceMessage(this.Context, "Working-{0}", this.iterations);
+                if (this.iterations % 50 == 1)
+                {
+                    // Raise "working" event only once in every 50 iterations
+                    ServiceEventSource.Current.ServiceMessage(this.Context, "Working-{0}", this.iterations);
+                }
 
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
-        }
-
-        private void StartActivity(string callerName, RequestTelemetry telemetry, string requestId, Dictionary<string, string> correlationContextHeader)
-        {
-            // Initialize all needed properties on the activity object
-            var activity = new Activity(callerName);
-            activity.SetParentId(requestId);
-            telemetry.Context.Operation.ParentId = requestId;
-            
-            foreach (KeyValuePair<string, string> pair in correlationContextHeader)
-            {
-                activity.AddBaggage(pair.Key, pair.Value);
-            }
-
-            activity.Start();
-
-            // Initialize all needed properties on the request telemetry object, and start tracking
-            telemetry.Id = activity.Id;
-            telemetry.Context.Operation.Id = activity.RootId;
-            telemetry.Context.Operation.ParentId = activity.ParentId;
-
-            this.telemetryClient.Initialize(telemetry);
-            telemetry.Start(Stopwatch.GetTimestamp());
-
-            //IHeaderDictionary responseHeaders = httpContext.Response?.Headers;
-            //if (responseHeaders != null &&
-            //    !string.IsNullOrEmpty(telemetry.Context.InstrumentationKey) &&
-            //    (!responseHeaders.ContainsKey(RequestResponseHeaders.RequestContextHeader) || HttpHeadersUtilities.ContainsRequestContextKeyValue(responseHeaders, RequestResponseHeaders.RequestContextTargetKey)))
-            //{
-            //    string correlationId = null;
-            //    if (this.correlationIdLookupHelper.TryGetXComponentCorrelationId(telemetry.Context.InstrumentationKey, out correlationId))
-            //    {
-            //        HttpHeadersUtilities.SetRequestContextKeyValue(responseHeaders, RequestResponseHeaders.RequestContextTargetKey, correlationId);
-            //    }
-            //}
-        }
-
-        private void StopActivity(RequestTelemetry telemetry)
-        {
-            // Stop the request telemetry tracking and log it with the telemetry client
-            telemetry.Stop(Stopwatch.GetTimestamp());
-            telemetry.Success = true;
-
-            if (string.IsNullOrEmpty(telemetry.Name))
-            {
-                telemetry.Name = "GET " + "GetCountAsync";
-            }
-
-            telemetry.HttpMethod = "GET";
-            telemetry.Url = new Uri("fabric:/GettingStartedApplication/StatelessBackendService/GetCountAsync");
-            telemetryClient.TrackRequest(telemetry);
-
-            // Stop and conclude the activity
-            Activity.Current.Stop();
         }
     }
 }

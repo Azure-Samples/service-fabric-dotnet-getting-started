@@ -119,6 +119,7 @@ namespace WebService.Controllers
                     endTime - startTime, // duration
                     "OK", // resultCode
                     true); // success
+                telemetry.Id = activity.Id;
                 TelemetryClient client = new TelemetryClient(TelemetryConfiguration.Active);
                 client.TrackDependency(telemetry);
             }

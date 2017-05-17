@@ -21,6 +21,6 @@ namespace ActorBackendService.Interfaces
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        Task StartProcessingAsync(string requestId, Dictionary<string, string> correlationContextHeader, CancellationToken cancellationToken);
+        Task StartProcessingAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContextHeader, CancellationToken cancellationToken);
     }
 }

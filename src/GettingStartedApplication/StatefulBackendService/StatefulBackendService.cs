@@ -6,10 +6,12 @@
 namespace StatefulBackendService
 {
     using System.Collections.Generic;
+    using System.Diagnostics.Tracing;
     using System.Fabric;
     using System.IO;
     using Microsoft.ApplicationInsights.ServiceFabric;
     using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.ApplicationInsights.EventSourceListener;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.ServiceFabric.Data;
@@ -49,7 +51,8 @@ namespace StatefulBackendService
                                         services => services
                                             .AddSingleton<IReliableStateManager>(this.StateManager)
                                             .AddSingleton<StatefulServiceContext>(serviceContext)
-                                            .AddSingleton<ITelemetryInitializer>((serviceProvider) => new FabricTelemetryInitializer(serviceContext)))
+                                            .AddSingleton<ITelemetryInitializer>((serviceProvider) => new FabricTelemetryInitializer(serviceContext))
+                                            .AddSingleton<ITelemetryModule>((serviceProvider) => CreateEventSourceTelemetryModule()))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.UseUniqueServiceUrl)
                                     .UseStartup<Startup>()
@@ -58,6 +61,14 @@ namespace StatefulBackendService
                                     .Build();
                             }))
             };
+        }
+
+        private EventSourceTelemetryModule CreateEventSourceTelemetryModule()
+        {
+            var module = new EventSourceTelemetryModule();
+            module.Sources.Add(new EventSourceListeningRequest() { Name = "Microsoft-ServiceFabric-Services", Level = EventLevel.Verbose });
+            module.Sources.Add(new EventSourceListeningRequest() { Name = "MyCompany-GettingStartedApplication-StatefulBackendService", Level = EventLevel.Verbose });
+            return module;
         }
     }
 }

@@ -11,6 +11,6 @@ namespace StatelessBackendService.Interfaces
 
     public interface IStatelessBackendService : IService
     {
-        Task<long> GetCountAsync(string requestId, Dictionary<string, string> correlationContextHeader);
+        Task<long> GetCountAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContextHeader);
     }
 }
