@@ -17,7 +17,12 @@ More info on Service Fabric:
 ## Building and deploying
 *Looking for the Visual Studio 2017 version? It's in the [master branch](https://github.com/Azure-Samples/service-fabric-dotnet-getting-started/tree/master).*
 
-This sample application can be built and deployed immediately using **Visual Studio 2015**. To deploy on the local cluster, you can simply hit F5 to debug the sample. If you'd like to try publishing the sample to an Azure cluster:
+To open and build this sample application, you will need:
+ - **Visual Studio 2015**
+ - [Service Fabric SDK and Tools for Visual Studio 2015](http://www.microsoft.com/web/handlers/webpi.ashx?command=getinstallerredirect&appid=MicrosoftAzure-ServiceFabric-VS2015)
+ - [.NET Core VS 2015 Tooling Preview 2 for Visual Studio 2015](https://www.microsoft.com/net/download/core)
+
+To deploy on the local cluster, you can simply open the solution in Visual Studio 2015 and hit F5 to debug the sample. If you'd like to try publishing the sample to an Azure cluster:
 
 1. Right-click on the application project in Solution Explorer and choose Publish.
 2. Sign-in to the Microsoft account associated with your Azure subscription.
