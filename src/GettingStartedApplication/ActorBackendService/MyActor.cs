@@ -43,7 +43,7 @@ namespace ActorBackendService
             : base(actorService, actorId)
         {
             telemetryClient = new TelemetryClient(TelemetryConfiguration.Active);
-            FabricTelemetryInitializer.SetServiceCallContext(actorService.Context);
+            FabricTelemetryInitializerExtension.SetServiceCallContext(actorService.Context);
         }
 
         public Task StartProcessingAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContextHeader, CancellationToken cancellationToken)

@@ -50,14 +50,17 @@
     <Reference Include="Microsoft.AI.DependencyCollector, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.4.0-beta3\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AI.ServiceFabric, Version=2.3.0.0, Culture=neutral, PublicKeyToken=f23a46de0be5d6f3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.ServiceFabric.2.3.0-build1270\lib\net45\Microsoft.AI.ServiceFabric.dll</HintPath>
+    <Reference Include="Microsoft.AI.ServiceFabric, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.ServiceFabric.1.0.0-beta2\lib\net45\Microsoft.AI.ServiceFabric.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServiceFabric.Native, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.ServiceFabric.Native.1.0.0-beta2\lib\net45\Microsoft.AI.ServiceFabric.Native.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.4.0-beta3\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights.EventSourceListener, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.EventSourceListener.2.4.0-beta1\lib\netstandard1.3\Microsoft.ApplicationInsights.EventSourceListener.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.EventSourceListener.2.4.0-beta2\lib\netstandard1.3\Microsoft.ApplicationInsights.EventSourceListener.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceFabric.Actors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.Actors.2.5.216\lib\net45\Microsoft.ServiceFabric.Actors.dll</HintPath>
@@ -151,7 +154,5 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.ServiceFabric.Actors.2.5.216\build\Microsoft.ServiceFabric.Actors.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ServiceFabric.Actors.2.5.216\build\Microsoft.ServiceFabric.Actors.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.EventSourceListener.2.4.0-beta1\build\Microsoft.ApplicationInsights.EventSourceListener.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.EventSourceListener.2.4.0-beta1\build\Microsoft.ApplicationInsights.EventSourceListener.targets'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.ApplicationInsights.EventSourceListener.2.4.0-beta1\build\Microsoft.ApplicationInsights.EventSourceListener.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.EventSourceListener.2.4.0-beta1\build\Microsoft.ApplicationInsights.EventSourceListener.targets')" />
 </Project>

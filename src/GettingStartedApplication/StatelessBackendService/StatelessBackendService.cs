@@ -33,7 +33,7 @@ namespace StatelessBackendService
             : base(context)
         {
             telemetryClient = new TelemetryClient(TelemetryConfiguration.Active);
-            FabricTelemetryInitializer.SetServiceCallContext(context);
+            FabricTelemetryInitializerExtension.SetServiceCallContext(context);
         }
 
         public Task<long> GetCountAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContext)
