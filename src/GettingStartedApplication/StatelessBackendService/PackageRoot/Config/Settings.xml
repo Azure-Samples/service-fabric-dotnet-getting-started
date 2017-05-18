@@ -6,4 +6,7 @@
     <Parameter Name="MyParameter" Value="Value1" />
   </Section>
   -->
+  <Section Name="ApplicationInsights">
+    <Parameter Name="InstrumentationKey" Value="" />
+  </Section>
 </Settings>

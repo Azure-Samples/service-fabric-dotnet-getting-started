@@ -32,8 +32,13 @@ namespace StatelessBackendService
         public StatelessBackendService(StatelessServiceContext context)
             : base(context)
         {
-            telemetryClient = new TelemetryClient(TelemetryConfiguration.Active);
+            var telemetryConfig = TelemetryConfiguration.Active;
             FabricTelemetryInitializerExtension.SetServiceCallContext(context);
+            var config = context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var appInsights = config.Settings.Sections["ApplicationInsights"];
+            telemetryConfig.InstrumentationKey = appInsights.Parameters["InstrumentationKey"].Value;
+
+            this.telemetryClient = new TelemetryClient(telemetryConfig);
         }
 
         public Task<long> GetCountAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContext)

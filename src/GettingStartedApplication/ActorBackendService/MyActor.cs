@@ -42,8 +42,13 @@ namespace ActorBackendService
         public MyActor(ActorService actorService, ActorId actorId)
             : base(actorService, actorId)
         {
-            telemetryClient = new TelemetryClient(TelemetryConfiguration.Active);
+            var telemetryConfig = TelemetryConfiguration.Active;
             FabricTelemetryInitializerExtension.SetServiceCallContext(actorService.Context);
+            var config = actorService.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var appInsights = config.Settings.Sections["ApplicationInsights"];
+            telemetryConfig.InstrumentationKey = appInsights.Parameters["InstrumentationKey"].Value;
+
+            telemetryClient = new TelemetryClient(TelemetryConfiguration.Active);
         }
 
         public Task StartProcessingAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContextHeader, CancellationToken cancellationToken)

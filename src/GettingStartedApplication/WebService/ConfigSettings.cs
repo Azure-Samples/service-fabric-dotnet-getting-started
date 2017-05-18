@@ -40,6 +40,10 @@ namespace WebService
             this.StatelessBackendServiceName = section.Parameters["StatelessBackendServiceName"].Value;
             this.ActorBackendServiceName = section.Parameters["ActorBackendServiceName"].Value;
             this.ReverseProxyPort = int.Parse(section.Parameters["ReverseProxyPort"].Value);
+
+            var appInsights = settings.Sections["ApplicationInsights"];
+            var telemetryConfig = Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active;
+            telemetryConfig.InstrumentationKey = appInsights.Parameters["InstrumentationKey"].Value;
         }
     }
 }
