@@ -15,7 +15,7 @@
     <Parameter Name="MyActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="MyActorService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="MyActorService_TargetReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="ApplicationInsightsKey" DefaultValue="960dd4c2-44af-431d-b0d4-5d266c2a1923" />
+    <Parameter Name="ApplicationInsightsKey" DefaultValue="0000000-0000-0000-0000-000000000000" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
