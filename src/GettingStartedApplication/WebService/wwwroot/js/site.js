@@ -185,10 +185,10 @@ function toggleFooter(option) {
     var footer = document.getElementById('footer');
     switch (option) {
         case 0:
-            footer.classList = 'footer hidden';
+            footer.hidden = true;
             break;
         case 1:
-            footer.classList = 'footer';
+            footer.hidden = false;
             break;
     }
 }
