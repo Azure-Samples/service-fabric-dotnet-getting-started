@@ -11,8 +11,14 @@ namespace WebService.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.ServiceFabric.Services.Remoting.Client;
     using StatelessBackendService.Interfaces;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Fabric;
     using System;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.Diagnostics.Activities;
 
     [Route("api/[controller]")]
     public class StatelessBackendServiceController : Controller
@@ -31,12 +37,21 @@ namespace WebService.Controllers
         public async Task<IActionResult> GetAsync()
         {
             string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName + "/" + this.configSettings.StatelessBackendServiceName;
-
             IStatelessBackendService proxy = ServiceProxy.Create<IStatelessBackendService>(new Uri(serviceUri));
 
-            long result = await proxy.GetCountAsync();
+            ServiceEventSource.Current.ServiceMessage(this.serviceContext, "In the web service about to call the backend!");
 
-            return this.Json(new CountViewModel() { Count = result });
+            return await Activities.ServiceRemotingDependencyCallAsync(async () =>
+            {
+                // Extract the request id and correlation context headers so they can be passed to the callee, which
+                // will create the correlation
+                Activity currentActivity = Activity.Current;
+                string requestId = currentActivity.Id;
+                long result = await proxy.GetCountAsync(requestId, currentActivity.Baggage).ConfigureAwait(false);
+
+                return this.Json(new CountViewModel() { Count = result });
+            }, 
+            dependencyType: "StatelessServiceFabricService", dependencyName:"StatelessBackendService", target: serviceUri);
         }
     }
 }

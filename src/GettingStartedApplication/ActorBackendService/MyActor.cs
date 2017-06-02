@@ -6,11 +6,18 @@
 namespace ActorBackendService
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading;
-    using System.Threading.Tasks;
-    using ActorBackendService.Interfaces;
+    using System.Threading.Tasks;    
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.Diagnostics.Activities;
     using Microsoft.ServiceFabric.Actors;
     using Microsoft.ServiceFabric.Actors.Runtime;
+    using ActorBackendService.Interfaces;
 
     /// <remarks>
     /// This class represents an actor.
@@ -25,6 +32,7 @@ namespace ActorBackendService
     {
         private const string ReminderName = "Reminder";
         private const string StateName = "Count";
+        private TelemetryClient telemetryClient;
 
         /// <summary>
         /// Initializes a new instance of ActorBackendService
@@ -34,26 +42,35 @@ namespace ActorBackendService
         public MyActor(ActorService actorService, ActorId actorId)
             : base(actorService, actorId)
         {
+            var telemetryConfig = TelemetryConfiguration.Active;
+            FabricTelemetryInitializerExtension.SetServiceCallContext(actorService.Context);
+            var config = actorService.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var appInsights = config.Settings.Sections["ApplicationInsights"];
+            telemetryConfig.InstrumentationKey = appInsights.Parameters["InstrumentationKey"].Value;
+
+            telemetryClient = new TelemetryClient(TelemetryConfiguration.Active);
         }
 
-        public async Task StartProcessingAsync(CancellationToken cancellationToken)
+        public Task StartProcessingAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContextHeader, CancellationToken cancellationToken)
         {
-            try
+            return Activities.HandleActorRequestAsync(async () =>
             {
-                this.GetReminder(ReminderName);
-            
-                bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
+                try
+                {
+                    this.GetReminder(ReminderName);
+                }
+                catch (ReminderNotFoundException)
+                {
+                    await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
+                }
 
+                bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
                 if (!added)
                 {
                     // value already exists, which means processing has already started.
                     throw new InvalidOperationException("Processing for this actor has already started.");
                 }
-            }
-            catch (ReminderNotFoundException)
-            {
-                await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
-            }
+            }, requestId, requestName: "fabric:/GettingStartedApplication/ActorBackendService/StartProcessingAsync", correlationContext: correlationContextHeader);
         }
 
         public async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)

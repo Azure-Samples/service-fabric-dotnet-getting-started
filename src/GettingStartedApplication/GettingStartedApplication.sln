@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "GettingStartedApplication", "GettingStartedApplication\GettingStartedApplication.sfproj", "{238FD6AF-5EC7-4D5F-AB77-CFA6F85B16FA}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -20,6 +20,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatelessBackendService.Interfaces", "StatelessBackendService.Interfaces\StatelessBackendService.Interfaces.csproj", "{49E73BBD-A3FA-46F3-8314-73417C972F68}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatefulBackendService", "StatefulBackendService\StatefulBackendService.csproj", "{8CD4EAA3-0100-4504-91C4-2EC486BCF953}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Activitiy Support", "Activitiy Support", "{DEA34492-9D1A-435C-9C54-4E6DFDD2D077}"
+	ProjectSection(SolutionItems) = preProject
+		ActivitySupport\Activities.cs = ActivitySupport\Activities.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

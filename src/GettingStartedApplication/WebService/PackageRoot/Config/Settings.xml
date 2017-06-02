@@ -9,5 +9,7 @@
     <Parameter Name="ActorBackendServiceName" Value="" MustOverride="true" />
     <Parameter Name="ReverseProxyPort" Value="" MustOverride="true" />
   </Section>
-  
+  <Section Name="ApplicationInsights">
+    <Parameter Name="InstrumentationKey" Value="" />
+  </Section>
 </Settings>

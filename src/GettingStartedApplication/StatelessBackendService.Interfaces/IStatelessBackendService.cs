@@ -7,9 +7,10 @@ namespace StatelessBackendService.Interfaces
 {
     using System.Threading.Tasks;
     using Microsoft.ServiceFabric.Services.Remoting;
+    using System.Collections.Generic;
 
     public interface IStatelessBackendService : IService
     {
-        Task<long> GetCountAsync();
+        Task<long> GetCountAsync(string requestId, IEnumerable<KeyValuePair<string, string>> correlationContextHeader);
     }
 }

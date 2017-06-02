@@ -6,9 +6,13 @@
 namespace WebService
 {
     using System.Collections.Generic;
+    using System.Diagnostics.Tracing;
     using System.Fabric;
     using System.IO;
     using System.Net.Http;
+    using Microsoft.ApplicationInsights.ServiceFabric;
+    using Microsoft.ApplicationInsights.EventSourceListener;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
@@ -49,14 +53,25 @@ namespace WebService
                                             .AddSingleton<ConfigSettings>(new ConfigSettings(serviceContext))
                                             .AddSingleton<HttpClient>(new HttpClient())
                                             .AddSingleton<FabricClient>(new FabricClient())
-                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                            .AddSingleton<StatelessServiceContext>(serviceContext)
+                                            .AddSingleton<ITelemetryInitializer>((serviceProvider) => FabricTelemetryInitializerExtension.CreateFabricTelemetryInitializer(serviceContext))
+                                            .AddSingleton<ITelemetryModule>((serviceProvider) => CreateEventSourceTelemetryModule()))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseStartup<Startup>()
+                                    .UseApplicationInsights()
                                     .UseUrls(url)
                                     .Build();
                             }))
             };
+        }
+
+        private EventSourceTelemetryModule CreateEventSourceTelemetryModule()
+        {
+            var module = new EventSourceTelemetryModule();
+            module.Sources.Add(new EventSourceListeningRequest() { Name = "Microsoft-ServiceFabric-Services", Level = EventLevel.Verbose });
+            module.Sources.Add(new EventSourceListeningRequest() { Name = "MyCompany-GettingStartedApplication-WebService", Level = EventLevel.Verbose });
+            return module;
         }
     }
 }
