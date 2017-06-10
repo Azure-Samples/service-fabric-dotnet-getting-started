@@ -13,11 +13,11 @@ using TenantService.Interfaces;
 
 namespace TenantService
 {
-    internal sealed class TenantService : StatefulService, ITentantService
+    internal sealed class TenantBackendService : StatefulService, ITentantBackendService
     {
         private IReliableDictionary<string, string> tenants;
 
-        public TenantService(StatefulServiceContext context)
+        public TenantBackendService(StatefulServiceContext context)
             : base(context)
         { }
 

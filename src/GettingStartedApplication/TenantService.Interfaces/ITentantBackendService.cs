@@ -3,7 +3,7 @@ using Microsoft.ServiceFabric.Services.Remoting;
 
 namespace TenantService.Interfaces
 {
-    public interface ITentantService : IService
+    public interface ITentantBackendService : IService
     {
         Task Deploy(string tenantName);
 

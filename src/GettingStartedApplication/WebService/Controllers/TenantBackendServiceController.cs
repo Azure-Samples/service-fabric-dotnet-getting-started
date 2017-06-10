@@ -25,7 +25,7 @@ namespace WebService.Controllers
         {
             string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName + "/" + this.configSettings.TenantBackendServiceName;
 
-            var proxy = ServiceProxy.Create<ITentantService>(new Uri(serviceUri), new ServicePartitionKey(tenantName.GetHashCode()));
+            var proxy = ServiceProxy.Create<ITentantBackendService>(new Uri(serviceUri), new ServicePartitionKey(tenantName.GetHashCode()));
 
             await proxy.Deploy(tenantName);
             

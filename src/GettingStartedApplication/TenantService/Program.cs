@@ -20,10 +20,10 @@ namespace TenantService
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("TenantServiceType",
-                    context => new TenantService(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("TenantBackendServiceType",
+                    context => new TenantBackendService(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TenantService).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TenantBackendService).Name);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);
