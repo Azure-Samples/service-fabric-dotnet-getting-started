@@ -19,6 +19,7 @@
     </None>
     <ProjectReference Include="..\ActorBackendService.Interfaces\ActorBackendService.Interfaces.csproj" />
     <ProjectReference Include="..\StatelessBackendService.Interfaces\StatelessBackendService.Interfaces.csproj" />
+    <ProjectReference Include="..\TenantService.Interfaces\TenantService.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>

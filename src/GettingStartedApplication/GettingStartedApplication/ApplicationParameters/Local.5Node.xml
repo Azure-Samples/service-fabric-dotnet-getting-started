@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/GettingStartedApplication" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="TenantService_PartitionCount" Value="1" />
+    <Parameter Name="TenantService_MinReplicaSetSize" Value="3" />
+    <Parameter Name="TenantService_TargetReplicaSetSize" Value="3" />
     <Parameter Name="GuestExeBackendService_InstanceCount" Value="1" />
     <Parameter Name="StatefulBackendService_PartitionCount" Value="2" />
     <Parameter Name="StatefulBackendService_MinReplicaSetSize" Value="3" />

@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="GettingStartedApplicationType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="TenantService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="TenantService_PartitionCount" DefaultValue="1" />
+    <Parameter Name="TenantService_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="GuestExeBackendService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="StatefulBackendService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="StatefulBackendService_PartitionCount" DefaultValue="2" />
@@ -11,6 +14,7 @@
     <Parameter Name="WebService_StatefulBackendServiceName" DefaultValue="StatefulBackendService" />
     <Parameter Name="WebService_StatelessBackendServiceName" DefaultValue="StatelessBackendService" />
     <Parameter Name="WebService_ActorBackendServiceName" DefaultValue="MyActorService" />
+    <Parameter Name="WebService_TenantBackendServiceName" DefaultValue="TenantBackendService" />
     <Parameter Name="WebService_ReverseProxyPort" DefaultValue="19081" />
     <Parameter Name="MyActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="MyActorService_MinReplicaSetSize" DefaultValue="3" />
@@ -19,6 +23,10 @@
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="TenantServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="GuestExeBackendServicePkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
@@ -40,6 +48,7 @@
             <Parameter Name="GuestExeBackendServiceName" Value="[WebService_GuestExeBackendServiceName]" />
             <Parameter Name="StatefulBackendServiceName" Value="[WebService_StatefulBackendServiceName]" />
             <Parameter Name="StatelessBackendServiceName" Value="[WebService_StatelessBackendServiceName]" />
+            <Parameter Name="TenantBackendServiceName" Value="[WebService_TenantBackendServiceName]" />
             <Parameter Name="ActorBackendServiceName" Value="[WebService_ActorBackendServiceName]" />
             <Parameter Name="ReverseProxyPort" Value="[WebService_ReverseProxyPort]" />
           </Section>
@@ -56,6 +65,11 @@
          ServiceFabric PowerShell module.
          
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="TenantService">
+      <StatefulService ServiceTypeName="TenantServiceType" TargetReplicaSetSize="[TenantService_TargetReplicaSetSize]" MinReplicaSetSize="[TenantService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[TenantService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
     <Service Name="GuestExeBackendService">
       <StatelessService ServiceTypeName="GuestExeBackendServiceType" InstanceCount="[GuestExeBackendService_InstanceCount]">
         <SingletonPartition />

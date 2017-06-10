@@ -92,6 +92,28 @@ function addStatefulBackendServiceKeyValuePair() {
     http.send(JSON.stringify(keyValue));
 }
 
+function deployTenant() {
+    var tenant = tenantInput.value;
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function () {
+        if (http.readyState === 4) {
+            end = new Date().getTime();
+            if (http.status < 400) {
+                tenantInput.value = '';
+                tenantInput.focus();
+                updateFooter(http, (end - start));
+            } else {
+                tenantInput.focus();
+                updateFooter(http, (end - start));
+            }
+        }
+    };
+    start = new Date().getTime();
+    http.open("POST", "/api/TenantBackendService/?c=" + start);
+    http.setRequestHeader("content-type", "application/json");
+    http.send(JSON.stringify(tenant));
+}
+
 /* This function calls the ActorBackendController's HTTP GET method to get the number of actors in the ActorBackendService */
 function getActorCount() {
     var http = new XMLHttpRequest();
@@ -176,6 +198,9 @@ function navTab() {
             break;
         case "Guest":
             document.getElementById('navGuest').className = "active";
+            break;
+        case "Tenant":
+            document.getElementById('navTenant').className = "active";
             break;
     }
 }
