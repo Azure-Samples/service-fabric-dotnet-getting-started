@@ -21,14 +21,26 @@ namespace WebService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeployTenant(string tenantName)
+        public async Task<IActionResult> DeployTenant([FromBody] string tenantName)
         {
             string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName + "/" + this.configSettings.TenantBackendServiceName;
 
             var proxy = ServiceProxy.Create<ITentantBackendService>(new Uri(serviceUri), new ServicePartitionKey(tenantName.GetHashCode()));
 
             await proxy.Deploy(tenantName);
-            
+
+            return this.Json(null);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> TeardownTenant([FromBody] string tenantName)
+        {
+            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName + "/" + this.configSettings.TenantBackendServiceName;
+
+            var proxy = ServiceProxy.Create<ITentantBackendService>(new Uri(serviceUri), new ServicePartitionKey(tenantName.GetHashCode()));
+
+            await proxy.TearDown(tenantName);
+
             return this.Json(null);
         }
     }

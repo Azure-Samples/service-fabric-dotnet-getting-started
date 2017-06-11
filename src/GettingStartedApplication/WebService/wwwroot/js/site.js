@@ -114,6 +114,28 @@ function deployTenant() {
     http.send(JSON.stringify(tenant));
 }
 
+function teardownTenant() {
+    var tenant = tenantInput.value;
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function () {
+        if (http.readyState === 4) {
+            end = new Date().getTime();
+            if (http.status < 400) {
+                tenantInput.value = '';
+                tenantInput.focus();
+                updateFooter(http, (end - start));
+            } else {
+                tenantInput.focus();
+                updateFooter(http, (end - start));
+            }
+        }
+    };
+    start = new Date().getTime();
+    http.open("DELETE", "/api/TenantBackendService/?c=" + start);
+    http.setRequestHeader("content-type", "application/json");
+    http.send(JSON.stringify(tenant));
+}
+
 /* This function calls the ActorBackendController's HTTP GET method to get the number of actors in the ActorBackendService */
 function getActorCount() {
     var http = new XMLHttpRequest();
