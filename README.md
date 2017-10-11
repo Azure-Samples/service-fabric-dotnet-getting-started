@@ -25,6 +25,8 @@ This sample application can be built and deployed immediately using Visual Studi
 1. Right-click on the application project in Solution Explorer and choose Publish.
 2. Sign-in to the Microsoft account associated with your Azure subscription.
 3. Choose the cluster you'd like to deploy to.
+    * Ensure that your cluster has the reverse proxy feature enabled, [more info](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reverseproxy#setup-and-configuration)
+4. Add a Load Balancing Rule to map the inbound port 8081 to the same port on the backend pool, [more info](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-get-started-internet-portal#create-a-probe-lb-rule-and-nat-rules)
 
 ## About this sample application
 The sample application contains several services, each demonstrating how to use key parts of Service Fabric.
