@@ -41,19 +41,20 @@ namespace ActorBackendService
             try
             {
                 this.GetReminder(ReminderName);
-            
-                bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
-
-                if (!added)
-                {
-                    // value already exists, which means processing has already started.
-                    throw new InvalidOperationException("Processing for this actor has already started.");
-                }
             }
             catch (ReminderNotFoundException)
             {
                 await this.RegisterReminderAsync(ReminderName, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(10));
             }
+
+            bool added = await this.StateManager.TryAddStateAsync<long>(StateName, 0);
+
+            if (!added)
+            {
+                // value already exists, which means processing has already started.
+                throw new InvalidOperationException("Processing for this actor has already started.");
+            }
+
         }
 
         public async Task ReceiveReminderAsync(string reminderName, byte[] context, TimeSpan dueTime, TimeSpan period)
@@ -62,9 +63,13 @@ namespace ActorBackendService
             {
                 long currentValue = await this.StateManager.GetStateAsync<long>(StateName);
 
-                ActorEventSource.Current.ActorMessage(this, $"Processing. Current value: {currentValue}");
+                ActorEventSource.Current.ActorMessage(this, $"Processing actorID: {this.Id}. Current value: {currentValue}");
 
                 await this.StateManager.SetStateAsync<long>(StateName, ++currentValue);
+
+                var newValue = await this.StateManager.GetStateAsync<long>(StateName);
+
+                ActorEventSource.Current.ActorMessage(this, $"ActorID: {this.Id}. New value: {newValue}");
             }
         }
 
