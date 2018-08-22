@@ -67,7 +67,7 @@ This is a stateful back-end service using ASP.NET Core. This service demonstrate
  - Dependency injection of IReliableStateManager for use in MVC controllers
 
 ### Actor Backend Service
-This is a back-end [Reliable Actor]() service. This service demonstrates how to set up a Reliable Actor service and use its features to implement a simple process service using the Virtual Actor model.
+This is a back-end [Reliable Actor](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-reliable-actors-introduction) service. This service demonstrates how to set up a Reliable Actor service and use its features to implement a simple process service using the Virtual Actor model.
 
 #### Key concepts
  - Reliable Actors with persisted state
