@@ -1,7 +1,10 @@
 ---
-services: service-fabric
-platforms: dotnet
-author: vturecek
+topic: sample
+description: The project contains an application demonstrating the concepts needed to get started building highly-available, distributed applications.
+languages:
+- csharp
+products:
+- azure
 ---
 
 # Service Fabric Getting Started Sample
