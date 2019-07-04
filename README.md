@@ -32,12 +32,15 @@ This sample application can be built and deployed immediately using Visual Studi
 4. Add a Load Balancing Rule to map the inbound port 8081 to the same port on the backend pool, [more info](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-get-started-internet-portal#create-a-probe-lb-rule-and-nat-rules)
 
 ## About this sample application
+
 The sample application contains several services, each demonstrating how to use key parts of Service Fabric.
 
 ### Web Service
+
 This is a stateless front-end web service using [ASP.NET Core in a Reliable Service](https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-services-communication-aspnetcore). This service demonstrates a basic front-end service that acts as a gateway for users into your application. It presents a single-page application UI and an HTTP API to interact with the rest of the application. This is the only service that exposes an endpoint to the Internet for users to interact with, and all user ingress to the application comes through this service.
 
 #### Key concepts
+
  - Stateless public-facing ASP.NET Core service using WebListener
  - Communicating with other services in a variety of ways:
     - Over HTTP to another service using the Service Fabric Reverse Proxy
@@ -48,9 +51,11 @@ This is a stateless front-end web service using [ASP.NET Core in a Reliable Serv
  - Dependency injection of Service Fabric components into an ASP.NET Core application
 
 ### Guest EXE Backend Service
+
 This is a simple [guest executable service](https://docs.microsoft.com/azure/service-fabric/service-fabric-deploy-existing-app) that is not built on Reliable Services, Reliable Actors, or any Service Fabric APIs. It is a pre-compiled EXE that is packaged up and run on Service Fabric as-is. The EXE is a simple web server that returns the machine name of the node it is currently running on.
 
 #### Key concepts
+
  - How to take an existing executable and host it on Service Fabric.
 
 ### Stateless Backend Service
@@ -73,6 +78,7 @@ This is a stateful back-end service using ASP.NET Core. This service demonstrate
 This is a back-end [Reliable Actor]() service. This service demonstrates how to set up a Reliable Actor service and use its features to implement a simple process service using the Virtual Actor model.
 
 #### Key concepts
+
  - Reliable Actors with persisted state
  - Reminders and basic Reliable Actor lifecycle
 
