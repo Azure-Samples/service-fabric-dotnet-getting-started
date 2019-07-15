@@ -1,5 +1,5 @@
 ---
-topic: sample
+page_type: sample
 description: The project contains an application demonstrating the concepts needed to get started building highly-available, distributed applications.
 languages:
 - csharp
