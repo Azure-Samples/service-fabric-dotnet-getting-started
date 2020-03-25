@@ -5,6 +5,7 @@ languages:
 - csharp
 products:
 - azure
+- azure-service-fabric
 ---
 
 # Service Fabric Getting Started Sample
