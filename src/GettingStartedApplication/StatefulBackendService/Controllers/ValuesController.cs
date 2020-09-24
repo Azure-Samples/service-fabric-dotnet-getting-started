@@ -44,8 +44,8 @@ namespace StatefulBackendService.Controllers
 
                     using (ITransaction tx = this.stateManager.CreateTransaction())
                     {
-                        IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
-                        IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
+                        Microsoft.ServiceFabric.Data.IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
+                        Microsoft.ServiceFabric.Data.IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
 
                         while (await enumerator.MoveNextAsync(CancellationToken.None))
                         {
