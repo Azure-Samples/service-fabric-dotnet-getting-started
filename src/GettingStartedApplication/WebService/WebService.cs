@@ -11,6 +11,7 @@ namespace WebService
     using System.Net.Http;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
     using Microsoft.ServiceFabric.Services.Runtime;
@@ -35,15 +36,21 @@ namespace WebService
             {
                 new ServiceInstanceListener(
                     serviceContext =>
-                        new WebListenerCommunicationListener(
+                        new HttpSysCommunicationListener(
                             serviceContext,
                             "ServiceEndpoint",
                             (url, listener) =>
                             {
-                                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting WebListener on {url}");
+                                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting HttpSysListener on {url}");
 
                                 return new WebHostBuilder()
-                                    .UseWebListener()
+                                    .UseHttpSys()
+                                    .ConfigureLogging(logging =>
+                                    {
+                                        logging.ClearProviders();
+                                        logging.AddConsole();
+                                        logging.AddDebug();
+                                    })
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<ConfigSettings>(new ConfigSettings(serviceContext))

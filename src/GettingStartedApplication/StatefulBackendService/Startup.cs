@@ -33,15 +33,16 @@ namespace StatefulBackendService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceCollection factory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            factory.AddLogging(options =>
+            if (env.IsDevelopment())
             {
-                options.AddConfiguration(this.Configuration.GetSection("Logging"));
-                options.AddConsole();
-                options.AddDebug();
-
-            });
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
             app.UseMvc();
         }

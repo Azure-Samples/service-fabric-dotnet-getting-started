@@ -7,10 +7,11 @@ namespace WebService
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Internal;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Console;
+    
 
     public class Startup
     {
@@ -31,26 +32,16 @@ namespace WebService
         {
             // Add framework services.
             services.AddMvc();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceCollection factory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            factory.AddLogging(options =>
-            {
-                options.AddConfiguration(this.Configuration.GetSection("Logging"));
-                options.AddConsole();
-                options.AddDebug();
-                
-            });
-            
-            //loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -58,7 +49,6 @@ namespace WebService
             }
 
             app.UseStaticFiles();
-
             app.UseMvc(
                 routes =>
                 {

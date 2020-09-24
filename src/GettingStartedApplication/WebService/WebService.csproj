@@ -31,7 +31,7 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.8" />
     <PackageReference Include="Microsoft.ServiceFabric" Version="7.1.458" />
     <PackageReference Include="Microsoft.ServiceFabric.Actors" Version="4.1.458" />
-    <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.WebListener" Version="4.1.458" />
+    <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.HttpSys" Version="4.1.458" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="4.1.458" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="4.1.458" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />

@@ -10,6 +10,7 @@ namespace StatefulBackendService
     using System.IO;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Microsoft.ServiceFabric.Data;
     using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
     using Microsoft.ServiceFabric.Services.Communication.Runtime;
@@ -43,6 +44,12 @@ namespace StatefulBackendService
 
                                 return new WebHostBuilder()
                                     .UseKestrel()
+                                    .ConfigureLogging(logging =>
+                                    {
+                                        logging.ClearProviders();
+                                        logging.AddConsole();
+                                        logging.AddDebug();
+                                    })
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<IReliableStateManager>(this.StateManager)
