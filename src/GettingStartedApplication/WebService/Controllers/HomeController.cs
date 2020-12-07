@@ -33,5 +33,10 @@ namespace WebService.Controllers
         {
             return this.View();
         }
+
+        public IActionResult Tenant()
+        {
+            return this.View();
+        }
     }
 }
