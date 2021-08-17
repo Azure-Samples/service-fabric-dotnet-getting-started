@@ -35,55 +35,55 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ServiceFabric.Actors, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Actors.4.1.458\lib\net472\Microsoft.ServiceFabric.Actors.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Actors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Actors.5.1.321\lib\net472\Microsoft.ServiceFabric.Actors.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Data, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Data.4.1.458\lib\net472\Microsoft.ServiceFabric.Data.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Data, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.5.1.321\lib\net472\Microsoft.ServiceFabric.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Data.Extensions, Version=1.4.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Data.Extensions.4.1.458\lib\net472\Microsoft.ServiceFabric.Data.Extensions.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Data.Extensions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.Extensions.5.1.321\lib\net472\Microsoft.ServiceFabric.Data.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceFabric.Data.Interfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Data.Interfaces.4.1.458\lib\net472\Microsoft.ServiceFabric.Data.Interfaces.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.Interfaces.5.1.321\lib\net472\Microsoft.ServiceFabric.Data.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Diagnostics, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Diagnostics.Internal.4.1.458\lib\net472\Microsoft.ServiceFabric.Diagnostics.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Diagnostics, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Diagnostics.Internal.5.1.321\lib\net472\Microsoft.ServiceFabric.Diagnostics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.FabricTransport, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.FabricTransport.Internal.4.1.458\lib\net472\Microsoft.ServiceFabric.FabricTransport.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.FabricTransport, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.FabricTransport.Internal.5.1.321\lib\net472\Microsoft.ServiceFabric.FabricTransport.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.FabricTransport.V2, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.FabricTransport.Internal.4.1.458\lib\net472\Microsoft.ServiceFabric.FabricTransport.V2.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.FabricTransport.V2, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.FabricTransport.Internal.5.1.321\lib\net472\Microsoft.ServiceFabric.FabricTransport.V2.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Internal, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.7.1.458\lib\net472\Microsoft.ServiceFabric.Internal.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Internal, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.8.1.321\lib\net472\Microsoft.ServiceFabric.Internal.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Internal.Strings, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.7.1.458\lib\net472\Microsoft.ServiceFabric.Internal.Strings.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Internal.Strings, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.8.1.321\lib\net472\Microsoft.ServiceFabric.Internal.Strings.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Preview, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.7.1.458\lib\net472\Microsoft.ServiceFabric.Preview.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Preview, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.8.1.321\lib\net472\Microsoft.ServiceFabric.Preview.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.ReliableCollection.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Data.Extensions.4.1.458\lib\net472\Microsoft.ServiceFabric.ReliableCollection.Interop.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.ReliableCollection.Interop, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.Extensions.5.1.321\lib\net472\Microsoft.ServiceFabric.ReliableCollection.Interop.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Services, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Services.4.1.458\lib\net472\Microsoft.ServiceFabric.Services.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Services, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Services.5.1.321\lib\net472\Microsoft.ServiceFabric.Services.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceFabric.Services.Remoting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.Services.Remoting.4.1.458\lib\net472\Microsoft.ServiceFabric.Services.Remoting.dll</HintPath>
+    <Reference Include="Microsoft.ServiceFabric.Services.Remoting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Services.Remoting.5.1.321\lib\net472\Microsoft.ServiceFabric.Services.Remoting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Fabric, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.7.1.458\lib\net472\System.Fabric.dll</HintPath>
+    <Reference Include="System.Fabric, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.8.1.321\lib\net472\System.Fabric.dll</HintPath>
     </Reference>
-    <Reference Include="System.Fabric.Management.ServiceModel, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.7.1.458\lib\net472\System.Fabric.Management.ServiceModel.dll</HintPath>
+    <Reference Include="System.Fabric.Management.ServiceModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.8.1.321\lib\net472\System.Fabric.Management.ServiceModel.dll</HintPath>
     </Reference>
-    <Reference Include="System.Fabric.Strings, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ServiceFabric.7.1.458\lib\net472\System.Fabric.Strings.dll</HintPath>
+    <Reference Include="System.Fabric.Strings, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.8.1.321\lib\net472\System.Fabric.Strings.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -97,11 +97,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.ServiceFabric.Actors.4.1.458\build\net45\Microsoft.ServiceFabric.Actors.targets" Condition="Exists('..\packages\Microsoft.ServiceFabric.Actors.4.1.458\build\net45\Microsoft.ServiceFabric.Actors.targets')" />
+  <Import Project="..\packages\Microsoft.ServiceFabric.Actors.5.1.321\build\net45\Microsoft.ServiceFabric.Actors.targets" Condition="Exists('..\packages\Microsoft.ServiceFabric.Actors.5.1.321\build\net45\Microsoft.ServiceFabric.Actors.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.ServiceFabric.Actors.4.1.458\build\net45\Microsoft.ServiceFabric.Actors.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ServiceFabric.Actors.4.1.458\build\net45\Microsoft.ServiceFabric.Actors.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ServiceFabric.Actors.5.1.321\build\net45\Microsoft.ServiceFabric.Actors.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ServiceFabric.Actors.5.1.321\build\net45\Microsoft.ServiceFabric.Actors.targets'))" />
   </Target>
 </Project>
