@@ -4,7 +4,9 @@ Alphabet partitions is an intro to partitioning stateful services in Service Fab
 
 To run this services:
 
-1. Open the .sln solution file in Visual Studio 2015
+1. Open the .sln solution file in Visual Studio 2019 or 2022
+2. Install latest runtime and SDK from here: https://learn.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started
+3. Set AlphabetPartitions as Startup Project
 2. Press F5 to run
 
 You can access the application in a web browser by going to:
