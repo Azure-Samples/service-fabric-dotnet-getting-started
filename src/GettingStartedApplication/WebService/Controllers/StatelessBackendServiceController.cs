@@ -15,16 +15,10 @@ using System;
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
-    public class StatelessBackendServiceController : Controller
+    public class StatelessBackendServiceController(StatelessServiceContext serviceContext, ConfigSettings settings) : Controller
     {
-        private readonly ConfigSettings configSettings;
-        private readonly StatelessServiceContext serviceContext;
-
-        public StatelessBackendServiceController(StatelessServiceContext serviceContext, ConfigSettings settings)
-        {
-            this.serviceContext = serviceContext;
-            configSettings = settings;
-        }
+        private readonly ConfigSettings configSettings = settings;
+        private readonly StatelessServiceContext serviceContext = serviceContext;
 
         // GET: api/values
         [HttpGet]

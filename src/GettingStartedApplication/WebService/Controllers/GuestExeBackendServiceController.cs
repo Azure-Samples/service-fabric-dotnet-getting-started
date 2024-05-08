@@ -12,18 +12,11 @@ using System.Threading.Tasks;
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
-    public class GuestExeBackendServiceController : Controller
+    public class GuestExeBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings) : Controller
     {
-        private readonly HttpClient httpClient;
-        private readonly StatelessServiceContext serviceContext;
-        private readonly ConfigSettings configSettings;
-
-        public GuestExeBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings)
-        {
-            this.serviceContext = serviceContext;
-            this.httpClient = httpClient;
-            configSettings = settings;
-        }
+        private readonly HttpClient httpClient = httpClient;
+        private readonly StatelessServiceContext serviceContext = serviceContext;
+        private readonly ConfigSettings configSettings = settings;
 
         // GET: api/values
         [HttpGet]

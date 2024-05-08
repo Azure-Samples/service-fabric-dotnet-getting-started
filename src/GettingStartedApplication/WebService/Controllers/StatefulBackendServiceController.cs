@@ -17,20 +17,12 @@ using Newtonsoft.Json;
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
-    public class StatefulBackendServiceController : Controller
+    public class StatefulBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings) : Controller
     {
-        private readonly HttpClient httpClient;
-        private readonly StatelessServiceContext serviceContext;
-        private readonly ConfigSettings configSettings;
-        private readonly FabricClient fabricClient;
-
-        public StatefulBackendServiceController(StatelessServiceContext serviceContext, HttpClient httpClient, FabricClient fabricClient, ConfigSettings settings)
-        {
-            this.serviceContext = serviceContext;
-            this.httpClient = httpClient;
-            configSettings = settings;
-            this.fabricClient = fabricClient;
-        }
+        private readonly HttpClient httpClient = httpClient;
+        private readonly StatelessServiceContext serviceContext = serviceContext;
+        private readonly ConfigSettings configSettings = settings;
+        private readonly FabricClient fabricClient = fabricClient;
 
         // GET: api/values
         [HttpGet]

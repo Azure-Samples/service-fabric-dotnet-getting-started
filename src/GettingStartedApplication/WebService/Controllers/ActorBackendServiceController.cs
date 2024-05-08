@@ -20,18 +20,11 @@ using System.Threading.Tasks;
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
-    public class ActorBackendServiceController : Controller
+    public class ActorBackendServiceController(StatelessServiceContext serviceContext, ConfigSettings settings, FabricClient fabricClient) : Controller
     {
-        private readonly FabricClient fabricClient;
-        private readonly ConfigSettings configSettings;
-        private readonly StatelessServiceContext serviceContext;
-
-        public ActorBackendServiceController(StatelessServiceContext serviceContext, ConfigSettings settings, FabricClient fabricClient)
-        {
-            this.serviceContext = serviceContext;
-            configSettings = settings;
-            this.fabricClient = fabricClient;
-        }
+        private readonly FabricClient fabricClient = fabricClient;
+        private readonly ConfigSettings configSettings = settings;
+        private readonly StatelessServiceContext serviceContext = serviceContext;
 
         // GET: api/actorbackendservice
         [HttpGet]

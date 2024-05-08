@@ -18,13 +18,8 @@ namespace StatefulBackendService
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class StatefulBackendService : StatefulService
+    internal sealed class StatefulBackendService(StatefulServiceContext context) : StatefulService(context)
     {
-        public StatefulBackendService(StatefulServiceContext context)
-            : base(context)
-        {
-        }
-
         /// <summary>
         /// Optional override to create listeners (like tcp, http) for this service instance.
         /// </summary>

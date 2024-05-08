@@ -18,14 +18,9 @@ namespace StatelessBackendService
     /// <summary>
     /// An instance of this class is created for each service instance by the Service Fabric runtime.
     /// </summary>
-    internal sealed class StatelessBackendService : StatelessService, IStatelessBackendService
+    internal sealed class StatelessBackendService(StatelessServiceContext context) : StatelessService(context), IStatelessBackendService
     {
         private long iterations = 0;
-
-        public StatelessBackendService(StatelessServiceContext context)
-            : base(context)
-        {
-        }
 
         public Task<long> GetCountAsync() => Task.FromResult(iterations);
 

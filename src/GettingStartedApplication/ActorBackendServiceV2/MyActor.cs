@@ -20,21 +20,16 @@ namespace ActorBackendService
     ///  - Volatile: State is kept in memory only and replicated.
     ///  - None: State is kept in memory only and not replicated.
     /// </remarks>
+    /// <summary>
+    /// Initializes a new instance of ActorBackendService
+    /// </summary>
+    /// <param name="actorService">The Microsoft.ServiceFabric.Actors.Runtime.ActorService that will host this actor instance.</param>
+    /// <param name="actorId">The Microsoft.ServiceFabric.Actors.ActorId for this actor instance.</param>
     [StatePersistence(StatePersistence.Persisted)]
-    internal class MyActor : Actor, IMyActor, IRemindable
+    internal class MyActor(ActorService actorService, ActorId actorId) : Actor(actorService, actorId), IMyActor, IRemindable
     {
         private const string ReminderName = "Reminder";
         private const string StateName = "Count";
-
-        /// <summary>
-        /// Initializes a new instance of ActorBackendService
-        /// </summary>
-        /// <param name="actorService">The Microsoft.ServiceFabric.Actors.Runtime.ActorService that will host this actor instance.</param>
-        /// <param name="actorId">The Microsoft.ServiceFabric.Actors.ActorId for this actor instance.</param>
-        public MyActor(ActorService actorService, ActorId actorId)
-            : base(actorService, actorId)
-        {
-        }
 
         public async Task StartProcessingAsync(CancellationToken cancellationToken)
         {

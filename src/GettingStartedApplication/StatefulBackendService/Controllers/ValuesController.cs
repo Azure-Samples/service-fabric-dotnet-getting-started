@@ -19,15 +19,10 @@ using Microsoft.ServiceFabric.Data.Collections;
 namespace StatefulBackendService.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController(IReliableStateManager stateManager) : Controller
     {
         private static readonly Uri ValuesDictionaryName = new("store:/values");
-        private readonly IReliableStateManager stateManager;
-
-        public ValuesController(IReliableStateManager stateManager)
-        {
-            this.stateManager = stateManager;
-        }
+        private readonly IReliableStateManager stateManager = stateManager;
 
         // GET api/values
         [HttpGet]
