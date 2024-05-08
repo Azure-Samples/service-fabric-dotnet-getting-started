@@ -3,19 +3,20 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Fabric;
+using System.IO;
+using System.Net.Http;
+using System.Runtime.Versioning;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Runtime;
+
 namespace WebService
 {
-    using System.Collections.Generic;
-    using System.Fabric;
-    using System.IO;
-    using System.Net.Http;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
-    using Microsoft.ServiceFabric.Services.Communication.Runtime;
-    using Microsoft.ServiceFabric.Services.Runtime;
-
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
@@ -30,11 +31,12 @@ namespace WebService
         /// Optional override to create listeners (like tcp, http) for this service instance.
         /// </summary>
         /// <returns>The collection of listeners.</returns>
+        [SupportedOSPlatform("windows")]
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            return new ServiceInstanceListener[]
-            {
-                new ServiceInstanceListener(
+            return
+            [
+                new(
                     serviceContext =>
                         new HttpSysCommunicationListener(
                             serviceContext,
@@ -53,17 +55,17 @@ namespace WebService
                                     })
                                     .ConfigureServices(
                                         services => services
-                                            .AddSingleton<ConfigSettings>(new ConfigSettings(serviceContext))
-                                            .AddSingleton<HttpClient>(new HttpClient())
-                                            .AddSingleton<FabricClient>(new FabricClient())
-                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                            .AddSingleton(new ConfigSettings(serviceContext))
+                                            .AddSingleton(new HttpClient())
+                                            .AddSingleton(new FabricClient())
+                                            .AddSingleton(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseStartup<Startup>()
                                     .UseUrls(url)
                                     .Build();
                             }))
-            };
+            ];
         }
     }
 }

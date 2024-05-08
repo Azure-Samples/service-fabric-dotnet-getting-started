@@ -3,35 +3,35 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using Microsoft.AspNetCore.Mvc;
+
 namespace WebService.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult GuestExe()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult Stateless()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult Stateful()
         {
-            return this.View();
+            return View();
         }
 
         public IActionResult Actor()
         {
-            return this.View();
+            return View();
         }
     }
 }

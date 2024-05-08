@@ -3,13 +3,12 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using System;
+using System.Threading;
+using Microsoft.ServiceFabric.Services.Runtime;
+
 namespace StatefulBackendService
 {
-    using System;
-    using System.Diagnostics;
-    using System.Threading;
-    using Microsoft.ServiceFabric.Services.Runtime;
-
     internal static class Program
     {
         /// <summary>
@@ -28,7 +27,7 @@ namespace StatefulBackendService
                     "StatefulBackendServiceType",
                     context => new StatefulBackendService(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(StatefulBackendService).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Environment.ProcessId, typeof(StatefulBackendService).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ServiceFabric" Version="10.1.1951" />
+		<PackageReference Include="Microsoft.ServiceFabric.Actors" Version="7.1.1951" />
+		<PackageReference Include="Microsoft.ServiceFabric.AspNetCore.HttpSys" Version="7.1.1951" />
+		<PackageReference Include="Microsoft.ServiceFabric.Data" Version="7.1.1951" />
+		<PackageReference Include="Microsoft.ServiceFabric.Services" Version="7.1.1951" />
+		<PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="7.1.1951" />
+	</ItemGroup>
+</Project>

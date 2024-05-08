@@ -3,20 +3,19 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Fabric;
+using System.Fabric.Query;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
 namespace WebService.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Fabric;
-    using System.Fabric.Query;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
-
     [Route("api/[controller]")]
     public class StatefulBackendServiceController : Controller
     {
@@ -29,7 +28,7 @@ namespace WebService.Controllers
         {
             this.serviceContext = serviceContext;
             this.httpClient = httpClient;
-            this.configSettings = settings;
+            configSettings = settings;
             this.fabricClient = fabricClient;
         }
 
@@ -40,45 +39,43 @@ namespace WebService.Controllers
             // the stateful service service may have more than one partition.
             // this sample code uses a very basic loop to aggregate the results from each partition to illustrate aggregation.
             // note that this can be optimized in multiple ways for production code.
-            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName + "/" + this.configSettings.StatefulBackendServiceName;
-            ServicePartitionList partitions = await this.fabricClient.QueryManager.GetPartitionListAsync(new Uri(serviceUri));
+            string serviceUri = serviceContext.CodePackageActivationContext.ApplicationName + "/" + configSettings.StatefulBackendServiceName;
+            ServicePartitionList partitions = await fabricClient.QueryManager.GetPartitionListAsync(new Uri(serviceUri));
+            List<KeyValuePair<string, string>> result = [];
 
-            List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>();
-
-            JsonSerializer serializer = new JsonSerializer();
             foreach (Partition partition in partitions)
             {
                 long partitionKey = ((Int64RangePartitionInformation) partition.PartitionInformation).LowKey;
 
                 string proxyUrl =
-                    $"http://localhost:{this.configSettings.ReverseProxyPort}/{serviceUri.Replace("fabric:/", "")}/api/values?PartitionKind={partition.PartitionInformation.Kind}&PartitionKey={partitionKey}";
+                    $"http://localhost:{configSettings.ReverseProxyPort}/{serviceUri.Replace("fabric:/", "")}/api/values?PartitionKind={partition.PartitionInformation.Kind}&PartitionKey={partitionKey}";
 
-                HttpResponseMessage response = await this.httpClient.GetAsync(proxyUrl);
+                HttpResponseMessage response = await httpClient.GetAsync(proxyUrl);
 
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 {
                     // if one partition returns a failure, you can either fail the entire request or skip that partition.
-                    return this.StatusCode((int) response.StatusCode);
+                    return StatusCode((int) response.StatusCode);
                 }
 
                 List<KeyValuePair<string, string>> list =
                     JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(await response.Content.ReadAsStringAsync());
 
-                if (list != null && list.Any())
+                if (list != null && list.Count != 0)
                 {
                     result.AddRange(list);
                 }
             }
 
-            return this.Json(result);
+            return Json(result);
         }
 
         // PUT api/values
         [HttpPut]
         public async Task<IActionResult> PutAsync([FromBody] KeyValuePair<string, string> keyValuePair)
         {
-            string serviceUri = this.serviceContext.CodePackageActivationContext.ApplicationName.Replace("fabric:/", "") + "/" +
-                                this.configSettings.StatefulBackendServiceName;
+            string serviceUri = 
+                serviceContext.CodePackageActivationContext.ApplicationName.Replace("fabric:/", "") + "/" + configSettings.StatefulBackendServiceName;
             int partitionKeyNumber;
 
             try
@@ -86,7 +83,7 @@ namespace WebService.Controllers
                 string key = keyValuePair.Key;
 
                 // Should we validate this in the UI or here in the controller?
-                if (!String.IsNullOrEmpty(key))
+                if (!string.IsNullOrWhiteSpace(key))
                 {
                     partitionKeyNumber = GetPartitionKey(key);
                 }
@@ -97,25 +94,21 @@ namespace WebService.Controllers
             }
             catch (Exception ex)
             {
-                return new ContentResult {StatusCode = 400, Content = ex.Message};
+                return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = ex.Message};
             }
 
             string proxyUrl =
-                $"http://localhost:{this.configSettings.ReverseProxyPort}/{serviceUri}/api/values/{keyValuePair.Key}?PartitionKind=Int64Range&PartitionKey={partitionKeyNumber}";
-
-            string payload = $"{{ 'value' : '{keyValuePair.Value}' }}";
-            StringContent putContent = new StringContent(payload, Encoding.UTF8, "application/json");
-            putContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            HttpResponseMessage response = await this.httpClient.PutAsync(proxyUrl, putContent);
+                $"http://localhost:{configSettings.ReverseProxyPort}/{serviceUri}/api/values/{keyValuePair.Key}?PartitionKind=Int64Range&PartitionKey={partitionKeyNumber}";
+            string payload = $"{{ \"Value\" : \"{keyValuePair.Value}\" }}";
+            StringContent putContent = new(payload, new MediaTypeHeaderValue("application/json"));
+            using HttpResponseMessage response = await httpClient.PutAsync(proxyUrl, putContent);
 
             return new ContentResult()
             {
-                StatusCode = (int) response.StatusCode,
+                StatusCode = (int)response.StatusCode,
                 Content = await response.Content.ReadAsStringAsync()
             };
         }
-
 
         // GET api/values/5
         [HttpGet("{id}")]
@@ -138,7 +131,7 @@ namespace WebService.Controllers
             // This generates a partition key within that range by converting the first letter of the input name
             // into its numerica position in the alphabet.
             char firstLetterOfKey = key.First();
-            int partitionKeyInt = Char.ToUpper(firstLetterOfKey) - 'A';
+            int partitionKeyInt = char.ToUpper(firstLetterOfKey) - 'A';
 
             if (partitionKeyInt < 0 || partitionKeyInt > 25)
             {
