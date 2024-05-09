@@ -6,9 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Fabric;
-using System.IO;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using StatefulBackendService.ViewModels;
@@ -38,15 +35,13 @@ namespace StatefulBackendService.Controllers
                 {
                     IReliableDictionary<string, string> dictionary = tryGetResult.Value;
 
-                    using (ITransaction tx = stateManager.CreateTransaction())
-                    {
-                        Microsoft.ServiceFabric.Data.IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
-                        Microsoft.ServiceFabric.Data.IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
+                    using ITransaction tx = stateManager.CreateTransaction();
+                    Microsoft.ServiceFabric.Data.IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
+                    Microsoft.ServiceFabric.Data.IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
 
-                        while (await enumerator.MoveNextAsync(CancellationToken.None))
-                        {
-                            result.Add(enumerator.Current);
-                        }
+                    while (await enumerator.MoveNextAsync(CancellationToken.None))
+                    {
+                        result.Add(enumerator.Current);
                     }
                 }
                 return Json(result);
@@ -65,18 +60,15 @@ namespace StatefulBackendService.Controllers
             {
                 IReliableDictionary<string, string> dictionary =
                     await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                using ITransaction tx = stateManager.CreateTransaction();
+                var result = await dictionary.TryGetValueAsync(tx, name);
 
-                using (ITransaction tx = stateManager.CreateTransaction())
+                if (result.HasValue)
                 {
-                    ConditionalValue<string> result = await dictionary.TryGetValueAsync(tx, name);
-
-                    if (result.HasValue)
-                    {
-                        return Ok(result.Value);
-                    }
-
-                    return NotFound();
+                    return Ok(result.Value);
                 }
+
+                return NotFound();
             }
             catch (FabricNotPrimaryException)
             {
@@ -92,37 +84,15 @@ namespace StatefulBackendService.Controllers
         [HttpPost("{name}")]
         public async Task<IActionResult> Post(string name, [FromBody] ValueViewModel input)
         {
-            if (input == null)
-            {
-                using (StreamReader reader = new(Request.Body, Encoding.UTF8))
-                {
-                    string jsonString = await reader.ReadToEndAsync();
-
-                    if (!string.IsNullOrWhiteSpace(jsonString))
-                    {
-                        try
-                        {
-                            input = JsonSerializer.Deserialize<ValueViewModel>(jsonString);
-                        }
-                        catch (JsonException je)
-                        {
-                            return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = $"Unabled to process request: {je.Message}" };
-                        }
-                    }
-                }
-            }
-
             try
             {
                 IReliableDictionary<string, string> dictionary =
                     await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
-                using (ITransaction tx = stateManager.CreateTransaction())
-                {
-                    await dictionary.SetAsync(tx, name, input.Value);
-                    await tx.CommitAsync();
-                }
-
+                using ITransaction tx = stateManager.CreateTransaction();
+                await dictionary.SetAsync(tx, name, input.Value);
+                await tx.CommitAsync();
+               
                 return Ok();
             }
             catch (FabricNotPrimaryException)
@@ -139,26 +109,6 @@ namespace StatefulBackendService.Controllers
         [HttpPut("{name}")]
         public async Task<IActionResult> Put(string name, [FromBody] ValueViewModel input)
         {
-            if (input == null)
-            {
-                using (StreamReader reader = new(Request.Body, Encoding.UTF8))
-                {
-                    string jsonString = await reader.ReadToEndAsync();
-
-                    if (!string.IsNullOrWhiteSpace(jsonString))
-                    {
-                        try
-                        {
-                            input = JsonSerializer.Deserialize<ValueViewModel>(jsonString);
-                        }
-                        catch (JsonException je)
-                        {
-                            return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = $"Unabled to process request: {je.Message}" };
-                        }
-                    }
-                }
-            }
-
             try
             {
                 if (input == null)
@@ -168,12 +118,9 @@ namespace StatefulBackendService.Controllers
 
                 IReliableDictionary<string, string> dictionary =
                     await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
-
-                using (ITransaction tx = stateManager.CreateTransaction())
-                {
-                    await dictionary.AddAsync(tx, name.Trim(), input.Value);
-                    await tx.CommitAsync();
-                }
+                using ITransaction tx = stateManager.CreateTransaction();
+                await dictionary.AddAsync(tx, name.Trim(), input.Value);
+                await tx.CommitAsync();
             }
             catch (ArgumentException)
             {
@@ -200,19 +147,16 @@ namespace StatefulBackendService.Controllers
 
             try
             {
-                using (ITransaction tx = stateManager.CreateTransaction())
+                using ITransaction tx = stateManager.CreateTransaction();
+                var result = await dictionary.TryRemoveAsync(tx, name);
+                await tx.CommitAsync();
+
+                if (result.HasValue)
                 {
-                    ConditionalValue<string> result = await dictionary.TryRemoveAsync(tx, name);
-
-                    await tx.CommitAsync();
-
-                    if (result.HasValue)
-                    {
-                        return Ok();
-                    }
-
-                    return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = $"A value with name {name} doesn't exist."};
+                    return Ok();
                 }
+
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = $"A value with name {name} doesn't exist." };
             }
             catch (FabricNotPrimaryException)
             {
