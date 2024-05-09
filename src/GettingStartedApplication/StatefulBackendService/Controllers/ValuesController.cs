@@ -56,6 +56,11 @@ namespace StatefulBackendService.Controllers
         [HttpGet("{name}")]
         public async Task<IActionResult> Get(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input." };
+            }
+
             try
             {
                 IReliableDictionary<string, string> dictionary =
@@ -84,6 +89,11 @@ namespace StatefulBackendService.Controllers
         [HttpPost("{name}")]
         public async Task<IActionResult> Post(string name, [FromBody] ValueViewModel input)
         {
+            if (string.IsNullOrWhiteSpace(name) || input == null)
+            {
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input."};
+            }
+
             try
             {
                 IReliableDictionary<string, string> dictionary =
@@ -109,13 +119,13 @@ namespace StatefulBackendService.Controllers
         [HttpPut("{name}")]
         public async Task<IActionResult> Put(string name, [FromBody] ValueViewModel input)
         {
-            try
+            if (string.IsNullOrWhiteSpace(name) || input == null)
             {
-                if (input == null)
-                {
-                    return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = $"Unabled to process request: {typeof(ValueViewModel).FullName} is null." };
-                }
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input." };
+            }
 
+            try
+            { 
                 IReliableDictionary<string, string> dictionary =
                     await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
                 using ITransaction tx = stateManager.CreateTransaction();
@@ -142,6 +152,11 @@ namespace StatefulBackendService.Controllers
         [HttpDelete("{name}")]
         public async Task<IActionResult> Delete(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input."};
+            }
+
             IReliableDictionary<string, string> dictionary =
                 await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
