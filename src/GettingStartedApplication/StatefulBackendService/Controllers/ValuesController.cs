@@ -3,29 +3,23 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Fabric;
+using System.Threading;
+using System.Threading.Tasks;
+using StatefulBackendService.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceFabric.Data;
+using Microsoft.ServiceFabric.Data.Collections;
+
 namespace StatefulBackendService.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Fabric;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using global::StatefulBackendService.ViewModels;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.ServiceFabric.Data;
-    using Microsoft.ServiceFabric.Data.Collections;
-
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController(IReliableStateManager stateManager) : Controller
     {
-        private static readonly Uri ValuesDictionaryName = new Uri("store:/values");
-
-        private readonly IReliableStateManager stateManager;
-
-        public ValuesController(IReliableStateManager stateManager)
-        {
-            this.stateManager = stateManager;
-        }
+        private static readonly Uri ValuesDictionaryName = new("store:/values");
+        private readonly IReliableStateManager stateManager = stateManager;
 
         // GET api/values
         [HttpGet]
@@ -33,149 +27,155 @@ namespace StatefulBackendService.Controllers
         {
             try
             {
-                List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>();
-
+                List<KeyValuePair<string, string>> result = [];
                 ConditionalValue<IReliableDictionary<string, string>> tryGetResult =
-                    await this.stateManager.TryGetAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                    await stateManager.TryGetAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
                 if (tryGetResult.HasValue)
                 {
                     IReliableDictionary<string, string> dictionary = tryGetResult.Value;
 
-                    using (ITransaction tx = this.stateManager.CreateTransaction())
-                    {
-                        Microsoft.ServiceFabric.Data.IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
-                        Microsoft.ServiceFabric.Data.IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
+                    using ITransaction tx = stateManager.CreateTransaction();
+                    Microsoft.ServiceFabric.Data.IAsyncEnumerable<KeyValuePair<string, string>> enumerable = await dictionary.CreateEnumerableAsync(tx);
+                    Microsoft.ServiceFabric.Data.IAsyncEnumerator<KeyValuePair<string, string>> enumerator = enumerable.GetAsyncEnumerator();
 
-                        while (await enumerator.MoveNextAsync(CancellationToken.None))
-                        {
-                            result.Add(enumerator.Current);
-                        }
+                    while (await enumerator.MoveNextAsync(CancellationToken.None))
+                    {
+                        result.Add(enumerator.Current);
                     }
                 }
-                return this.Json(result);
+                return Json(result);
             }
             catch (FabricException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
+                return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.ServiceUnavailable, Content = "The service was unable to process the request. Please try again."};
             }
         }
 
         // GET api/values/name
-        [HttpGet("{id}")]
+        [HttpGet("{name}")]
         public async Task<IActionResult> Get(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input." };
+            }
+
             try
             {
                 IReliableDictionary<string, string> dictionary =
-                    await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                    await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                using ITransaction tx = stateManager.CreateTransaction();
+                var result = await dictionary.TryGetValueAsync(tx, name);
 
-                using (ITransaction tx = this.stateManager.CreateTransaction())
+                if (result.HasValue)
                 {
-                    ConditionalValue<string> result = await dictionary.TryGetValueAsync(tx, name);
-
-                    if (result.HasValue)
-                    {
-                        return this.Ok(result.Value);
-                    }
-
-                    return this.NotFound();
+                    return Ok(result.Value);
                 }
+
+                return NotFound();
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult {StatusCode = 410, Content = "The primary replica has moved. Please re-resolve the service."};
+                return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.Gone, Content = "The primary replica has moved. Please re-resolve the service."};
             }
             catch (FabricException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
+                return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.ServiceUnavailable, Content = "The service was unable to process the request. Please try again."};
             }
         }
 
         // POST api/values/name
         [HttpPost("{name}")]
-        public async Task<IActionResult> Post(string name, [FromBody] ValueViewModel value)
+        public async Task<IActionResult> Post(string name, [FromBody] ValueViewModel input)
         {
+            if (string.IsNullOrWhiteSpace(name) || input == null)
+            {
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input."};
+            }
+
             try
             {
                 IReliableDictionary<string, string> dictionary =
-                    await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                    await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
-                using (ITransaction tx = this.stateManager.CreateTransaction())
-                {
-                    await dictionary.SetAsync(tx, name, value.Value);
-                    await tx.CommitAsync();
-                }
-
-                return this.Ok();
+                using ITransaction tx = stateManager.CreateTransaction();
+                await dictionary.SetAsync(tx, name, input.Value);
+                await tx.CommitAsync();
+               
+                return Ok();
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult {StatusCode = 410, Content = "The primary replica has moved. Please re-resolve the service."};
+                return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.Gone, Content = "The primary replica has moved. Please re-resolve the service."};
             }
             catch (FabricException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
+                return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.ServiceUnavailable, Content = "The service was unable to process the request. Please try again."};
             }
         }
 
         // PUT api/values/5
         [HttpPut("{name}")]
-        public async Task<IActionResult> Put(string name, [FromBody] ValueViewModel value)
+        public async Task<IActionResult> Put(string name, [FromBody] ValueViewModel input)
         {
-            try
+            if (string.IsNullOrWhiteSpace(name) || input == null)
             {
-                IReliableDictionary<string, string> dictionary =
-                    await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input." };
+            }
 
-                using (ITransaction tx = this.stateManager.CreateTransaction())
-                {
-                    await dictionary.AddAsync(tx, name, value.Value);
-                    await tx.CommitAsync();
-                }
+            try
+            { 
+                IReliableDictionary<string, string> dictionary =
+                    await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                using ITransaction tx = stateManager.CreateTransaction();
+                await dictionary.AddAsync(tx, name.Trim(), input.Value);
+                await tx.CommitAsync();
             }
             catch (ArgumentException)
             {
-                return new ContentResult {StatusCode = 400, Content = $"A value with name {name} already exists."};
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = $"A key with name {name} already exists. Keys must be unique." };
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult {StatusCode = 410, Content = "The primary replica has moved. Please re-resolve the service."};
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.Gone, Content = "The primary replica has moved. Please re-resolve the service." };
             }
             catch (FabricException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The service was unable to process the request. Please try again."};
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.ServiceUnavailable, Content = "The service was unable to process the request. Please try again." };
             }
 
-            return this.Ok();
+            return Ok();
         }
 
         // DELETE api/valuesname
         [HttpDelete("{name}")]
         public async Task<IActionResult> Delete(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = "Unable to process request: invalid input."};
+            }
+
             IReliableDictionary<string, string> dictionary =
-                await this.stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
+                await stateManager.GetOrAddAsync<IReliableDictionary<string, string>>(ValuesDictionaryName);
 
             try
             {
-                using (ITransaction tx = this.stateManager.CreateTransaction())
+                using ITransaction tx = stateManager.CreateTransaction();
+                var result = await dictionary.TryRemoveAsync(tx, name);
+                await tx.CommitAsync();
+
+                if (result.HasValue)
                 {
-                    ConditionalValue<string> result = await dictionary.TryRemoveAsync(tx, name);
-
-                    await tx.CommitAsync();
-
-                    if (result.HasValue)
-                    {
-                        return this.Ok();
-                    }
-
-                    return new ContentResult {StatusCode = 400, Content = $"A value with name {name} doesn't exist."};
+                    return Ok();
                 }
+
+                return new ContentResult { StatusCode = (int)System.Net.HttpStatusCode.BadRequest, Content = $"A value with name {name} doesn't exist." };
             }
             catch (FabricNotPrimaryException)
             {
-                return new ContentResult {StatusCode = 503, Content = "The primary replica has moved. Please re-resolve the service."};
+                return new ContentResult {StatusCode = (int)System.Net.HttpStatusCode.ServiceUnavailable, Content = "The primary replica has moved. Please re-resolve the service."};
             }
         }
     }

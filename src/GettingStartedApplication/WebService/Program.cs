@@ -3,13 +3,12 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
+using System;
+using System.Threading;
+using Microsoft.ServiceFabric.Services.Runtime;
+
 namespace WebService
 {
-    using System;
-    using System.Diagnostics;
-    using System.Threading;
-    using Microsoft.ServiceFabric.Services.Runtime;
-
     internal static class Program
     {
         /// <summary>
@@ -28,7 +27,7 @@ namespace WebService
                     "WebServiceType",
                     context => new WebService(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(WebService).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Environment.ProcessId, typeof(WebService).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);
